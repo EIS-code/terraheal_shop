@@ -1,0 +1,603 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="generator" content="">
+<title>Terra Heal</title>
+<!-- Font -->
+<link href="css/fontawesome.css" rel="stylesheet" type="text/css">
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/jquery-clockpicker.min.css" rel="stylesheet" type="text/css">
+<link href="css/datepicker.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="manager-dashboard">
+<div class="d-flex main-flex">
+  <div class="aside sidebar">
+    <div class="left-panel">
+      <div class="leave"><img src="images/leave.png" alt="leave"/></div>
+      <div class="panel-logo"> <a href="javascript:void(0);"><img src="images/logo.png" alt="logo"/></a> </div>
+      <div class="navigation">
+        <ul class="main-menu">
+          <li><a href="manager-dashboard.html"><span class="menu-icon"><img src="images/dashbord.png" alt="dashboard"/></span>Dashboard</a></li>
+          <li><a href="manager-waiting-list.html"><span class="menu-icon"><img src="images/wlist.png" alt="wlist"/></span>Waiting List</a></li>
+          <li><a href="manager-client.html"><span class="menu-icon"><img src="images/clients.png" alt="clients"/></span>Clients</a></li>
+          <li><a class="active" href="manager-therapist.html"><span class="menu-icon"><img src="images/therapist.png" alt="therapist"/></span>Therapists</a></li>
+          <li><a href="manager-staff.html"><span class="menu-icon"><img src="images/staff.png" alt="staff"/></span>Staff</a></li>
+          <li><a href="manager-booking-list.html"><span class="menu-icon"><img src="images/booking.png" alt="booking"/></span>Bookings</a></li>
+          <li><a href="manager-services.html"><span class="menu-icon"><img src="images/services.png" alt="services"/></span>Services</a></li>
+          <li><a href="manager-payment.html"><span class="menu-icon"><img src="images/paymnt.png" alt="payments"/></span>Payments</a></li>
+          <li><a href="manager-massage.html"><span class="menu-icon"><img src="images/message.png" alt="message"/></span>Messages</a></li>
+          <li><a href="manager-settings.html"><span class="menu-icon"><img src="images/setting.png" alt="mgmt"/></span>Management</a></li>
+        </ul>
+      </div>
+      <div class="left-btm-img"> <img src="images/left-nav-img.png" alt=""/> </div>
+    </div>
+  </div>
+  <div class="content-sec manage-side-last">
+    <div class="center-top d-flex justify-content-between">
+      <div class="title">Therapists</div>
+      <div class="top-right">
+        <div class="search-top">
+          <input type="text" placeholder="Search">
+          <button type="submit"><img src="images/search.png" alt="search"></button>
+        </div>
+      </div>
+    </div>
+    <div class="th-new-top th-existing">
+      <div class="d-flex">
+        <div class="th-left">
+          <div class="search-top">
+            <input type="text" placeholder="Search By Name, Email, Tel, DOB, NIF, QR Code">
+            <button type="submit"><img src="images/search.png" alt="search"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="th-new-middle">
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="today-tab">
+        	<div class="therapists-list">
+      	<div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="award-icon"></div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="award-icon"></div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="award-icon"></div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="award-icon"></div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+      </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="all-tab">
+        	<div class="therapists-list">
+      	<div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="award-icon"></div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="award-icon"></div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>
+        <div class="therapy-col" data-toggle="modal" data-target="#pay-modal">
+        	<div class="therapy-img">
+            	<img src="images/therapy-place.png" alt=""/>
+            </div>
+            <div class="ratings">
+            <img src="images/star.png" alt="rating"/>
+            </div>
+            <div class="therapy-name">Name Of Therapist</div>
+            <div class="country">City, Country</div>
+            <div class="center-bottom"> <a href="#"><i class="fas fa-eye"></i></a> <a href="#"><i class="far fa-envelope"></i></a> </div>
+        </div>    
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-sidebar">
+    <div class="right-panel">
+      <div class="top-right">
+        <div class="language-bar">
+          <ul class="prod-gram">
+            <li class="init"><span><img src="images/flag.png">PT</span></li>
+            <li><span><img src="images/flag.png">PT</span></li>
+            <li><span><img src="images/en-flag.png">EN</span></li>
+          </ul>
+        </div>
+        <div class="timer">
+          <div class="clock">10:27</div>
+        </div>
+      </div>
+      <div class="panel-top d-flex justify-content-between">
+        <div class="announce" data-toggle="modal" data-target="#mannounce"><img src="images/announce.png" alt="announce"/><span class="counts">12</span></div>
+        <div class="profile"><img src="images/profile.png" alt="profile"/></div>
+        <div class="notification" data-toggle="modal" data-target="#notify-model"><img src="images/notification.png" alt="notification"/><span class="counts">12</span></div>
+      </div>
+      <div class="right-counts d-flex">
+        <div class="rt-in">
+          <h4>15</h4>
+          <figure><img src="images/rt1.png" alt=""/></figure>
+          <span>Massages</span> </div>
+        <div class="rt-in">
+          <h4>10</h4>
+          <figure><img src="images/rt2.png" alt=""/></figure>
+          <span>Massages</span> </div>
+        <div class="rt-in">
+          <h4>15</h4>
+          <span>Vouchers</span> <a href="#" class="v-all cmn-btn">View All</a> </div>
+        <div class="rt-in">
+          <h4>15</h4>
+          <span>Packs</span> <a href="#" class="v-all cmn-btn">View All</a> </div>
+      </div>
+      <div class="righ-graph">
+        <div class="d-flex justify-content-between"> Reviews
+          <select>
+            <option>Last Week</option>
+            <option>Last Month</option>
+          </select>
+        </div>
+        <div class="graph-box"> <img src="images/r-graph.jpg" alt=""/> </div>
+        <p>
+          <label>Last Week</label>
+          <span>72.1%</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Announce Modal -->
+<div class="modal fade" id="mannounce" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">News
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="top-select-rd">
+          <select>
+            <option>Today</option>
+            <option>Yesterday</option>
+            <option>Current Month</option>
+            <option>Last 7 Days</option>
+            <option>Last 14 Days</option>
+            <option>Last 30 Days</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="ann-modal-cont">
+          <div class="ann-mode">
+            <div class="ann-left">
+              <h3>Lorem Ipsum<span><i class="fas fa-clock"></i>01 Jan 2021</span></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum est ultricies integer quis. Iaculis urna id volutpat lacus laoreet. Mauris vitae ultricies leo integer malesuada. Ac odio tempor orci dapibus ultrices in. Egestas diam in arcu cursus euismod.</p>
+            </div>
+            <div class="ann-right">
+              <ul>
+                <li><a href="#" data-toggle="modal" data-target="#medit"><i class="fas fa-edit"></i></a><a href="#"><i class="far fa-trash-alt"></i></a></li>
+                <li><a href="#" data-toggle="modal" data-target="#meye"><i class="fas fa-eye"></i></a><span class="an-val">08</span></li>
+                <li><a href="#"><i class="far fa-eye-slash"></i></a><span class="an-val">15</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ann-mode">
+            <div class="ann-left">
+              <h3>Lorem Ipsum<span><i class="fas fa-clock"></i>01 Jan 2021</span></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum est ultricies integer quis. Iaculis urna id volutpat lacus laoreet. Mauris vitae ultricies leo integer malesuada. Ac odio tempor orci dapibus ultrices in. Egestas diam in arcu cursus euismod.</p>
+            </div>
+            <div class="ann-right">
+              <ul>
+                <li><a href="#" data-toggle="modal" data-target="#medit"><i class="fas fa-edit"></i></a><a href="#"><i class="far fa-trash-alt"></i></a></li>
+                <li><a href="#" data-toggle="modal" data-target="#meye"><i class="fas fa-eye"></i></a><span class="an-val">05</span></li>
+                <li><a href="#"><i class="far fa-eye-slash"></i></a><span class="an-val">15</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ann-mode">
+            <div class="ann-left">
+              <h3>Lorem Ipsum<span><i class="fas fa-clock"></i>01 Jan 2021</span></h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum est ultricies integer quis. Iaculis urna id volutpat lacus laoreet. Mauris vitae ultricies leo integer malesuada. Ac odio tempor orci dapibus ultrices in. Egestas diam in arcu cursus euismod.</p>
+            </div>
+            <div class="ann-right">
+              <ul>
+                <li><a href="#" data-toggle="modal" data-target="#medit"><i class="fas fa-edit"></i></a><a href="#"><i class="far fa-trash-alt"></i></a></li>
+                <li><a href="#" data-toggle="modal" data-target="#meye"><i class="fas fa-eye"></i></a><span class="an-val">08</span></li>
+                <li><a href="#"><i class="far fa-eye-slash"></i></a><span class="an-val">15</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="text-center m-mode"> <a class="cmn-btn" href="#" data-toggle="modal" data-target="#medit">&plus; Create</a> </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- news edit Modal -->
+<div class="modal fade" id="medit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">News
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="news-modal-cont">
+          <div class="nw-md-grp">
+            <label>Title</label>
+            <input type="text" name="title" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"/>
+          </div>
+          <div class="nw-md-grp">
+            <label>Content</label>
+            <textarea placeholder="Type here"></textarea>
+          </div>
+          <div class="nw-md-grp">
+            <button class="cmn-btn">Publish</button>
+            <button class="cmn-btn cancl">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- notification Modal -->
+<div class="modal fade" id="notify-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Notifications
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="notify-list">
+          <ul>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+              <span class="note-date">Today:3.15PM</span> </li>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took </p>
+              <span class="note-date">Today:3.15PM</span> </li>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+              <span class="note-date">Today:3.15PM</span> </li>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+              <span class="note-date">Today:3.15PM</span> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- news eye Modal -->
+<div class="modal fade" id="meye" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>News</h4>
+        <div class="tab-common">
+          <ul id="vouchertabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+            <li><a class="active" href="#read" data-toggle="tab"><i class="fas fa-eye"></i> Read</a></li>
+            <li><a href="#unread" data-toggle="tab"><i class="far fa-eye-slash"></i> Unread</a></li>
+          </ul>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="ann-modal-cont">
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="read">
+              <div class="ann-mode">
+                <div class="ann-left">
+                  <h3>Lorem Ipsum<span><i class="fas fa-clock"></i>01 Jan 2021</span></h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum est ultricies integer quis. Iaculis urna id volutpat lacus laoreet. Mauris vitae ultricies leo integer malesuada. Ac odio tempor orci dapibus ultrices in. Egestas diam in arcu cursus euismod.</p>
+                </div>
+                <div class="ann-right">
+                  <ul>
+                    <li><a href="#" data-toggle="modal" data-target="#medit"><i class="fas fa-edit"></i></a><a href="#"><i class="far fa-trash-alt"></i></a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#meye"><i class="fas fa-eye"></i></a><span class="an-val">08</span></li>
+                    <li><a href="#"><i class="far fa-eye-slash"></i></a><span class="an-val">15</span></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="an-view-cont">
+                <ul>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i1.png" alt=""> </div>
+                      <span class="name">Rita</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i2.png" alt=""> </div>
+                      <span class="name">Merlin</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i3.png" alt=""> </div>
+                      <span class="name">John</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i4.png" alt=""> </div>
+                      <span class="name">Rita</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i5.png" alt=""> </div>
+                      <span class="name">Merlin</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i6.png" alt=""> </div>
+                      <span class="name">John</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i1.png" alt=""> </div>
+                      <span class="name">Rita</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i2.png" alt=""> </div>
+                      <span class="name">Merlin</span>
+                      <div class="avail">Now</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="unread"> Unread </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- add-th Modal -->
+<div class="modal fade" id="pay-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="pay-flex">
+        	<div class="pay-d-left">
+            	<label>Pay Scale</label>
+                <div class="pt-flex">
+                	<ul>
+                    	<li><span></span>Fixed Monthly<span class="c-last"></span></li>
+                        <li><span></span>Fixed Hourly<span class="c-last"></span></li>
+                        <li><span></span>Fixed Hourly</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pay-d-left">
+            	<label>Chip Registration</label>
+                <a href="#" class="cmn-btn">Register Chip</a>
+            </div>
+        </div>
+        <div class="pay-last-btn d-flex justify-content-end">
+        	<a class="cmn-btn" href="#">Save</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script> 
+<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script> 
+<script type="text/javascript" src="js/bootstrap-datepicker.js"></script> 
+<script type="text/javascript" src="js/jquery-clockpicker.min.js"></script> 
+<script type="text/javascript" src="js/jquery-ui-1.7.custom.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script> 
+<script type="text/javascript" src="js/custom.js"></script>
+</body>
+</html>

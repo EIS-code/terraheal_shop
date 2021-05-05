@@ -1,0 +1,995 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="generator" content="">
+<title>Terra Heal</title>
+<!-- Font -->
+<link href="css/fontawesome.css" rel="stylesheet" type="text/css">
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/jquery-clockpicker.min.css" rel="stylesheet" type="text/css">
+<link href="css/datepicker.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="manager-dashboard">
+<div class="d-flex main-flex">
+  <div class="aside sidebar">
+    <div class="left-panel">
+      <div class="leave"><img src="images/leave.png" alt="leave"/></div>
+      <div class="panel-logo"> <a href="javascript:void(0);"><img src="images/logo.png" alt="logo"/></a> </div>
+      <div class="navigation">
+        <ul class="main-menu">
+          <li><a href="manager-dashboard.html"><span class="menu-icon"><img src="images/dashbord.png" alt="dashboard"/></span>Dashboard</a></li>
+          <li><a href="manager-waiting-list.html"><span class="menu-icon"><img src="images/wlist.png" alt="wlist"/></span>Waiting List</a></li>
+          <li><a href="manager-client.html"><span class="menu-icon"><img src="images/clients.png" alt="clients"/></span>Clients</a></li>
+          <li><a class="active" href="manager-therapist.html"><span class="menu-icon"><img src="images/therapist.png" alt="therapist"/></span>Therapists</a></li>
+          <li><a href="manager-staff.html"><span class="menu-icon"><img src="images/staff.png" alt="staff"/></span>Staff</a></li>
+          <li><a href="manager-booking-list.html"><span class="menu-icon"><img src="images/booking.png" alt="booking"/></span>Bookings</a></li>
+          <li><a href="manager-services.html"><span class="menu-icon"><img src="images/services.png" alt="services"/></span>Services</a></li>
+          <li><a href="manager-payment.html"><span class="menu-icon"><img src="images/paymnt.png" alt="payments"/></span>Payments</a></li>
+          <li><a href="manager-massage.html"><span class="menu-icon"><img src="images/message.png" alt="message"/></span>Messages</a></li>
+          <li><a href="manager-settings.html"><span class="menu-icon"><img src="images/setting.png" alt="mgmt"/></span>Management</a></li>
+        </ul>
+      </div>
+      <div class="left-btm-img"> <img src="images/left-nav-img.png" alt=""/> </div>
+    </div>
+  </div>
+  <div class="content-sec manage-side">
+    <div class="center-top d-flex justify-content-between">
+      <div class="title">Therapist</div>
+      <div class="top-right">
+        <div class="search-top">
+          <input type="text" placeholder="Search">
+          <button type="submit"><img src="images/search.png" alt="search"></button>
+        </div>
+      </div>
+    </div>
+    <div class="top-in-menu d-flex justify-content-between">
+      <div class="thp-left">
+        <div class="tab-common">
+          <ul id="th-profile-list" class="nav nav-pills nav-justified thp-list" role="tablist" data-tabs="tabs">
+            <li><a class="active" href="#personal" data-toggle="tab">Personal</a></li>
+            <li><a href="#documents" data-toggle="tab">Documents</a></li>
+            <li><a href="#portfolio" data-toggle="tab">Portfolio</a></li>
+            <li><a href="#availability" data-toggle="tab">Availability</a></li>
+            <li><a href="#rating" data-toggle="tab">Ratings</a></li>
+            <li><a href="#attendence" data-toggle="tab">Attendence</a></li>
+            <li><a href="#calender" data-toggle="tab">Calender</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="thp-content-sec">
+      <div class="tab-content cmn-cont">
+        <div role="tabpanel" class="tab-pane fade active" id="personal">
+          <div class="per-top">
+            <div class="per-left d-flex">
+              <div class="per-img"> <img src="images/per.png" alt=""/> </div>
+              <span>Rita, Therapist</span> </div>
+            <div class="per-right"> <a href="javascript:void(0)" data-toggle="modal" data-target="#editprofile-modal"><i class="fas fa-edit"></i></a> </div>
+          </div>
+          <div class="per-first">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="grp-field">
+                  <label>Telephone:</label>
+                  <div class="grp-right">
+                    <input type="text" name="tel" placeholder="+351 2541541542">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>Gender:</label>
+                  <div class="grp-right">
+                    <input type="text" name="gender" placeholder="Female">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>NIF:</label>
+                  <div class="grp-right">
+                    <input type="text" name="nif" placeholder="254874574">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>Email:</label>
+                  <div class="grp-right">
+                    <input type="email" name="email" placeholder="myemail123@gmail.com">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>City:</label>
+                  <div class="grp-right">
+                    <input type="text" name="city" placeholder="lisbon">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="grp-field">
+                  <label>Emergency Contact:</label>
+                  <div class="grp-right">
+                    <input type="text" name="ec" placeholder="+351 2541541542">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>Date of birth:</label>
+                  <div class="grp-right">
+                    <input type="text" name="dob" placeholder="11th june 1984">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>Security Number:</label>
+                  <div class="grp-right">
+                    <input type="text" name="sn" placeholder="985784">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>Country:</label>
+                  <div class="grp-right">
+                    <input type="text" name="country" placeholder="Potugal">
+                  </div>
+                </div>
+                <div class="grp-field">
+                  <label>Address:</label>
+                  <div class="grp-right">
+                    <textarea name="address" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum est ultricies integer quis."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="documents">
+          <div class="per-top">
+                            	<div class="per-left d-flex">
+                                	Documents
+                                    <span>Rita, Therapist</span>
+                                </div>
+                                <div class="per-right">
+                                	<a href="javascript:void(0)" class="addnew c-btn" data-toggle="modal" data-target="#documentsadd-modal">Add New</a>
+                                </div>
+                            </div>
+          <div class="per-second">
+                            	<div class="row">
+                                	<div class="col-md-6">
+                                    	<div class="grp-field">
+                                            <label>ID/Passport:</label>
+                                            <div class="grp-right">
+                                             <ul>
+                                                <li data-toggle="modal" data-target="#cardmodel"><img src="images/cd.png" alt=""></li>
+                                                <li data-toggle="modal" data-target="#cardmodel"><img src="images/cd.png" alt=""></li>
+                                             </ul>
+                                            </div>
+                                          </div>
+                                          <div class="grp-field">
+                                            <label>Insurance:</label>
+                                            <div class="grp-right">
+                                             <ul>
+                                                <li data-toggle="modal" data-target="#cardmodel"><img src="images/cd.png" alt=""></li>
+                                             </ul>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    	<div class="grp-field">
+                                            <label>Address Proof:</label>
+                                            <div class="grp-right">
+                                             <ul>
+                                                <li data-toggle="modal" data-target="#cardmodel"><img src="images/cd.png" alt=""></li>
+                                                <li data-toggle="modal" data-target="#cardmodel"><img src="images/cd.png" alt=""></li>
+                                             </ul>
+                                            </div>
+                                          </div>
+                                          <div class="grp-field">
+                                            <label>Certificates:</label>
+                                            <div class="grp-right">
+                                             <ul>
+                                                <li data-toggle="modal" data-target="#cardmodel"><img src="images/cd.png" alt=""></li>
+                                                
+                                             </ul>
+                                             <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                                            </div>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="portfolio">
+        	<div class="common-top">
+                    	<div class="tab-common">
+                        		  <ul id="cpatabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+                                    <li><a class="active" href="#massage" data-toggle="tab">Massages</a></li>
+                                    <li><a href="#therapie" data-toggle="tab">Therapies</a></li>
+                                  </ul>
+                        </div>
+                        </div>
+                        
+                        <div class="voucher-content">
+                        	<div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="massage">
+                                    	<ul class="pack-list">
+                            	<li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp1.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp2.png" alt=""/></figure>
+                                    <p><a href="#">Lymphatic Drenaige</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp3.png" alt=""/></figure>
+                                    <p><a href="#">Thai Yoga Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp4.png" alt=""/></figure>
+                                    <p><a href="#">Deep Tissue/Sports</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp2.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp3.png" alt=""/></figure>
+                                    <p><a href="#">Deep Tissue/Sports</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp3.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp1.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp2.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                            </ul>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="therapie">
+                                    	<ul class="pack-list">
+                            				<li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp1.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp1.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp1.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                <li>
+                                	<input type="radio" name="rd"/>
+                                    <figure><img src="images/cp1.png" alt=""/></figure>
+                                    <p><a href="#">Relax Massage</a></p>
+                                </li>
+                                
+                            			</ul>
+                                    </div>
+                                  </div>
+                                  
+                        </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="availability">
+        <div class="available-sec">
+        	<div class="av-table">
+            	<table border="0" width="100%" cellpadding="0" cellspacing="0">
+                	<thead>
+                    	<tr>
+                        	<th>Date</th>
+                            <th>Availability</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr class="na">
+                        	<td>09, Monday</td>
+                            <td>Not Available</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr class="na">
+                        	<td>09, Monday</td>
+                            <td>Not Available</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>10, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="av-table">
+            	<table border="0" width="100%" cellpadding="0" cellspacing="0">
+                	<thead>
+                    	<tr>
+                        	<th>Date</th>
+                            <th>Availability</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<tr>
+                        	<td>15, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr class="na">
+                        	<td>09, Monday</td>
+                            <td>Not Available</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr class="na">
+                        	<td>09, Monday</td>
+                            <td>Not Available</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>01, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                        <tr>
+                        	<td>10, Monday</td>
+                            <td>Available</td>
+                            <td>10:30 - 20:30</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="av-table">
+            	<div class="form-group">
+                 <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+                    <input class="form-control" type="text" readonly />
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+                <div class="avail-option">
+                	<div class="av-opt">
+                    	<input type="radio" name="av-op"/><label>Available</label>
+                    </div>
+                    <div class="av-opt na-av">
+                    	<input type="radio" name="av-op"/><label>Not Available</label>
+                    </div>
+                </div>
+                <div class="fr-time">
+                	<div class="fr-sc">
+                		<label>From</label>
+                        <input id="input-c" value="" data-default="20:48" placeholder="Time">
+                    </div>
+                    <div class="fr-sc">
+                		<label>To</label>
+                        <input id="input-d" value="" data-default="20:48" placeholder="Time">
+                    </div>
+                    <a class="cmn-btn" href="#"><i class="far fa-save"></i> Save</a>
+                </div>
+               </div>
+            </div>
+        </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="rating">
+        	<div class="rate-top">
+            	<select>
+                	<option>Last Month</option>
+                    <option>Last Week</option>
+                    <option>Yesterday</option>
+                </select>
+            </div>
+            <div class="rate-pack rate-mng">
+                	<div class="rating-inner">
+      	<ul>
+        	<li>Punctuality And Presence For Reservations<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Behavior<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Sexual Issues<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Hygiene<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Left Bad / Good Review<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Payment Issues<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+        </ul>
+        <div class="d-flex justify-content-end rate-btm">
+        	<a href="#" class="cmn-btn" data-dismiss="modal">Submit</a>
+        </div>
+      </div>
+                </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="attendence">
+        	<div class="per-top">
+                                	<div class="per-left left-slt">
+                                    	<div class="pref-list">
+                                    	<div class="dropdown">
+                                          <button id="dLabel" class="dropdown-select" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Today</button>
+                                          <ul id="session" class="dropdown-menu" aria-labelledby="dLabel" style="">
+                                            <li><label>Yesterday</label></li>
+                                            <li><label>Current Month</label></li>
+                                            <li><label>Last 7 Days</label></li>
+                                            <li><label>Last 14 Days</label></li>
+                                            <li><label>Last 30 Days</label></li>
+                                            <li><label>Custom</label></li>
+                                          </ul>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="per-right">
+                                    	
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between d-list">
+                                	<div class="d-tm">
+                                    	06<span>Total Working Days</span>
+                                    </div>
+                                    <div class="d-tm">
+                                    	05<span>Present</span>
+                                    </div>
+                                    <div class="d-tm">
+                                    	01<span>Absent</span>
+                                    </div>
+                                    <div class="d-tm">
+                                    	45<span>Total Hours</span>
+                                    </div>
+                                    <div class="d-tm">
+                                    	05<span>Break TimeHour</span>
+                                    </div>
+                                    <div class="d-tm">
+                                    	40<span>Total Working Hours</span>
+                                    </div>
+                                </div>
+                                <div class="pro-middle">
+                                	<table width="100%" cellpadding="0" cellspacing="0">
+                                    	<thead>
+                                        	<tr>
+                                            	<th>RFID No.</th>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th>Login Time</th>
+                                                <th>Logout Time</th>
+                                                <th>Break</th>
+                                                <th>Total Hours</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        	<tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                            <tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                            <tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                            <tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                            <tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                            <tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                            <tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                            <tr>
+                                            	<td>12345678</td>
+                                                <td>12345</td>
+                                                <td>Rita</td>
+                                                <td>5 Aug, 2020</td>
+                                                <td>09:00</td>
+                                                <td>20:00</td>
+                                                <td>15 min</td>
+                                                <td>8h</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="calender">
+        				<div class="event-calender">
+                        <div id="calendar"></div>
+                        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- news edit Modal -->
+<div class="modal fade" id="medit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">News
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="news-modal-cont">
+          <div class="nw-md-grp">
+            <label>Title</label>
+            <input type="text" name="title" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"/>
+          </div>
+          <div class="nw-md-grp">
+            <label>Content</label>
+            <textarea placeholder="Type here"></textarea>
+          </div>
+          <div class="nw-md-grp">
+            <button class="cmn-btn">Publish</button>
+            <button class="cmn-btn cancl">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- notification Modal -->
+<div class="modal fade" id="notify-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Notifications
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="notify-list">
+          <ul>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+              <span class="note-date">Today:3.15PM</span> </li>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took </p>
+              <span class="note-date">Today:3.15PM</span> </li>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+              <span class="note-date">Today:3.15PM</span> </li>
+            <li>
+              <figure> <img src="images/placeholder.png" alt="notify"> </figure>
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+              <span class="note-date">Today:3.15PM</span> </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- news eye Modal -->
+<div class="modal fade" id="meye" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>News</h4>
+        <div class="tab-common">
+          <ul id="vouchertabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+            <li><a class="active" href="#read" data-toggle="tab"><i class="fas fa-eye"></i> Read</a></li>
+            <li><a href="#unread" data-toggle="tab"><i class="far fa-eye-slash"></i> Unread</a></li>
+          </ul>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="ann-modal-cont">
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="read">
+              <div class="ann-mode">
+                <div class="ann-left">
+                  <h3>Lorem Ipsum<span><i class="fas fa-clock"></i>01 Jan 2021</span></h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum est ultricies integer quis. Iaculis urna id volutpat lacus laoreet. Mauris vitae ultricies leo integer malesuada. Ac odio tempor orci dapibus ultrices in. Egestas diam in arcu cursus euismod.</p>
+                </div>
+                <div class="ann-right">
+                  <ul>
+                    <li><a href="#" data-toggle="modal" data-target="#medit"><i class="fas fa-edit"></i></a><a href="#"><i class="far fa-trash-alt"></i></a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#meye"><i class="fas fa-eye"></i></a><span class="an-val">08</span></li>
+                    <li><a href="#"><i class="far fa-eye-slash"></i></a><span class="an-val">15</span></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="an-view-cont">
+                <ul>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i1.png" alt=""> </div>
+                      <span class="name">Rita</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i2.png" alt=""> </div>
+                      <span class="name">Merlin</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i3.png" alt=""> </div>
+                      <span class="name">John</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i4.png" alt=""> </div>
+                      <span class="name">Rita</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i5.png" alt=""> </div>
+                      <span class="name">Merlin</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i6.png" alt=""> </div>
+                      <span class="name">John</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i1.png" alt=""> </div>
+                      <span class="name">Rita</span> </div>
+                  </li>
+                  <li>
+                    <div class="sl-cont">
+                      <div class="th-image"> <img src="images/i2.png" alt=""> </div>
+                      <span class="name">Merlin</span>
+                      <div class="avail">Now</div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="unread"> Unread </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update Staff Modal -->
+<div class="modal fade" id="editprofile-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Update Staff
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="updatestaff">
+          <div class="update-bx">
+            <label>First Name</label>
+            <input type="text" name="fname"/>
+          </div>
+          <div class="update-bx">
+            <label>Last Name</label>
+            <input type="text" name="lname"/>
+          </div>
+          <div class="update-bx">
+            <label>Gender</label>
+            <input type="text" name="gender"/>
+          </div>
+          <div class="update-bx">
+            <label>D.O.B</label>
+            <input type="text" name="dob"/>
+          </div>
+          <div class="update-bx">
+            <label>Mobile Number</label>
+            <input type="text" name="mobile"/>
+          </div>
+          <div class="update-bx">
+            <label>City</label>
+            <input type="text" name="city"/>
+          </div>
+          <div class="update-bx">
+            <label>Emergency Contact</label>
+            <input type="text" name="emergency"/>
+          </div>
+          <div class="update-bx">
+            <label>NIF</label>
+            <input type="text" name="nif"/>
+          </div>
+          <div class="update-bx">
+            <label>Select Role</label>
+            <input type="text" name="role"/>
+          </div>
+          <div class="update-bx">
+            <label>City</label>
+            <input type="text" name="city"/>
+          </div>
+          <div class="update-bx">
+            <label>Country</label>
+            <input type="text" name="country"/>
+          </div>
+          <div class="update-bx">
+            <label>Social Security No.</label>
+            <input type="text" name="ssn"/>
+          </div>
+          <div class="update-bx wide">
+            <label>Address</label>
+            <textarea></textarea>
+          </div>
+          <div class="update-bx wide">
+            <label>Work schedule</label>
+            <div class="schedule">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>sunday</td>
+                    <td><select>
+                        <option>8.00 AM</option>
+                        <option>8.15 AM</option>
+                        <option>8.30 AM</option>
+                        <option>8.45 AM</option>
+                        <option>9.00 AM</option>
+                        <option>9.15 AM</option>
+                        <option>9.30 AM</option>
+                        <option>9.45 AM</option>
+                      </select></td>
+                    <td>9:00 AM</td>
+                  </tr>
+                  <tr>
+                    <td>Monday</td>
+                    <td><select>
+                        <option>8.00 AM</option>
+                        <option>8.15 AM</option>
+                        <option>8.30 AM</option>
+                        <option>8.45 AM</option>
+                        <option>9.00 AM</option>
+                        <option>9.15 AM</option>
+                        <option>9.30 AM</option>
+                        <option>9.45 AM</option>
+                      </select></td>
+                    <td>9:00 AM</td>
+                  </tr>
+                  <tr>
+                    <td>Tuesday</td>
+                    <td><select>
+                        <option>8.00 AM</option>
+                        <option>8.15 AM</option>
+                        <option>8.30 AM</option>
+                        <option>8.45 AM</option>
+                        <option>9.00 AM</option>
+                        <option>9.15 AM</option>
+                        <option>9.30 AM</option>
+                        <option>9.45 AM</option>
+                      </select></td>
+                    <td>9:00 AM</td>
+                  </tr>
+                  <tr>
+                    <td>wednesday</td>
+                    <td><select>
+                        <option>8.00 AM</option>
+                        <option>8.15 AM</option>
+                        <option>8.30 AM</option>
+                        <option>8.45 AM</option>
+                        <option>9.00 AM</option>
+                        <option>9.15 AM</option>
+                        <option>9.30 AM</option>
+                        <option>9.45 AM</option>
+                      </select></td>
+                    <td>9:00 AM</td>
+                  </tr>
+                  <tr>
+                    <td>thursday</td>
+                    <td><select>
+                        <option>8.00 AM</option>
+                        <option>8.15 AM</option>
+                        <option>8.30 AM</option>
+                        <option>8.45 AM</option>
+                        <option>9.00 AM</option>
+                        <option>9.15 AM</option>
+                        <option>9.30 AM</option>
+                        <option>9.45 AM</option>
+                      </select></td>
+                    <td>9:00 AM</td>
+                  </tr>
+                  <tr>
+                    <td>friday</td>
+                    <td><select>
+                        <option>8.00 AM</option>
+                        <option>8.15 AM</option>
+                        <option>8.30 AM</option>
+                        <option>8.45 AM</option>
+                        <option>9.00 AM</option>
+                        <option>9.15 AM</option>
+                        <option>9.30 AM</option>
+                        <option>9.45 AM</option>
+                      </select></td>
+                    <td>9:00 AM</td>
+                  </tr>
+                  <tr>
+                    <td>saturday</td>
+                    <td><select>
+                        <option>8.00 AM</option>
+                        <option>8.15 AM</option>
+                        <option>8.30 AM</option>
+                        <option>8.45 AM</option>
+                        <option>9.00 AM</option>
+                        <option>9.15 AM</option>
+                        <option>9.30 AM</option>
+                        <option>9.45 AM</option>
+                      </select></td>
+                    <td>9:00 AM</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="updates-button d-flex justify-content-end"> <a href="#" class="cmn-btn">Cancel</a> <a href="#" class="cmn-btn"><i class="far fa-save"></i> Save</a> </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Documents Modal -->
+<div class="modal fade" id="documentsadd-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Document Name
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="document-add">
+        	<label for="myfile"></label>
+            <input type="file" id="myfile" name="myfile"><br><br>
+            <input class="cmn-btn" type="submit" value="Upload">
+            <div class="save-btn text-right">
+            	<a href="javascript:void(0)" class="cmn-btn"><i class="far fa-save"></i>Save</a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script> 
+<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script> 
+<script type="text/javascript" src="js/bootstrap-datepicker.js"></script> 
+<script type="text/javascript" src="js/jquery-clockpicker.min.js"></script> 
+<script type="text/javascript" src="js/jquery-ui-1.7.custom.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script> 
+<script type="text/javascript" src="js/calender.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+</body>
+</html>

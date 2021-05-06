@@ -23,11 +23,15 @@ function getServices(user){
             console.log("RESPONSE RECEIVED: ", res.data);
             console.log("RESPONSE RECEIVED: ", res.data.code);
 
-            var myArray=res.data.data
+            var myArray=res.data.data.data
 
             $.each( myArray, function( i, item ) {
                 
-                var newListItem = "<li>" + "<input class=\"select-input_service\" type=\"radio\" name=\"radio1\" value="+item+"/>"+
+                var sValue=JSON.stringify(item);
+                
+                console.log("items",sValue);
+
+                var newListItem = "<li>" + "<input class=\"select-input_service\" type=\"radio\" name=\"radio1\" value="+sValue+" data-correct-answer="+sValue+"/>"+
                 "<div class=\"sl-cont\">"+
                 "<div class=\"th-image msg-img\">"+
                 "<img src="+item.icon+" alt=\"test\"/>"+
@@ -40,9 +44,10 @@ function getServices(user){
             });
 
             $('.select-input_service').click(function(e) { 
-
-                if(this.value!=null)
-                setSelectService(this.value)
+                var isCorrect = $('.select-input_service').data('correct-answer');
+                console.log("Resonse",isCorrect);
+                // if(this.value!=null)
+                // setSelectService(this.value)
             });
 
         } else {
@@ -55,6 +60,10 @@ function getServices(user){
 
 
 function setSelectService(service){
+    
+    console.log("response",service);
+    
+    var selectService=JSON.parse(service);
 
     var newListItem="<div class=\"col-md-3\">"+
         "<div class=\"msg-right\">"+
@@ -62,7 +71,7 @@ function setSelectService(service){
                 "<img src=\"images/msl1.png\" alt=\"\"/>"+
             "</figure>"+
             "<div class=\"ms-content\">"+
-                "<h3>Relax Massage</h3>"+
+                "<h3>"+selectService.name+"</h3>"+
                 "<div class=\"d-flex justify-content-between\">"+
                 "<span>Duration</span>"+
                 "<span>Price</span>"+

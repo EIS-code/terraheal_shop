@@ -57,6 +57,10 @@ $(function() {
 	      prev = i;
    		  $(this).append("<a href='#' class='prev-tab mover' rel='" + prev + "'>&#8592; Back</a>");
 	  }
+
+    if (i == 0) {
+      $(this).append("<a href='home-screen.html' class='prev-tab mover home-screen'>&#8592; Back</a>");
+    }
    		
 	});
 	
@@ -74,6 +78,10 @@ $(document).ready(function(){
 			scrollTop: $("#tabs").offset().top},
 			'slow');
 	});
+
+  $(".home-screen").click(function() {
+    window.location = 'home-screen.html'
+  });
 });
 
 

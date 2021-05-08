@@ -25,6 +25,12 @@ var formattedTime = hours + ':' + minutes.substr(-2);
 return formattedTime;
 }
 
+function showNote(id)
+{
+    // $(".obs-inner").append("<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>")
+    $("#notes-modal-" + id).modal('show');
+}
+
 function GetOnGoing(user){
     let postData = {
         "shop_id": user.id
@@ -42,25 +48,74 @@ function GetOnGoing(user){
  
                 var newListItem = "<tr>"+
                 "<td><span class=\"user-icon\"><img src=\"images/single-user.png\" />"+
-                "</span>"+item.client_name+"<span class=\"bib\">"+
-                "<img src=\"images/bib.png\" /></span></td>"+
+                "</span>"+item.client_name+
+                "</td>"+
                 "<td>Hot Yoga Massage ("+item.massage_duration+")</td>"+
                 "<td>"+getTime(item.massage_start_time)+" -"+getTime(item.massage_end_time)+"</td>"+
                 "<td class=\"text-center\"><span class=\"th-sp orange\">Rita</span></td>"+
                 "<td class=\"text-center\">"+item.roomName+"</td>"+
                 "<td class=\"text-center\">App</td>"+
                 "<td><span class=\"pay-sp\">&#8364; 661</span><i class=\"fas fa-stop-circle\"></i><i class=\"fas fa-arrow-alt-circle-down\"></i></td>"+
-                "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#notes-modal\"><i class=\"fas fa-sticky-note\"></i></a></td>"+
-                "<td class=\"text-center\"><i class=\"fas fa-edit\"></i></td>"+
-                "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#delete-modal\"><i class=\"far fa-trash-alt\"></i></a></td>"+
-                "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#detail-modal\"><i class=\"fas fa-eye\"></i></a></td>"+
-                "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#print-modal\"><i class=\"fas fa-print\"></i></a></td>"+
+                "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#notes-modal-" + item.booking_massage_id + "\"><i class=\"fas fa-sticky-note\"></i></a></td>"+
+                "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#details-modal-" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
+                "<td class=\"text-center\">00:00</td>"+
                 "</tr>";
-             
-                $( ".ongoing" ).append( newListItem );
-             
-            });
 
+                $( ".ongoing" ).append( newListItem );
+
+                var notesModel = '<div class="modal fade" id="notes-modal-' + item.booking_massage_id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">';
+                notesModel += '<div class="modal-dialog modal-dialog-centered modal-lg" role="document">';
+                notesModel += '<div class="modal-content">';
+                notesModel += '<div class="modal-header">Notes';
+                notesModel += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+                notesModel += '<span aria-hidden="true">&times;</span>';
+                notesModel += '</button>';
+                notesModel += '</div>';
+                notesModel += '<div class="modal-body">' + item.notes + '</div>';
+                notesModel += '</div></div></div></div>';
+
+                $('#notes-modal-static').append(notesModel);
+
+                var detailsModel = '<div class="modal fade" id="details-modal' + item.booking_massage_id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">';
+                detailsModel += '<div class="modal-dialog modal-dialog-centered" role="document">';
+                detailsModel += '<div class="modal-content">';
+                detailsModel += '<div class="modal-header">Booking ' + item.booking_id;
+                detailsModel += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+                detailsModel += '</div>';
+                detailsModel += '<div class="modal-body">';
+                    detailsModel += '<div class="details-inner">';
+                    detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a></div>';
+                    detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
+                    detailsModel += '<tr>';
+                        detailsModel += '<td>Pressure Preference</td>';
+                        detailsModel += '<td>' + item.pressure_preference + '</td>';
+                    detailsModel += '</tr>';
+                    detailsModel += '<tr>';
+                        detailsModel += '<td>Focus Areas</td>';
+                        detailsModel += '<td>' + item.focus_area + '</td>';
+                    detailsModel += '</tr>';
+                    detailsModel += '<tr>';
+                        detailsModel += '<td>Therapist preference</td>';
+                        detailsModel += '<td>' + item.genderPreference + '</td>';
+                    detailsModel += '</tr>';
+                    detailsModel += '<tr>';
+                        detailsModel += '<td>Any Injury or Physical Condition ?</td>';
+                        detailsModel += '<td>' + item.injuries + '</td>';
+                    detailsModel += '</tr>';
+                    detailsModel += '<tr>';
+                        detailsModel += '<td>Booking Date</td>';
+                        detailsModel += '<td>' + item.massage_date + '</td>';
+                    detailsModel += '</tr>';
+                    detailsModel += '<tr>';
+                        detailsModel += '<td>Booking Time</td>';
+                        detailsModel += '<td>' + item.massage_time + '</td>';
+                    detailsModel += '</tr>';
+                detailsModel += '</table>';
+                detailsModel += '</div>';
+                detailsModel += '</div></div></div></div></div>';
+
+                $('#details-modal-static').append(notesModel);
+            });
 
         } else {
             alert(res.data.msg);
@@ -68,11 +123,6 @@ function GetOnGoing(user){
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
-}
-
-
-function showNote(){
-    $(".obs-inner").append("<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>")
 }
 
 function GetWaiting(user){

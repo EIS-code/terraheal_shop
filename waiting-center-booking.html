@@ -1,0 +1,1030 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="generator" content="">
+<title>Terra Heal</title>
+<!-- Font -->
+<link href="css/fontawesome.css" rel="stylesheet" type="text/css">
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/jquery-clockpicker.min.css" rel="stylesheet" type="text/css">
+<link href="css/datepicker.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<section class="shop-main-section">
+  <div class="main-page">
+    <div class="top-main">
+      <div class="main-left"></div>
+      <div class="main-logo"> <img src="images/logo.png" alt="logo"/> </div>
+      <div class="top-right">
+        <div class="language-bar">
+          <ul class="prod-gram">
+            <li class="init"><span><img src="images/flag.png"/>PT</span></li>
+            <li><span><img src="images/flag.png"/>PT</span></li>
+            <li><span><img src="images/en-flag.png"/>EN</span></li>
+          </ul>
+        </div>
+        <div class="timer">
+          <div class="clock"></div>
+        </div>
+      </div>
+    </div>
+    <div class="waiting-booking cm-height">
+    	<div class="wrapper">
+        <div class="waiting-main">
+            <div class="waiting-sec">
+				<div class="wh-content">
+                	<div class="top-in-menu d-flex justify-content-between">
+                    	<div class="in-left">
+                        	<div class="tab-common">
+                            	<ul id="waiting-tab" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+                                    <li><a class="active" href="#center" data-toggle="tab">Center</a></li>
+                                    <li><a href="#home" data-toggle="tab">Home</a></li>
+                                  </ul>
+                            </div>
+                        </div>
+                        <div class="in-right myMenu">
+                        <ul class="d-flex">
+                        	<li><a href="javascript:void(0)">Book Now</a></li>
+                            <li><a href="javascript:void(0)">Bookings</a>
+                            	<ul class="submenu">
+                                	<li><a href="make-booking.html">Make a Booking</a></li>
+                                    <li><a href="booking-list-waiting.html">Booking List</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="event.html">Booking Overview</a></li>
+                            <li><a href="javascript:void(0)">Rooms</a></li>
+                            <li><a href="timetable.html">Time Table</a></li>
+                            <li><a href="javascript:void(0)">Staff</a>
+                            	<ul class="submenu">
+                                	<li><a href="javascript:void(0)">receptionist</a></li>
+                                    <li><a href="therapist.html">therapist</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="services.html">Services</a></li>
+                        </ul>
+                        </div>
+                    </div>
+                    <div class="waiting-content-sec">
+                    	<div class="tab-content cmn-cont">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="center">
+                                    <div class="title">Ongoing Massages</div>
+                                        	<div class="table-content h-7">
+                                            	<table class="seprate" width="100%" cellpadding="0" cellspacing="0">
+                                                		<thead>
+                                                            <tr>
+                                                                <th class="text-center">Client</th>
+                                                                <th>Service</th>
+                                                                <th>Time</th>
+                                                                <th class="text-center">Therapist</th>
+                                                                <th class="text-center">Room</th>
+                                                                <th class="text-center">Booked</th>
+                                                                <th>Payment</th>
+                                                                <th class="text-center">Notes</th>
+                                                                <th class="text-center">Edit</th>
+                                                                <th class="text-center">Delete</th>
+                                                                <th class="text-center">Details</th>
+                                                                <th class="text-center">Print</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="ongoing">
+                                                      
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="title">Waiting List</div>
+                                        	<div class="table-content h-7">
+                                            	<table class="seprate" width="100%" cellpadding="0" cellspacing="0">
+                                                		<thead>
+                                                            <tr>
+                                                                <th class="text-center">Client</th>
+                                                                <th>Service</th>
+                                                                <th>Time</th>
+                                                                <th class="text-center">Therapist</th>
+                                                                <th class="text-center">Room</th>
+                                                                <th class="text-center">Booked</th>
+                                                                <th>Payment</th>
+                                                                <th class="text-center">Notes</th>
+                                                                <th class="text-center">Edit</th>
+                                                                <th class="text-center">Delete</th>
+                                                                <th class="text-center">Details</th>
+                                                                <th class="text-center">Print</th>
+                                                                <th class="text-center">Confirm</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="waiting">
+                                                        
+                                                        <tr>
+                                                        	<td><span class="user-icon"><img src="images/double-user.png" alt=""/></span>Test - 2</td>
+                                                            <td>Hot Yoga Massage (20 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center"><span class="th-sp">Rita<span class="ed-icon"><a href="therapist-all.html"><img src="images/edit-icon.png" alt=""/></a></span></span></td>
+                                                            <td class="text-center"><span class="as-room"><a href="#" data-toggle="modal" data-target="#print-modal">Assign Room</a></span></td>
+                                                            <td class="text-center">Web</td>
+                                                            <td><span class="pay-sp bg-orange">&#8364; 661</span><i class="fas fa-play-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center orange"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td><span class="confirm"></span></td>
+                                                        </tr>
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="home">
+                                    	<div class="title">Ongoing Massages</div>
+                                        	<div class="table-content h-7">
+                                            	<table class="seprate" width="100%" cellpadding="0" cellspacing="0">
+                                                		<thead>
+                                                            <tr>
+                                                                <th class="text-center">Client</th>
+                                                                <th class="text-center">Session</th>
+                                                                <th>Service</th>
+                                                                <th class="text-center">Time</th>
+                                                                <th class="text-center">Therapist</th>
+                                                                <th class="text-center">Location</th>
+                                                                <th class="text-center">Booked</th>
+                                                                <th class="text-center">Payment</th>
+                                                                <th class="text-center">Notes</th>
+                                                                <th class="text-center">Edit</th>
+                                                                <th class="text-center">Delete</th>
+                                                                <th class="text-center">Details</th>
+                                                                <th class="text-center">Print</th>
+                                                                <th class="empty"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                        	<td>Prithvi Singh</td>
+                                                            <td><span class="icon"><img src="images/su.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center orange">Rita</td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#booking-detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td class="empty"></td>
+                                                        </tr>
+                                                        <tr>
+                                                        	<td>Aakash</td>
+                                                            <td class="ssm"><span class="icon"><img src="images/du.png" alt=""/></span><span class="icon"><img src="images/ssm.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center orange">Rita</td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp bg-orange">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td class="empty"></td>
+                                                        </tr>
+                                                        <tr>
+                                                        	<td>Prithvi Singh</td>
+                                                            <td><span class="icon"><img src="images/su.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center orange">Rita</td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td class="empty"></td>
+                                                        </tr>
+                                                        <tr>
+                                                        	<td>Prithvi Singh</td>
+                                                            <td><span class="icon"><img src="images/su.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center orange">Rita</td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td class="empty"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="title">Waiting List</div>
+                                        	<div class="table-content h-7">
+                                            	<table class="seprate" width="100%" cellpadding="0" cellspacing="0">
+                                                		<thead>
+                                                            <tr>
+                                                                <th class="text-center">Client</th>
+                                                                <th class="text-center">Session</th>
+                                                                <th>Service</th>
+                                                                <th class="text-center">Time</th>
+                                                                <th class="text-center">Therapist</th>
+                                                                <th class="text-center">Location</th>
+                                                                <th class="text-center">Booked</th>
+                                                                <th class="text-center">Payment</th>
+                                                                <th class="text-center">Notes</th>
+                                                                <th class="text-center">Edit</th>
+                                                                <th class="text-center">Delete</th>
+                                                                <th class="text-center">Details</th>
+                                                                <th class="text-center">Print</th>
+                                                                <th class="text-center">Confirm</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                        	<td>Prithvi Singh</td>
+                                                            <td><span class="icon"><img src="images/su.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center orange"><img src="images/girl.png" alt=""></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td><span class="confirm"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                        	<td>Aakash</td>
+                                                            <td class="ssm"><span class="icon"><img src="images/du.png" alt=""/></span><span class="icon"><img src="images/ssm.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center"><span class="th-sp">Rita<span class="ed-icon"><a href="therapist-all.html"><img src="images/edit-icon.png" alt=""></a></span></span></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp bg-orange">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td><span class="confirm"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                        	<td>Prithvi Singh</td>
+                                                            <td><span class="icon"><img src="images/su.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center orange">Rita</td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td><span class="confirm"></span></td>
+                                                        </tr>
+                                                        <tr>
+                                                        	<td>Prithvi Singh</td>
+                                                            <td><span class="icon"><img src="images/su.png" alt=""/></span></td>
+                                                            <td>Hot Yoga Massage (30 Min)</td>
+                                                            <td>10:11 -13:41</td>
+                                                            <td class="text-center orange">Rita</td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#location-modal"><i class="fas fa-location-arrow"></i></a></td>
+                                                            <td class="text-center">App</td>
+                                                            <td><span class="pay-sp">&#8364; 661</span><i class="fas fa-stop-circle"></i><i class="fas fa-arrow-alt-circle-down"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#notes-modal"><i class="fas fa-sticky-note"></i></a></td>
+                                                            <td class="text-center"><i class="fas fa-edit"></i></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#delete-modal"><i class="far fa-trash-alt"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#detail-modal"><i class="fas fa-eye"></i></a></td>
+                                                            <td class="text-center"><a href="#" data-toggle="modal" data-target="#print-modal"><i class="fas fa-print"></i></a></td>
+                                                            <td><span class="confirm"></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                    </div>
+                                  </div>
+                    </div>
+                </div>       
+            </div>
+        </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- Delete reason Modal -->
+<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Cancel Appointment
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <ul class="list-modal">
+       	<li><input type="radio" name="del"/><label>No Show</label></li>
+        <li><input type="radio" name="del"/><label>No availability</label></li>
+        <li><input type="radio" name="del"/><label>Double booking</label></li>
+        <li><input type="radio" name="del"/><label>Wrong booking</label></li>
+        <li><input type="radio" name="del"/><label>Canceled By Client</label></li>
+        <li><input class="others" type="radio" name="del"/><label>Other reason</label>
+        	<div class="reason-box" style="display:none;">
+            	<textarea placeholder="Please Type here..."></textarea>
+            </div>
+        </li>
+       </ul>
+       <div class="cancle-btn">
+       		<a href="#" class="cmn-btn cancel">Cancel Appointment</a>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Booking #12345-2
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="details-inner">
+       <div class="d-flex justify-content-between">
+       	<a href="#" class="cmn-btn">Start</a>
+        <a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a>
+       </div>
+       <div class="modal-details">
+       	<table width="100%" cellpadding="0" cellspacing="0">
+        	<tr>
+            	<td>Pressure Preference</td>
+                <td>Medium</td>
+            </tr>
+            <tr>
+            	<td>Focus Areas</td>
+                <td><img src="images/det-icon.jpg" alt=""/>Head</td>
+            </tr>
+            <tr>
+            	<td>Therapist preference</td>
+                <td>Male Only</td>
+            </tr>
+             <tr>
+            	<td>Any Injury or Physical Condition ?</td>
+                <td>Lorem ipsum dolor sit amet, consetetur</td>
+            </tr>
+            <tr>
+            	<td>Booking date</td>
+                <td>10 aug, 2020</td>
+            </tr>
+            <tr>
+            	<td>Booking Time</td>
+                <td>10:11 -13:41</td>
+            </tr>
+        </table>
+       </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ratings Modal -->
+<div class="modal fade" id="rating-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Client Rating
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="rating-inner">
+      	<ul>
+        	<li>Punctuality And Presence For Reservations<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Behavior<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Sexual Issues<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Hygiene<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Left Bad / Good Review<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+            <li>Payment Issues<div class="rating rating2">
+            <a href="#5" title="Give 5 stars">★</a><a href="#4" title="Give 4 stars">★</a><a href="#3" title="Give 3 stars">★</a><a href="#2" title="Give 2 stars">★</a><a href="#1" title="Give 1 star">★</a>
+	</div></li>
+        </ul>
+        <div class="d-flex justify-content-end rate-btm">
+        	<a href="#" class="cmn-btn" data-dismiss="modal">Submit</a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- print Modal -->
+<div class="modal fade" id="print-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header cust-head"> <span class="code-id" data-toggle="modal" data-target="#codemodel"><img src="images/qr.png" alt=""></span>
+        <h5 class="modal-title">Booking ID: 85874858766</h5>
+        <a href="#" class="cmn-btn print">Print Ticket</a>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+      </div>
+      <div class="modal-body">
+        <div class="model-inner no-pad">
+          <div class="booking-info">
+            <div class="book-grp half">
+              <div class="grp-field">
+                <label>Center:</label>
+                <div class="grp-right">
+                  <input type="text" name="center" placeholder="Terra Heal Massage Center">
+                </div>
+              </div>
+            </div>
+            <div class="book-grp half">
+              <div class="grp-field">
+                <label>Date &amp; Time:</label>
+                <div class="grp-right">
+                  <input type="text" name="" placeholder="28 Oct 2020, 3:30pm">
+                </div>
+              </div>
+            </div>
+            <div class="book-grp half">
+              <div class="grp-field">
+                <label>Delivery Types:</label>
+                <div class="grp-right">
+                  <input type="text" name="center" placeholder="In massage center">
+                </div>
+              </div>
+            </div>
+            <div class="book-grp half">
+              <div class="grp-field">
+                <label>Session Details:</label>
+                <div class="grp-right">
+                  <input type="text" name="center" placeholder="Group">
+                </div>
+              </div>
+            </div>
+            <div class="book-grp half">
+              <div class="grp-field txtarea">
+                <label>Delivery Address:</label>
+                <div class="grp-right">
+                  <textarea placeholder="lorem ipsum dolor sit, lisbon, portugal -25412"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="book-grp half">
+              <div class="grp-field txtarea">
+                <label>Booking Notes:</label>
+                <div class="grp-right">
+                  <textarea placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do labore et dolore magna aliqua."></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="book-grp full">
+              <div class="grp-field table-cont">
+                <label>Booking Notes:</label>
+                <div class="grp-right">
+                  <table class="table" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Sr.No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Pressure</th>
+                        <th scope="col">Services</th>
+                        <th scope="col">Durations</th>
+                        <th scope="col">Cost</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Sauravsingh Tomar</td>
+                        <td>27</td>
+                        <td>Male</td>
+                        <td>Soft</td>
+                        <td>Thai yoga massage</td>
+                        <td>90 min</td>
+                        <td>&#8364; 100</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Pooja Tomar</td>
+                        <td>25</td>
+                        <td>Female</td>
+                        <td>Medium</td>
+                        <td>hand or foot massage</td>
+                        <td>60 min</td>
+                        <td>&#8364; 80</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Sauravsingh Tomar</td>
+                        <td>27</td>
+                        <td>Male</td>
+                        <td>Soft</td>
+                        <td>Thai yoga massage</td>
+                        <td>90 min</td>
+                        <td>&#8364; 100</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Pooja Tomar</td>
+                        <td>25</td>
+                        <td>Female</td>
+                        <td>Medium</td>
+                        <td>hand or foot massage</td>
+                        <td>60 min</td>
+                        <td>&#8364; 80</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="6" class="no-border">&nbsp;</td>
+                        <td>Total</td>
+                        <td>&#8364; 360</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="book-grp half">
+              <div class="grp-field table-cont">
+                <label>Payment Status:</label>
+                <div class="grp-right">
+                  <div class="norm-cont"> <span class="paid">paid 50%</span><small>Paid by creditCard</small> </div>
+                </div>
+              </div>
+            </div>
+            <div class="book-grp half">
+              <div class="grp-field table-cont">
+                <label>Payment Status:</label>
+                <div class="grp-right">
+                  <table class="table payment" width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td>Paid</td>
+                        <td>&#8364; 180</td>
+                      </tr>
+                      <tr>
+                        <td>voucher</td>
+                        <td>&#8364; 60</td>
+                      </tr>
+                      <tr>
+                        <td>Pack</td>
+                        <td>&#8364; 60</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td>Pending</td>
+                        <td>&#8364; 180</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- assign rooms Modal -->
+<div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="assign-inner tab-common">
+            <ul id="detail-tab" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+                <li><a class="active" href="#available" data-toggle="tab">Available</a></li>
+                <li><a href="#busy" data-toggle="tab">Busy</a></li>
+             </ul>
+             
+             <div class="tab-content cmn-cont">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="available">
+                                        <ul class="assign-list">
+                                        	<li><input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">01</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">02</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">03</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">04</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">05</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">06</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">07</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">08</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">09</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">10</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">11</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            <input type="radio" name="assign"/>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">12</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="busy">
+                                    	<ul class="assign-list">
+                                        	<li>
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">01</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                            
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">03</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                            
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">05</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                           
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">07</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                           
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">09</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                           
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">11</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                            
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">13</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                           
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">15</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                            
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">17</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                            
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">19</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                            
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">21</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                            <li>
+                                            
+                                            	<div class="assign-box">
+                                                <div class="as-img">
+                                                	<img src="images/assign-img.png"/>
+                                                    </div>
+                                                    <span class="as-count">23</span>
+                                                </div>
+                                                <span class="aft-time">30 Min | 2:50</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                  </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- notes Modal -->
+<!-- <div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Notes
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="obs-inner">
+       		
+       </div>
+        <div class="obs-btm text-right"><a href="#" class="cmn-btn"><i class="fas fa-edit"></i> Edit</a></div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- location Modal -->
+<div class="modal fade" id="location-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="location-inner">
+       	<div class="location-top">
+        	<h4><i class="fas fa-map-marker-alt"></i> home</h4>
+            <p>Lorem Ipsum, Lisbon, portugal 12451.</p>
+        </div>
+        <figure>
+        	<img src="images/location.jpg"/>
+        </figure>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking-Details Modal -->
+<div class="modal fade" id="booking-detail-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">Booking #12345-2
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="details-inner">
+       <div class="d-flex justify-content-between">
+       	<a href="#" class="cmn-btn">Start</a>
+        <a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a>
+       </div>
+       <div class="book-detail-modal">
+       	<figure>
+        	<img src="images/book-details-map.jpg" alt=""/>
+        </figure>
+        <div class="detail-table">
+        	<div class="det-top d-flex justify-content-between">
+            <div class="d-left">
+            	<div class="det-in">
+                	<label>Booking date</label>
+                    <div class="det-bk">10 aug, 2020 10:11 -13:41</div>
+                </div>
+                <div class="det-in">
+                	<label>Need to bring</label>
+                    <div class="det-bk">2 Table</div>
+                </div>
+                 <div class="det-in">
+                	<label>Therapist go there</label>
+                    <div class="det-bk">Car<span><img src="images/edit-icon.png"/></span></div>
+                </div>
+                <div class="det-in">
+                	<label>Therapist Safety</label>
+                    <div class="det-bk"></div>
+                </div>
+                </div>
+                <div class="d-right">
+                <div class="det-in">
+                	<label>Preferred language</label>
+                    <div class="det-bk"><img src="images/flag.png" alt=""/>Portugues</div>
+                </div>
+                <div class="det-in">
+                	<label>Address</label>
+                    <div class="det-bk">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore</div>
+                </div>
+                </div>
+            </div>
+            <div class="det-bottom">
+            	<table class="modal-table" width="100%" cellpadding="0" cellspacing="0">
+                	<thead>
+                    <tr>
+                    	<th>Client</th>
+                        <th>Service</th>
+                        <th>Therapist</th>
+                        <th>Pressure Preference</th>
+                        <th>Focus Areas</th>
+                        <th>Gender Preference</th>
+                        <th>Any Injury or Physical Condition ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    	<td>Akash</td>
+                        <td>Hot Yoga Massage (30 Min)</td>
+                        <td>Rita<img src="images/edit-icon.png" alt=""/></td>
+                        <td>Medium</td>
+                        <td>Head</td>
+                        <td>Male Only</td>
+                        <td>Lorem ipsum dolor sit amet, consetetur</td>
+                        </tr>
+                        <tr>
+                    	<td>Prince</td>
+                        <td>Hot Yoga Massage (20 Min)</td>
+                        <td>Merlin<img src="images/edit-icon.png" alt=""/></td>
+                        <td>Medium</td>
+                        <td>Head</td>
+                        <td>Male Only</td>
+                        <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+       </div>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script> 
+<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="js/jquery-clockpicker.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.7.custom.min.js"></script>
+<script type="text/javascript" src="js/calender.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+<script type="module" src="js/waiting.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</body>
+</html>

@@ -1,33 +1,36 @@
 
 import { Post} from './networkconst.js';
-import { THERAPISTS, SERVICES} from './networkconst.js';
+import { THERAPISTS, SERVICES, PREFERENCES } from './networkconst.js';
 
 $(document).ready(function () {
-    var userData = localStorage.getItem("userData")
-    console.log("userData", userData)
+    var userData = localStorage.getItem("userData");
 
-    let user=JSON.parse(userData)
-    getTherapists(user)
-    getServices(user)
-
+    let user = JSON.parse(userData);
+    getTherapists(user);
+    getServices(user);
+    getPreferences(user);
 });
 
 function getServices(user){
     let postData = {
+        "type": 0,
         "shop_id": user.id
     }
 
     Post(SERVICES, postData, function (res) {
         if (res.data.code == 200) {
 
-            console.log("RESPONSE RECEIVED: ", res.data);
-            console.log("RESPONSE RECEIVED: ", res.data.code);
+            // console.log("RESPONSE RECEIVED: ", res.data);
+            // console.log("RESPONSE RECEIVED: ", res.data.code);
 
-            var myArray=res.data.data
+            var myArray = res.data.data.data;
+
+            window.localStorage.removeItem('massages');
+            window.localStorage.setItem('massages', JSON.stringify(myArray));
 
             $.each( myArray, function( i, item ) {
                 
-                var newListItem = "<li>" + "<input class=\"select-input_service\" type=\"radio\" name=\"radio1\" value="+item+"/>"+
+                var newListItem = "<li>" + "<input class=\"select-input_service\" type=\"checkbox\" name=\"massages[" + item.id + "]\" value="+item.id+">"+
                 "<div class=\"sl-cont\">"+
                 "<div class=\"th-image msg-img\">"+
                 "<img src="+item.icon+" alt=\"test\"/>"+
@@ -35,14 +38,65 @@ function getServices(user){
                 "<span class=\"msg-name\">"+item.name+"</span>"+
                 "</div>"+ "</li>";
              
-                $( ".grid_service" ).append( newListItem );
+                $( "#massages .grid_service" ).append( newListItem );
                 
             });
 
-            $('.select-input_service').click(function(e) { 
+            $('#massages .grid_service .select-input_service').click(function(e) { 
+                if (this.value != null) {
+                    if (this.checked) {
+                        setSelectService(this.value, 0);
+                    } else {
+                        removeSelectService(this.value, 0);
+                    }
+                }
+            });
 
-                if(this.value!=null)
-                setSelectService(this.value)
+        } else {
+            alert(res.data.msg);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+
+    postData = {
+        "type": 1,
+        "shop_id": user.id
+    }
+
+    Post(SERVICES, postData, function (res) {
+        if (res.data.code == 200) {
+
+            // console.log("RESPONSE RECEIVED: ", res.data);
+            // console.log("RESPONSE RECEIVED: ", res.data.code);
+
+            var myArray = res.data.data.data;
+
+            window.localStorage.removeItem('therapies');
+            window.localStorage.setItem('therapies', JSON.stringify(myArray));
+
+            $.each( myArray, function( i, item ) {
+                
+                var newListItem = "<li>" + "<input class=\"select-input_service\" type=\"checkbox\" name=\"therapies[" + item.id + "]\" value="+item.id+">"+
+                "<div class=\"sl-cont\">"+
+                "<div class=\"th-image msg-img\">"+
+                "<img src="+item.image+" alt=\"test\"/>"+
+                "</div>"+
+                "<span class=\"msg-name\">"+item.name+"</span>"+
+                "</div>"+ "</li>";
+             
+                $( "#therapies .grid_service" ).append( newListItem );
+                
+            });
+
+            $('#therapies .grid_service .select-input_service').click(function(e) { 
+                if (this.value != null) {
+                    if (this.checked) {
+                        setSelectService(this.value, 1);
+                    } else {
+                        removeSelectService(this.value, 1);
+                    }
+                }
             });
 
         } else {
@@ -54,31 +108,72 @@ function getServices(user){
 }
 
 
-function setSelectService(service){
+function setSelectService(service, type){
+    let selectedData = [],
+        liHtml       = "";
 
-    var newListItem="<div class=\"col-md-3\">"+
+    var data = type == 1 ? JSON.parse(window.localStorage.getItem('therapies')) : JSON.parse(window.localStorage.getItem('massages'));
+
+    $.each(data, function(key, item) {
+        if (item.id == service) {
+            selectedData = item;
+        }
+    });
+
+    $.each(selectedData.pricing, function(i, itemPricing) {
+        var price    = itemPricing.price,
+            duration = 0;
+
+        $.each(selectedData.timing, function(k, itemTiming) {
+            if (itemPricing.massage_timing_id == itemTiming.id) {
+                duration = itemTiming.time;
+            }
+        });
+
+        liHtml += "<li><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span></li>";
+    });
+
+    var newListItem = "<div class=\"col-md-3 service_info\">"+
         "<div class=\"msg-right\">"+
             "<figure>"+
                 "<img src=\"images/msl1.png\" alt=\"\"/>"+
             "</figure>"+
             "<div class=\"ms-content\">"+
-                "<h3>Relax Massage</h3>"+
+                "<h3>" + selectedData.name + "</h3>"+
                 "<div class=\"d-flex justify-content-between\">"+
                 "<span>Duration</span>"+
                 "<span>Price</span>"+
                 "</div>"+
                 "<ul>"+
-                    "<li><span class=\"durtn\">20 min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>25</span></li>"+
-                    "<li><span class=\"durtn\">30 min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>35</span></li>"+
-                    "<li><span class=\"durtn\">45 min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>50</span></li>"+
-                    "<li><span class=\"durtn\">60 min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>60</span></li>"+
-                    "<li><span class=\"durtn\">90 min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>75</span></li>"+
+                    liHtml
                 "</ul>"+
             "</div>"+
         "</div>"+
     "</div>";
 
-    $( ".row" ).append(newListItem);
+    $( ".wh-content .service_info" ).remove();
+    $( ".wh-content .row" ).append(newListItem);
+}
+
+function removeSelectService(service, type)
+{
+    var isShow = false,
+        data   = type == 1 ? JSON.parse(window.localStorage.getItem('therapies')) : JSON.parse(window.localStorage.getItem('massages'));
+
+    $('.select-input_service').each(function(key, checkbox) {
+        if (this.checked) {
+            isShow  = true;
+            service = this.value;
+
+            return true;
+        }
+    });
+
+    if (!isShow) {
+        $( ".wh-content .service_info" ).remove();
+    } else {
+        setSelectService(service, data);
+    }
 }
 
 function getTherapists(user){
@@ -89,19 +184,19 @@ function getTherapists(user){
     Post(THERAPISTS, postData, function (res) {
         if (res.data.code == 200) {
 
-            console.log("RESPONSE RECEIVED: ", res.data);
-            console.log("RESPONSE RECEIVED: ", res.data.code);
+            // console.log("RESPONSE RECEIVED: ", res.data);
+            // console.log("RESPONSE RECEIVED: ", res.data.code);
 
             var myArray=res.data.data
 
             $.each( myArray, function( i, item ) {
                 
  
-                var newListItem = "<li>" + "<input class=\"select-input\" type=\"radio\" name=\"radio1\"/>"+
+                var newListItem = "<li>" + "<input class=\"select-input\" type=\"checkbox\" name=\"therapist["+ item.id +"]\" value=\"" + item.id + "\" />"+
                 "<div class=\"sl-cont\">"+
                 "<span class=\"name\">"+item.name+"</span>"+
                 "<div class=\"th-image\">"+
-                "<img src="+item.profile_photo+" alt=\"test\"/>"+
+                "<img src="+item.profile_photo+" alt=\"\"/>"+
                 "</div>"+
                 "<div class=\"avail\">Now</div>"+
                 "</div>"+ "</li>";
@@ -112,6 +207,61 @@ function getTherapists(user){
 
         } else {
             alert(res.data.msg);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+}
+
+function getPreferences(shop)
+{
+    let postData = {
+        "shop_id": shop.id,
+        "type": 8
+    };
+
+    let focusAreas = [];
+
+    Post(PREFERENCES, postData, function (res) {
+        let data = res.data.data.preference_options;
+
+        if (Object.keys(data).length > 0) {
+            var modelBody = $('#focusmodal').find('.modal-body'),
+                modelHtml = "<div class='focus-pref'><ul class='d-flex justify-content-between flex-wrap'>";
+
+            $.each(data, function(key, row) {
+                modelHtml += "<li><input class='select-input' type='radio' name='focus_preferences[" + row.id + "]' value='" + row.id + "' /><div class='pf-bx'><img src='" + row.icon + "' alt='' /><span class='pf-abs'>" + row.name + "</span></div></li>";
+            });
+
+            modelHtml += "</ul></div>";
+
+            modelBody.html("");
+            modelBody.html(modelHtml);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+
+    postData = {
+        "shop_id": shop.id,
+        "type": 1
+    };
+
+    let pressure = [];
+
+    Post(PREFERENCES, postData, function (res) {
+        let data = res.data.data.preference_options;
+
+        if (Object.keys(data).length > 0) {
+            var elementDropdown = $('#pressure'),
+                dropdownHtml    = "";
+
+            $.each(data, function(key, row) {
+                dropdownHtml += "<li><input type='radio' name='pressure_preference' value='" + row.id + "'><label>" + row.name + "</label></li>";
+            });
+
+            elementDropdown.html("");
+            elementDropdown.html(dropdownHtml);
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);

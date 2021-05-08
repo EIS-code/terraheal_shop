@@ -195,10 +195,24 @@ a.mover 							{ background: #29B6F6; padding: 7px 15px; position: absolute; bor
 .ms-content ul li:hover:after{ background:#FF9900; }
 .line-hr{ min-width:50px; border-bottom:1px solid #999; display:block; height:16px; flex: 1; margin: 0 15px;}
 span.price small{ font-size:12px; position:relative; display:inline-block; margin-right:4px; top:-5px; font-weight: 700; }
-.ms-content ul li:after{ content:"\f054"; font-family:'Font Awesome 5 Free'; display:inline-block; margin-left:10px; font-weight:bold; position:absolute; right:-30px; top:0; width:20px; height:20px; padding-left:1px; background:#29B6F6; color:#fff; font-size:12px; line-height:20px; text-align:center; border-radius:100%; }
+/* .ms-content ul li:after{ content:"\f054"; font-family:'Font Awesome 5 Free'; display:inline-block; margin-left:10px; font-weight:bold; position:absolute; right:-30px; top:0; width:20px; height:20px; padding-left:1px; background:#29B6F6; color:#fff; font-size:12px; line-height:20px; text-align:center; border-radius:100%; }
 .top-tab-sec input:checked + .sl-cont .msg-name { color: #FF9900;}
 .focus-pref ul li{ width:17%; text-align:center; margin-bottom:25px; }
 .pf-bx{ background:#fff; border-radius:20px; }
+#focusmodal .modal-content{ background-color:rgba(255,255,255,0.8); border-radius:8px; box-shadow: 0px 12px 24px rgba(0,0,0,0.20); }
+.focus-pref ul li img{ max-width:130px; margin:0 auto; width:100%; }
+#focusmodal .modal-body{ padding-left:40px; padding-right:40px; max-height: 535px; overflow: auto; }
+#focusmodal .modal-lg{ max-width:1000px; } */
+
+.top-tab-sec input:checked + .sl-cont .msg-name { color: #FF9900;}
+.focus-pref ul li{ width:17%; text-align:center; margin-bottom:35px; position:relative; }
+.pf-abs { position: absolute; left: 0; right: 0; bottom: -23px;}
+.focus-pref ul li input{ position:absolute; left:0; top:0; width:100%; height:100%; opacity:0; }
+.focus-pref ul li input:checked + .pf-bx{ border-color:#FF9900; }
+.focus-pref ul li .pf-bx:after{ content: '';-webkit-appearance: none;background-color: #FF9900;padding: 00px;display: inline-block;position: relative;vertical-align: middle;cursor: pointer;border-radius: 100%;width: 20px;height: 20px;top: 12px;opacity: 0;position: absolute;right: 10px; }
+.focus-pref ul li input:checked + .pf-bx:after, .focus-pref ul li input:checked + .pf-bx:before{ opacity:1; }
+.focus-pref ul li .pf-bx:before{ content:""; z-index: 1; display: block;position: absolute;top: 16px;right: 17px;width: 6px;height: 10px;border: 2px solid #fff;    border-top-width: 2px;    border-right-width: 2px;    border-bottom-width: 2px;    border-left-width: 2px;border-top-width: 2px;border-right-width: 2px;border-bottom-width: 2px;border-left-width: 2px;border-width: 0 3px 3px 0;transform: rotate(45deg);opacity: 0; }
+.pf-bx{ background:#fff; border-radius:20px; border:2px solid transparent; }
 #focusmodal .modal-content{ background-color:rgba(255,255,255,0.8); border-radius:8px; box-shadow: 0px 12px 24px rgba(0,0,0,0.20); }
 .focus-pref ul li img{ max-width:130px; margin:0 auto; width:100%; }
 #focusmodal .modal-body{ padding-left:40px; padding-right:40px; max-height: 535px; overflow: auto; }

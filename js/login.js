@@ -27,7 +27,7 @@ $(document).ready(function () {
 
                     localStorage.setItem('userData', JSON.stringify(res.data.data));
 
-                    window.location.pathname="home-screen.html"
+                    window.location = "home-screen.html"
                 }else{
                     alert(res.data.msg);
                 }

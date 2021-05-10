@@ -37,6 +37,11 @@ document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(
 }
 setInterval(clock, 1000);
 
+function currentUTCTimestamps()
+{
+    return +new Date();
+}
+
 
 //booking next prev steps
 

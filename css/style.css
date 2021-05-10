@@ -195,8 +195,10 @@ a.mover 							{ background: #29B6F6; padding: 7px 15px; position: absolute; bor
 .ms-content ul li:hover:after{ background:#FF9900; }
 .line-hr{ min-width:50px; border-bottom:1px solid #999; display:block; height:16px; flex: 1; margin: 0 15px;}
 span.price small{ font-size:12px; position:relative; display:inline-block; margin-right:4px; top:-5px; font-weight: 700; }
-/* .ms-content ul li:after{ content:"\f054"; font-family:'Font Awesome 5 Free'; display:inline-block; margin-left:10px; font-weight:bold; position:absolute; right:-30px; top:0; width:20px; height:20px; padding-left:1px; background:#29B6F6; color:#fff; font-size:12px; line-height:20px; text-align:center; border-radius:100%; }
-.top-tab-sec input:checked + .sl-cont .msg-name { color: #FF9900;}
+.ms-content ul li:after{ content:"\f054"; font-family:'Font Awesome 5 Free'; display:inline-block; margin-left:10px; font-weight:bold; position:absolute; right:-30px; top:0; width:20px; height:20px; padding-left:1px; background:#29B6F6; color:#fff; font-size:12px; line-height:20px; text-align:center; border-radius:100%; }
+.ms-content ul li.selected:after{ content:"\f054"; font-family:'Font Awesome 5 Free'; display:inline-block; margin-left:10px; font-weight:bold; position:absolute; right:-30px; top:0; width:20px; height:20px; padding-left:1px; background:#ff9900; color:#fff; font-size:12px; line-height:20px; text-align:center; border-radius:100%; }
+.service_info li { cursor: pointer; }
+/* .top-tab-sec input:checked + .sl-cont .msg-name { color: #FF9900;}
 .focus-pref ul li{ width:17%; text-align:center; margin-bottom:25px; }
 .pf-bx{ background:#fff; border-radius:20px; }
 #focusmodal .modal-content{ background-color:rgba(255,255,255,0.8); border-radius:8px; box-shadow: 0px 12px 24px rgba(0,0,0,0.20); }

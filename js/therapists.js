@@ -71,7 +71,9 @@ function getServices(user){
             });
 
         } else {
-            alert(res.data.msg);
+            $('.alert-danger').removeClass('d-none').html(res.data.msg);
+
+            $('#alert').modal('show');
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
@@ -118,7 +120,9 @@ function getServices(user){
             });
 
         } else {
-            alert(res.data.msg);
+            $('.alert-danger').removeClass('d-none').html(res.data.msg);
+
+            $('#alert').modal('show');
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
@@ -278,7 +282,9 @@ function getTherapists(user){
             });
 
         } else {
-            alert(res.data.msg);
+            $('.alert-danger').removeClass('d-none').html(res.data.msg);
+
+            $('#alert').modal('show');
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);

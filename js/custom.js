@@ -42,6 +42,67 @@ function currentUTCTimestamps()
     return +new Date();
 }
 
+function showError(errorMsg)
+{
+    $('.alert-danger').removeClass('d-none').html(errorMsg);
+
+    $('#alert').modal('show');
+}
+
+function checkBookingForm(tab)
+{
+    if (tab == 2) {
+        let value = $("input:checkbox[name='therapist[]']:checked");
+
+        if (value.length <= 0) {
+            showError("Please select therapist first.");
+
+            return false;
+        }
+    } else if (tab == 3) {
+        let therapy = $("input:checkbox[name='therapy_prising_id[]']:checked"),
+            massage = $("input:checkbox[name='massage_prising_id[]']:checked");
+
+        if (therapy.length <= 0 && massage.length <= 0) {
+            showError("Please select service.");
+
+            return false;
+        }
+    } else if (tab == 4) {
+        let focusArea          = $("input:radio[name='focus_preference']:checked"),
+            sessionType        = $("input:radio[name='session_type']:checked"),
+            pressurePreference = $("input:radio[name='pressure_preference']:checked");
+
+        if (focusArea.length <= 0) {
+            showError("Please select focus area.");
+
+            return false;
+        }
+
+        if (sessionType.length <= 0) {
+            showError("Please select session type.");
+
+            return false;
+        }
+
+        if (pressurePreference.length <= 0) {
+            showError("Please select pressure preference.");
+
+            return false;
+        }
+    } else if (tab == 5) {
+        let clientId = $("#client_id").val();
+
+        if (typeof clientId === typeof undefined || clientId == '' || clientId == null) {
+            showError("Please select user or add guest.");
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
 //booking next prev steps
 
@@ -69,11 +130,15 @@ $(function() {
    		
 	});
 	
-	$('.next-tab, .prev-tab').click(function() { 
-           $tabs.tabs('select', $(this).attr("rel"));
-           return false;
-       });
-       
+    $('.next-tab, .prev-tab').click(function() { 
+        let rel = $(this).attr("rel");
+
+        if (checkBookingForm(rel)) {
+            $tabs.tabs('select', rel);
+        }
+
+        return false;
+   });
 
 });
 

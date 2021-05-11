@@ -49,13 +49,13 @@ function GetOnGoing(user, type){
             var myArray=res.data.data
 
             $.each( myArray, function( i, item ) {
-                
+                let serviceName = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name;
  
                 var newListItem = "<tr>"+
                 "<td><span class=\"user-icon\"><img src=\"images/single-user.png\" />"+
                 "</span>"+item.client_name+
                 "</td>"+
-                "<td>"+item.massage_name+" ("+item.massage_duration+")</td>"+
+                "<td>" + serviceName + " ("+item.massage_duration+")</td>"+
                 "<td>"+getTime(item.massage_start_time)+" -"+getTime(item.massage_end_time)+"</td>"+
                 "<td class=\"text-center\"><span class=\"th-sp orange\">" + item.therapistName + "</span></td>"+
                 "<td class=\"text-center\">"+item.roomName+"</td>"+
@@ -145,18 +145,20 @@ function GetWaiting(user, type){
 
             $.each( myArray, function( i, item ) {
                 
-               var therapistName="";
-               var therapistRoom=""; 
+                var therapistName="";
+                var therapistRoom=""; 
                
-               if (item.therapistName == null || item.therapistName == '') {
-                   therapistName="<td class=\"text-center\"><span class=\"th-sp\"><span class=\"ed-icon\"><a href=\"therapist-all.html\"><img src=\"images/girl.png\" alt=\"\"/></a></span></span></td>" 
-               } else {
+                if (item.therapistName == null || item.therapistName == '') {
+                    therapistName="<td class=\"text-center\"><span class=\"th-sp\"><span class=\"ed-icon\"><a href=\"therapist-all.html\"><img src=\"images/girl.png\" alt=\"\"/></a></span></span></td>" 
+                } else {
                     therapistName="<td class=\"text-center\"><span class=\"th-sp\">"+item.therapistName+"<span class=\"ed-icon\"></span></span></td>" 
-               }
+                }
+
+                let serviceName = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name;
  
                 var newListItem = "<tr>"+
                 "<td><span class=\"user-icon\"><img src=\"images/double-user.png\" /></span>"+item.client_name+"</td>"+
-                "<td>"+item.massage_name+" ("+item.massage_duration+")</td>"+
+                "<td>" + serviceName + " ("+item.massage_duration+")</td>"+
                 "<td>"+getTime(item.massage_start_time)+" -"+getTime(item.massage_end_time)+"</td>"+
                 therapistName+
                 "<td class=\"text-center\"><span>" + (item.roomName ? item.roomName : '<span class="as-room"><a href="#" data-toggle="modal" data-target="#assign-room-modal">Assign Room</a></span>') + "</span></td>"+

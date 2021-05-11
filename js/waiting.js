@@ -1,11 +1,11 @@
-import { Post} from './networkconst.js';
-import { ONGOING,WAITING} from './networkconst.js';
+import { Post, Get } from './networkconst.js';
+import { ONGOING, WAITING, CONFIRM_BOOKING } from './networkconst.js';
 
 $(document).ready(function () {
-    var userData = localStorage.getItem("userData")
-    console.log("userData", userData)
+    var userData = localStorage.getItem("userData");
+    console.log("userData", userData);
 
-    let user=JSON.parse(userData)
+    let user = JSON.parse(userData);
 
     // In massage center.
     GetOnGoing(user, 1);
@@ -14,6 +14,17 @@ $(document).ready(function () {
     // Home / Hotel visit.
     GetOnGoing(user, 2);
     GetWaiting(user, 2);
+
+    // Alerts
+    $('#alert').on('hidden.bs.modal', function () {
+        $('.alert-primary').html('').addClass('d-none');
+        $('.alert-secondary').html('').addClass('d-none');
+        $('.alert-danger').html('').addClass('d-none');
+        $('.alert-warning').html('').addClass('d-none');
+        $('.alert-info').html('').addClass('d-none');
+        $('.alert-light').html('').addClass('d-none');
+        $('.alert-dark').html('').addClass('d-none');
+    });
 });
 
 
@@ -46,7 +57,11 @@ function GetOnGoing(user, type){
             console.log("RESPONSE OnGoing ", res.data.data);
             console.log("RESPONSE RECEIVED: ", res.data.code);
 
-            var myArray=res.data.data
+            var myArray = res.data.data;
+
+            $( ".ongoing-" + type ).empty();
+            $('#notes-modal-static').empty();
+            $('#details-modal-static').empty();
 
             $.each( myArray, function( i, item ) {
                 let serviceName = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name;
@@ -141,7 +156,11 @@ function GetWaiting(user, type){
             console.log("RESPONSE RECEIVED: ", res.data.data);
             console.log("RESPONSE RECEIVED: ", res.data.code);
 
-            var myArray=res.data.data
+            var myArray = res.data.data;
+
+            $( ".waiting-" + type ).empty();
+            $('#notes-modal-static').empty();
+            $('#details-modal-static').empty();
 
             $.each( myArray, function( i, item ) {
                 
@@ -168,10 +187,24 @@ function GetWaiting(user, type){
                 "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#delete-modal\"><i class=\"far fa-trash-alt\"></i></a></td>"+
                 "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#details-modal-" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
                 "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#print-modal\"><i class=\"fas fa-print\"></i></a></td>"+
-                "<td><span class=\"confirm\"></span></td>"+
+                "<td><span class=\"confirm\"><input type=\"checkbox\" name=\"confirm_booking\" class=\"confirm_booking\" value=\"" + item.booking_massage_id + "\"/><label></label></span></td>"+
             "</tr>";
              
                 $( ".waiting-" + type ).append( newListItem );
+
+                $('.confirm_booking').unbind().change(function() {
+                    if (this.checked) {
+                        let isConfirm = confirm("Are you sure want to confirm this booking ?");
+
+                        if (isConfirm === true) {
+                            let bookingMassageId = $(this).val();
+
+                            confirmBookingMassage(bookingMassageId);
+                        }
+                    }
+
+                    return false;
+                });
 
                 var notesModel = '<div class="modal fade" id="notes-modal-' + item.booking_massage_id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">';
                 notesModel += '<div class="modal-dialog modal-dialog-centered modal-lg" role="document">';
@@ -231,6 +264,39 @@ function GetWaiting(user, type){
 
         } else {
             alert(res.data.msg);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+}
+
+function confirmBookingMassage(bookingMassageId)
+{
+    let userData = localStorage.getItem("userData"),
+        user     = JSON.parse(userData);
+
+    let postData = {
+        "shop_id": user.id,
+        "booking_massage_id": bookingMassageId
+    }
+
+    Post(CONFIRM_BOOKING, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == 401) {
+            $('.alert-danger').removeClass('d-none').html(data.msg);
+
+            $('#alert').modal('show');
+        } else {
+            // window.location = "waiting-center-booking.html";
+
+            // In massage center.
+            GetOnGoing(user, 1);
+            GetWaiting(user, 1);
+
+            // Home / Hotel visit.
+            GetOnGoing(user, 2);
+            GetWaiting(user, 2);
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);

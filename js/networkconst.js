@@ -9,6 +9,7 @@ export const PREFERENCES = BASEURL+"/shops/getPreferences";
 export const SESSIONS    = BASEURL+"/shops/sessions/get";
 export const ADD_CLIENT  = BASEURL+"/waiting/addClient";
 export const ADD_NEW_BOOKING = BASEURL+"/waiting/addNewBooking";
+export const CONFIRM_BOOKING = BASEURL+"/waiting/confirmBooking";
 
 export function Post(url, postData, success, errorCallBack) {
     let axiosConfig = {

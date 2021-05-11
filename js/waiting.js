@@ -43,7 +43,7 @@ function GetOnGoing(user, type){
     Post(ONGOING, postData, function (res) {
         if (res.data.code == 200) {
 
-            console.log("RESPONSE RECEIVED: ", res.data.data);
+            console.log("RESPONSE OnGoing ", res.data.data);
             console.log("RESPONSE RECEIVED: ", res.data.code);
 
             var myArray=res.data.data
@@ -55,7 +55,7 @@ function GetOnGoing(user, type){
                 "<td><span class=\"user-icon\"><img src=\"images/single-user.png\" />"+
                 "</span>"+item.client_name+
                 "</td>"+
-                "<td>Hot Yoga Massage ("+item.massage_duration+")</td>"+
+                "<td>"+item.massage_name+" ("+item.massage_duration+")</td>"+
                 "<td>"+getTime(item.massage_start_time)+" -"+getTime(item.massage_end_time)+"</td>"+
                 "<td class=\"text-center\"><span class=\"th-sp orange\">" + item.therapistName + "</span></td>"+
                 "<td class=\"text-center\">"+item.roomName+"</td>"+
@@ -156,7 +156,7 @@ function GetWaiting(user, type){
  
                 var newListItem = "<tr>"+
                 "<td><span class=\"user-icon\"><img src=\"images/double-user.png\" /></span>"+item.client_name+"</td>"+
-                "<td>Hot Yoga Massage ("+item.massage_duration+")</td>"+
+                "<td>"+item.massage_name+" ("+item.massage_duration+")</td>"+
                 "<td>"+getTime(item.massage_start_time)+" -"+getTime(item.massage_end_time)+"</td>"+
                 therapistName+
                 "<td class=\"text-center\"><span>" + (item.roomName ? item.roomName : '<span class="as-room"><a href="#" data-toggle="modal" data-target="#assign-room-modal">Assign Room</a></span>') + "</span></td>"+

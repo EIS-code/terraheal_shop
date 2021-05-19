@@ -1,45 +1,87 @@
 
-import { Post, Get } from './networkconst.js';
-import { THERAPISTS, SERVICES, PREFERENCES, SESSIONS, ADD_CLIENT, ADD_NEW_BOOKING } from './networkconst.js';
+import { Post, Get, searchClients, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE } from './networkconst.js';
+import { THERAPISTS, SERVICES, PREFERENCES, SESSIONS, ADD_CLIENT, ADD_NEW_BOOKING, SEARCH_CLIENT } from './networkconst.js';
 
 $(document).ready(function () {
-    var userData = localStorage.getItem("userData");
+    getTherapists();
+    getPreferences();
 
-    let user = JSON.parse(userData);
-    getTherapists(user);
-    getServices(user);
-    getPreferences(user);
+    var owlServices = initOwlServices();
+
+    getServices(owlServices);
 
     $(".addGuest").on("click", function() {
-        addClient(user);
-    });
-
-    $('#alert').on('hidden.bs.modal', function () {
-        $('.alert-primary').html('').addClass('d-none');
-        $('.alert-secondary').html('').addClass('d-none');
-        $('.alert-danger').html('').addClass('d-none');
-        $('.alert-warning').html('').addClass('d-none');
-        $('.alert-info').html('').addClass('d-none');
-        $('.alert-light').html('').addClass('d-none');
-        $('.alert-dark').html('').addClass('d-none');
+        addClient();
     });
 
     $(".checkout").on("click", function() {
-        addBooking(user);
+        addBooking();
+    });
+
+    $("input:radio[name='physical_condition']").change(
+        function() {
+            let isTrue = ($(this).val() == '1');
+
+            $("#notes_of_injuries").prop("disabled", !(isTrue));
+
+            if (!isTrue) {
+                $("#notes_of_injuries").val("");
+            }
+        }
+    );
+
+    $("input:radio[name='booking_notes']").change(
+        function() {
+            let isTrue = ($(this).val() == '1');
+
+            $("#special_notes").prop("disabled", !(isTrue));
+
+            if (!isTrue) {
+                $("#special_notes").val("");
+            }
+        }
+    );
+
+    $("#autocomplete").on("keyup", function() {
+        getClients($(this).val());
     });
 });
 
-function getServices(user){
+function initOwlServices() {
+    let sliderElement = $('#msg-slider');
+
+    sliderElement.trigger('destroy.owl.carousel');
+
+    sliderElement.empty();
+
+    return sliderElement
+        .owlCarousel({
+            loop:true,
+            margin:0,
+            nav:false,
+            dots:true,
+            responsive:{
+                0: {
+                    items: 1
+                },
+                600: {
+                    items:1
+                },
+                1000: {
+                    items:1
+                }
+            }
+    });
+}
+
+function getServices(owlServices)
+{
     let postData = {
-        "type": 0,
-        "shop_id": user.id
+        "type": 0
     }
 
     Post(SERVICES, postData, function (res) {
         if (res.data.code == 200) {
-
-            // console.log("RESPONSE RECEIVED: ", res.data);
-            // console.log("RESPONSE RECEIVED: ", res.data.code);
 
             var myArray = res.data.data.data;
 
@@ -63,25 +105,22 @@ function getServices(user){
             $('#massages .grid_service .select-input_service').click(function(e) { 
                 if (this.value != null) {
                     if (this.checked) {
-                        setSelectService(this.value, 0);
+                        setSelectService(this.value, 0, owlServices);
                     } else {
-                        removeSelectService(this.value, 0);
+                        removeSelectService(this.value, 0, owlServices);
                     }
                 }
             });
 
         } else {
-            $('.alert-danger').removeClass('d-none').html(res.data.msg);
-
-            $('#alert').modal('show');
+            showError(res.data.msg);
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
 
     postData = {
-        "type": 1,
-        "shop_id": user.id
+        "type": 1
     }
 
     Post(SERVICES, postData, function (res) {
@@ -112,17 +151,15 @@ function getServices(user){
             $('#therapies .grid_service .select-input_service').click(function(e) {
                 if (this.value != null) {
                     if (this.checked) {
-                        setSelectService(this.value, 1);
+                        setSelectService(this.value, 1, owlServices);
                     } else {
-                        removeSelectService(this.value, 1);
+                        removeSelectService(this.value, 1, owlServices);
                     }
                 }
             });
 
         } else {
-            $('.alert-danger').removeClass('d-none').html(res.data.msg);
-
-            $('#alert').modal('show');
+            showError(res.data.msg);
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
@@ -130,7 +167,7 @@ function getServices(user){
 }
 
 
-function setSelectService(service, type){
+function setSelectService(service, type, owlServices) {
     let selectedData = [],
         liHtml       = "";
 
@@ -161,26 +198,31 @@ function setSelectService(service, type){
         }
     });
 
-    var newListItem = "<div class=\"col-md-3 service_info\">"+
-        "<div class=\"msg-right\">"+
-            "<figure>"+
-                "<img src=\"images/msl1.png\" alt=\"\"/>"+
-            "</figure>"+
-            "<div class=\"ms-content\">"+
-                "<h3>" + selectedData.name + "</h3>"+
-                "<div class=\"d-flex justify-content-between\">"+
-                "<span>Duration</span>"+
-                "<span>Price</span>"+
-                "</div>"+
-                "<ul>"+
-                    liHtml
-                "</ul>"+
-            "</div>"+
-        "</div>"+
-    "</div>";
+    var newListItem = "<div class=\"item item-" + service + "-" + type + "\">" +
+                        "<div class=\"msg-right\">"+
+                            "<figure>"+
+                                "<img src=\"" + selectedData.image + "\" alt=\"\"/>"+
+                            "</figure>"+
+                            "<div class=\"ms-content\">"+
+                                "<h3>" + selectedData.name + "</h3>"+
+                                "<div class=\"d-flex justify-content-between\">"+
+                                "<span>Duration</span>"+
+                                "<span>Price</span>"+
+                                "</div>"+
+                                "<ul>"+
+                                    liHtml
+                                "</ul>"+
+                            "</div>"+
+                        "</div>"+
+                    "</div>";
 
-    $( "#fragment-2 .wh-content .service_info" ).remove();
-    $( "#fragment-2 .wh-content .row" ).append(newListItem);
+    owlServices.trigger('add.owl.carousel', [newListItem]);
+
+    owlServices.trigger('refresh.owl.carousel');
+
+    let index = getOwlCarouselIndex(service, type, owlServices);
+
+    owlServices.trigger('to.owl.carousel', index);
 
     // Set subtotal.
     let subtotal = 0;
@@ -231,70 +273,84 @@ function setSelectService(service, type){
     });
 }
 
-function removeSelectService(service, type)
+function getOwlCarouselIndex(service, type, owlServices)
 {
-    var isShow = false,
-        data   = type == 1 ? JSON.parse(window.localStorage.getItem('therapies')) : JSON.parse(window.localStorage.getItem('massages'));
+    let slider          = owlServices.find('.owl-stage'),
+        current         = slider.filter(".item-" + service + "-" + type),
+        carouselIndex   = slider.index(current);
 
-    $('.select-input_service').each(function(key, checkbox) {
-        if (this.checked) {
-            isShow  = true;
-            service = this.value;
+    return carouselIndex;
+}
 
-            return true;
+function removeSelectService(service, type, owlServices)
+{
+    owlServices = initOwlServices();
+
+    $('#massages .grid_service .select-input_service').each(function(e) { 
+        if (this.value != null) {
+            if (this.checked) {
+                setSelectService(this.value, 0, owlServices);
+            }
         }
     });
 
-    if (!isShow) {
-        $( "#fragment-2 .wh-content .service_info" ).remove();
-    } else {
-        setSelectService(service, data);
-    }
+    $('#therapies .grid_service .select-input_service').each(function(e) { 
+        if (this.value != null) {
+            if (this.checked) {
+                setSelectService(this.value, 1, owlServices);
+            }
+        }
+    });
+
+    owlServices.trigger('to.owl.carousel', 0);
 }
 
-function getTherapists(user){
-    let postData = {
-        "shop_id": user.id
+function getAvailableTime(timestamp)
+{
+    let time = moment(timestamp);
+
+    if (time.isValid()) {
+        const minutesDiff = moment().diff(time, "minutes");
+
+        if (minutesDiff > 0) {
+            return time.format('h:mm:ss a') + " | In " + minutesDiff + "Min";
+        }
     }
+
+    return 'Now';
+}
+
+function getTherapists() {
+    let postData = {};
 
     Post(THERAPISTS, postData, function (res) {
         if (res.data.code == 200) {
 
-            // console.log("RESPONSE RECEIVED: ", res.data);
-            // console.log("RESPONSE RECEIVED: ", res.data.code);
-
-            var myArray=res.data.data
+            var myArray = res.data.data;
 
             $.each( myArray, function( i, item ) {
-                
- 
-                var newListItem = "<li>" + "<input class=\"select-input\" type=\"checkbox\" name=\"therapist[]\" value=\"" + item.id + "\" />"+
+                var newListItem = "<li>" + "<input class=\"select-input\" type=\"checkbox\" name=\"therapist[]\" value=\"" + item.therapistId + "\" />"+
                 "<div class=\"sl-cont\">"+
-                "<span class=\"name\">"+item.name+"</span>"+
+                "<span class=\"name\">"+item.therapistName+"</span>"+
                 "<div class=\"th-image\">"+
-                "<img src="+item.profile_photo+" alt=\"\"/>"+
+                "<img src="+item.therapistPhoto+" alt=\"\"/>"+
                 "</div>"+
-                "<div class=\"avail\">Now</div>"+
+                "<div class=\"avail\">" + getAvailableTime(item.available) + "</div>"+
                 "</div>"+ "</li>";
-             
+
                 $( ".grid" ).append( newListItem );
-             
             });
-
         } else {
-            $('.alert-danger').removeClass('d-none').html(res.data.msg);
-
-            $('#alert').modal('show');
+            showError(res.data.msg);
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
 }
 
-function getPreferences(shop)
+function getPreferences()
 {
     let postData = {
-        "shop_id": shop.id,
         "type": 8
     };
 
@@ -322,15 +378,15 @@ function getPreferences(shop)
                 if ($(this).is(':checked')) {
                     $('#focus_preference').html($(this).data('name'));
                 }
+
+                $('#focusmodal').modal('hide');
             }
         );
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
 
-    postData = {
-        "shop_id": shop.id
-    };
+    postData = {};
 
     Get(SESSIONS, postData, function (res) {
         let data = res.data.data;
@@ -349,15 +405,18 @@ function getPreferences(shop)
 
         $('#session li').on('click', function() {
             $(this).addClass('selected').siblings().removeClass('selected');
+
             var getValue = $(this).text();
+
             $('#dLabel').text(getValue);
+
+            $(this).parents('.dropdown').click();
         });
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
 
     postData = {
-        "shop_id": shop.id,
         "type": 1
     };
 
@@ -380,21 +439,24 @@ function getPreferences(shop)
 
         $('#pressure li').on('click', function() {
             $(this).addClass('selected').siblings().removeClass('selected');
+
             var getValue = $(this).text();
+
             $('#pLabel').text(getValue);
+
+            $(this).parents('.dropdown').click();
         });
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
 }
 
-function addClient(shop)
+function addClient()
 {
     let name      = $('#guest_name'),
         telephone = $('#guest_telephone'),
         email     = $('#guest_email'),
         postData  = {
-            "shop_id": shop.id,
             "name": name.val(),
             "email": email.val(),
             "tel_number": telephone.val()
@@ -404,13 +466,9 @@ function addClient(shop)
         let data = res.data;
 
         if (data.code == 401) {
-            $('.alert-danger').removeClass('d-none').html(data.msg);
-
-            $('#alert').modal('show');
+            showError(data.msg);
         } else {
-            $('.alert-success').removeClass('d-none').html(data.msg);
-
-            $('#alert').modal('show');
+            showSuccess(data.msg);
 
             name.attr('disabled', true);
             telephone.attr('disabled', true);
@@ -423,9 +481,9 @@ function addClient(shop)
     });
 }
 
-function addBooking(shop)
+function addBooking()
 {
-    let postData   = {"shop_id": shop.id, "booking_type": 1, "special_notes": "", "user_id": "", "session_id": "", "booking_date_time": "", "pressure_preference": "", "focus_area_preference": "", "gender_preference": "", "therapist_id": "", "notes_of_injuries": "", "massages": [], "therapies": []},
+    let postData   = {"booking_type": 1, "special_notes": "", "user_id": "", "session_id": "", "booking_date_time": "", "pressure_preference": "", "focus_area_preference": "", "gender_preference": "", "therapist_id": "", "notes_of_injuries": "", "massages": [], "therapies": [], "book_platform": 1},
         formInputs = $('.booking-form').serializeArray(),
         users      = [],
         inc        = 0;
@@ -482,13 +540,9 @@ function addBooking(shop)
         let data = res.data;
 
         if (data.code == 401) {
-            $('.alert-danger').removeClass('d-none').html(data.msg);
-
-            $('#alert').modal('show');
+            showError(data.msg);
         } else {
-            $('.alert-success').removeClass('d-none').html(data.msg);
-
-            $('#alert').modal('show');
+            showSuccess(data.msg);
 
             setTimeout(function() {
                 window.location = "home-screen.html";
@@ -497,4 +551,51 @@ function addBooking(shop)
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
+}
+
+function getClients(searchValue)
+{
+    if (!searchValue) {
+        return false;
+    }
+
+    searchClients(searchValue).then(
+        function(response) {
+            if (!response || !response.data || response.data.length <= 0) {
+                // showError("No records found.");
+            } else {
+                let data = response.data;
+
+                if (data.code == SUCCESS_CODE) {
+                    let searchData = {};
+
+                    $.each(data.data.data, function(k, item) {
+                        searchData[item.id] = item.name + (item.surname != null && item.surname != '' ? " " + item.surname : "");
+                    });
+
+                    autoComplete(searchValue, searchData, setSelectedClient, data.data.data);
+                } else {
+                    showError(data.msg);
+                }
+            }
+        },
+        function(error) {
+            console.log("AXIOS ERROR: ", error);
+        }
+    );
+}
+
+function setSelectedClient(data)
+{
+    let selectedClientId = $("#client_id").val();
+
+    if (selectedClientId) {
+        $.each(data, function(k, item) {
+            if (item.id == selectedClientId) {
+                $("#user_name").val(item.name + (item.surname != null && item.surname != '' ? " " + item.surname : ""));
+                $("#user_phone").val((item.tel_number_code != '' && item.tel_number_code != null ? " " + item.tel_number_code : "") + (item.tel_number != '' && item.tel_number != null ? item.tel_number : "-"));
+                $("#user_email").val(item.email);
+            }
+        });
+    }
 }

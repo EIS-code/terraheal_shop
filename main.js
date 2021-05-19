@@ -76,6 +76,7 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
     }
@@ -86,6 +87,10 @@ function createWindow () {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+
+    // Maximized window.
+    mainWindow.maximize();
+    mainWindow.show();
 }
 
 // This method will be called when Electron has finished

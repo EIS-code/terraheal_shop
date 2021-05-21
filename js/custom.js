@@ -62,6 +62,8 @@ function showConfirm(message, element)
 
     $(document).find("#confirm").find(".modal-header").find('.label').html(message);
 
+    element.data("default", !(element.is(':checked')));
+
     $('#confirm').data("element", element);
 
     $('#confirm').modal('show');
@@ -170,6 +172,34 @@ function closeAllLists(elmnt) {
     items.each(function(k, item) {
         item.remove();
     });
+}
+
+function getTime(unix_timestamp)
+{
+    var date = new Date(unix_timestamp);
+
+    // Hours part from the timestamp
+    var hours = date.getHours();
+
+    // Minutes part from the timestamp
+    var minutes = "0" + date.getMinutes();
+
+    // Seconds part from the timestamp
+    var seconds = "0" + date.getSeconds();
+
+    var formattedTime = hours + ':' + minutes.substr(-2);
+
+    return formattedTime;
+}
+
+function getDate(unixTimestamp)
+{
+    return moment.unix(unixTimestamp / 1000).format("DD/MM/YYYY");;
+}
+
+function isEmpty(variable)
+{
+    return (variable == '' || variable == null);
 }
 
 //booking next prev steps
@@ -313,7 +343,7 @@ $(document).ready(function(){
     $(document).find(".unconfirmed").on("click", function() {
         triggeredElement = $(this).parents('#confirm').data('element');
 
-        triggeredElement.prop("checked", false);
+        triggeredElement.prop("checked", triggeredElement.data('default'));
     });
 });
 

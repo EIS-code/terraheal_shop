@@ -21,6 +21,9 @@ export const SEARCH_CLIENT      = BASEURL+"/clients/searchClients";
 export const ASSIGN_ROOMS       = BASEURL+"/waiting/assignRoom";
 export const DOWNGRADE_BOOKING  = BASEURL+"/waiting/downgradeBooking";
 export const CANCEL_BOOKING     = BASEURL+"/waiting/cancelAppointment";
+export const FUTURE_BOOKINGS    = BASEURL+"/waiting/getFutureBooking";
+export const COMPLETED_BOOKINGS = BASEURL+"/waiting/getCompletedBooking";
+export const CANCELED_BOOKINGS  = BASEURL+"/waiting/getCancelBooking";
 
 export function isLive()
 {

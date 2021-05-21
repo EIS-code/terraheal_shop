@@ -2450,3 +2450,8 @@ a.bg-orange{ background:#FF9900; padding: 2px 4px;border-radius: 4px;color: #fff
 .wrapper.waiting-list {
     max-width: 1485px;
 }
+
+/* Booking list long wrapper. */
+.wrapper.booking-list {
+    max-width: 1485px;
+}

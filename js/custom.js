@@ -49,6 +49,26 @@ function showError(errorMsg)
     $('#alert').modal('show');
 }
 
+function showSuccess(successMsg)
+{
+    $('.alert-success').removeClass('d-none').html(successMsg);
+
+    $('#alert').modal('show');
+}
+
+function showConfirm(message, element)
+{
+    var message = (message != '' && message != null) ? message : "Are you sure ?";
+
+    $(document).find("#confirm").find(".modal-header").find('.label').html(message);
+
+    element.data("default", !(element.is(':checked')));
+
+    $('#confirm').data("element", element);
+
+    $('#confirm').modal('show');
+}
+
 function checkBookingForm(tab)
 {
     if (tab == 2) {
@@ -103,6 +123,84 @@ function checkBookingForm(tab)
     return true;
 }
 
+function confirm(message, callback, args, element)
+{
+    if (typeof callback == "function") {
+        showConfirm(message, element);
+
+        $(document).find('.confirmed').unbind().on("click", function() {
+            callback.apply(this, args);
+        });
+    }
+}
+
+function showBody()
+{
+    setTimeout(function() {
+        $("body").fadeIn(1000);
+    }, 500);
+}
+
+function autoComplete(value, data, callback, args)
+{
+    if (!data || data.length <= 0) { return false; }
+
+    $(".autocomplete-items").empty();
+
+    $.each(data, function(k, v) {
+        let b = "<div class='item-" + k + "'><strong>" + v.substr(0, value.length) + "</strong>" + v.substr(value.length) + "<input class='autocomplete-input d-none' value='" + k + "' data-value='" + v + "' /></div>";
+
+        $(".autocomplete-items").append(b);
+    });
+
+    $(".autocomplete-items").find("div").unbind().on("click", function() {
+        let input = $(this).find("input");
+
+        $("#autocomplete").val(input.data('value'));
+
+        $('#client_id').val(input.val());
+
+        closeAllLists();
+
+        callback(args);
+    });
+}
+
+function closeAllLists(elmnt) {
+    let items = $(".autocomplete-items").find("div");
+
+    items.each(function(k, item) {
+        item.remove();
+    });
+}
+
+function getTime(unix_timestamp)
+{
+    var date = new Date(unix_timestamp);
+
+    // Hours part from the timestamp
+    var hours = date.getHours();
+
+    // Minutes part from the timestamp
+    var minutes = "0" + date.getMinutes();
+
+    // Seconds part from the timestamp
+    var seconds = "0" + date.getSeconds();
+
+    var formattedTime = hours + ':' + minutes.substr(-2);
+
+    return formattedTime;
+}
+
+function getDate(unixTimestamp)
+{
+    return moment.unix(unixTimestamp / 1000).format("DD/MM/YYYY");;
+}
+
+function isEmpty(variable)
+{
+    return (variable == '' || variable == null);
+}
 
 //booking next prev steps
 
@@ -181,6 +279,13 @@ $(this).addClass('selected').siblings().removeClass('selected');
   $('#pay').text(getValue);
 });
 
+$('.dropDownMenu li.has-children > a').click(function() {
+  $(this).parent().siblings().find('ul').slideUp(300);
+  $(this).parent('.has-children').toggleClass('act')
+  $(this).next('ul').stop(true, false, true).slideToggle(300);
+  return false;
+});
+
 
 // dropdown menu
 
@@ -213,9 +318,32 @@ $(function () {
 
 
 $(document).ready(function(){
-    $('.backlink').click(function(){
+    $(document).find('.backlink').click(function(){
         parent.history.back();
         return false;
+    });
+
+    // Alerts
+    $(document).find('#alert').on('hidden.bs.modal', function () {
+        $('.alert-primary').html('').addClass('d-none');
+        $('.alert-secondary').html('').addClass('d-none');
+        $('.alert-danger').html('').addClass('d-none');
+        $('.alert-warning').html('').addClass('d-none');
+        $('.alert-info').html('').addClass('d-none');
+        $('.alert-light').html('').addClass('d-none');
+        $('.alert-dark').html('').addClass('d-none');
+    });
+
+    // Confirms
+    var triggeredElement = null;
+    $(document).on('shown.bs.modal', '#confirm', function (event) {
+         triggeredElement = $(event.relatedTarget);
+    });
+
+    $(document).find(".unconfirmed").on("click", function() {
+        triggeredElement = $(this).parents('#confirm').data('element');
+
+        triggeredElement.prop("checked", triggeredElement.data('default'));
     });
 });
 
@@ -239,15 +367,6 @@ input.clockpicker({
 var input = $('#input-d');
 input.clockpicker({
     autoclose: true
-});
-
-
-// delete modal textarea
-
-$( ".others" ).click(function() {
-  $( ".reason-box" ).toggle( "fast", function() {
-    // Animation complete.
-  });
 });
 
 var $select1 = $( '#select1' ),
@@ -279,4 +398,14 @@ $(function () {
         autoclose: true, 
         todayHighlight: true
   }).datepicker('update', new Date());
+
+    $(document).find("input:radio[name='cancel_type']").click(function() {
+        $(".reason-box").fadeOut("fast");
+
+        if ($(this).is(':checked')) {
+            if ($(this).hasClass('other-reasons')) {
+                $(".reason-box").fadeIn("fast");
+            }
+        }
+    });
 });

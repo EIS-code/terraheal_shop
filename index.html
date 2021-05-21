@@ -1,63 +1,38 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-<meta name="generator" content="">
-<title>Terra Heal</title>
-<!-- Font -->
-<link href="css/fontawesome.css" rel="stylesheet" type="text/css">
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="css/jquery-clockpicker.min.css" rel="stylesheet" type="text/css">
-<link href="css/datepicker.css" rel="stylesheet" type="text/css">
-<link href="css/style.css" rel="stylesheet" type="text/css">
-</head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
 
-<body class="hm-screen">
-<section class="shop-main-section">
-  <div class="main-login-page">
-    <div class="top-main">
-      <div class="main-left"></div>
-      <div class="main-logo"> <img src="images/logo.png" alt="logo"/> </div>
-      <div class="top-right">
-        <div class="language-bar">
-          <ul class="prod-gram">
-            <li class="init"><span><img src="images/flag.png"/>PT</span></li>
-            <li><span><img src="images/flag.png"/>PT</span></li>
-            <li><span><img src="images/en-flag.png"/>EN</span></li>
-          </ul>
+<script async>
+    $(function(){
+        $("head").load("header.html");
+        $("#heading").load("heading.html");
+        $("#footer").load("footer.html", function() {
+            showBody();
+        });
+    });
+</script>
+
+<script type="module" src="js/login.js" async></script>
+
+<body class="hm-screen" style="display: none;">
+    <section class="shop-main-section">
+        <div class="main-login-page">
+            <div id="heading"></div>
+
+            <div class="main-login">
+                <div class="login-logo"><img src="images/logo.png" alt=""/></div>
+                <div class="login-container">
+                    <div class="login-box">
+                        <p>Login to TerraHeal</p>
+                        <form class="main-log">
+                            <input type="name" placeholder="Username" id="txt_user_name" autofocus="" />
+                            <input type="password" placeholder="Password" id="txt_password" />
+                            <button class="login" type="button" id="btnLogin">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="timer">
-          <div class="clock"></div>
-        </div>
-      </div>
-    </div>
-    <div class="main-login">
-      <div class="login-logo"><img src="images/logo.png" alt=""/></div>
-      <div class="login-container">
-        <div class="login-box">
-          <p>Login to TerraHeal</p>
-          <form class="main-log">
-            <input type="name" placeholder="Username" id="txt_user_name"/>
-            <input type="password" placeholder="Password" id="txt_password"/>
-            <button class="login" type="button" id="btnLogin">Login</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script> 
-<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="js/jquery-clockpicker.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.7.custom.min.js"></script>
-<script type="text/javascript" src="js/custom.js"></script>
-<script type="module" src="js/login.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </section>
+
+    <div id="footer"></div>
 </body>
-</html>

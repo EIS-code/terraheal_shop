@@ -16,7 +16,7 @@ $(document).ready(function () {
                 "shop_password": password
             }
 
-            Post(SIGNIN,postData,function(res){
+            Post(SIGNIN, postData, function(res){
                 if (res.data.code == SUCCESS_CODE) {
                     localStorage.setItem('shopData', JSON.stringify(res.data.data));
 

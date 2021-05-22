@@ -39,17 +39,26 @@ export function getLocalShopStorage()
 
 export function Post(url, postData, success, errorCallBack)
 {
-    let shopData = getLocalShopStorage();
-
-    let axiosConfig = {
-        headers: {
-            'Access-Control-Allow-Origin': "*",
-            'Content-Type': 'application/json',
-            'api-key': shopData.api_key
-        }
+    var headersData = {
+        'Access-Control-Allow-Origin': "*",
+        'Content-Type': 'application/json'
     };
 
-    postData['shop_id'] = shopData.id;
+    if (SIGNIN == url) {
+        var axiosConfig = {
+            headers: headersData
+        };
+    } else {
+        let shopData = getLocalShopStorage();
+
+        // headersData['api-key'] = shopData.api_key[0].key;
+
+        var axiosConfig = {
+            headers: headersData
+        };
+
+        postData['shop_id'] = shopData.id;
+    }
 
     axios.post(url, postData, axiosConfig)
         .then((res) => {

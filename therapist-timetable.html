@@ -1,0 +1,66 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+<script async>
+    $(function(){
+        $("head").load("header.html");
+        $("#heading").load("heading.html");
+        $("#footer").load("footer.html", function() {
+            showBody();
+        });
+    });
+</script>
+
+<script type="module" src="js/therapist-timetable.js" async></script>
+
+<body style="display: none;">
+    <section class="shop-main-section">
+        <div class="main-page">
+            <div id="heading"></div>
+            <div class="home-booking cm-height">
+                <div class="wrapper">
+                    <div class="book-main">
+                        <div class="book-sec therapist-main">
+                            <div class="wh-box">
+                                <div class="wh-content">
+                                    <div class="manage-timetable d-flex justify-content-between">
+                                        <div class="dropdown">
+                                            <input type="month" id="current-month">
+                                        </div>
+                                    </div>
+                                    <div class="time-table">
+                                        <div class="tt-inner">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table cellpadding="0" cellspacing="0" id="current-table" class="therapist-timetable table table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="current-body">
+                                                            <tr>
+                                                                <td colspan="31">
+                                                                    <mark>No records found!</mark>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="norm-back">
+                                                <a href="waiting-booking.html" class="cmn-btn backlink">← Back</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+</body>

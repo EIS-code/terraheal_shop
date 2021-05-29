@@ -2,6 +2,8 @@ import { SIGNIN } from './networkconst.js';
 import { Post, SUCCESS_CODE } from './networkconst.js';
 
 $(document).ready(function () {
+    localStorage.clear();
+
     $(".login").click(function () {
         let userName = $("#txt_user_name").val(),
             password = $("#txt_password").val();

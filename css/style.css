@@ -125,7 +125,7 @@ ul.prod-gram li:not(.init) { width: 100%; display: none; background: transparent
 .bl-title{ display:flex; padding:15px 40px; background:#fff; border-radius:8px; box-shadow: 0px 12px 24px rgba(0,0,0,0.15); color:#6D6E71; font-size:22px; text-transform:capitalize; align-items: center; position: relative; z-index: 1; }
 .bl-title .count{ width:30px; height:30px; text-align:center; line-height:30px; font-size:20px; color:#fff; border-radius:100%; background:#29B6F6; display:block; margin-right:20px; box-shadow: 0px 5px 10px rgba(0,0,0,0.20); margin-bottom:0px; }
 .wh-box { margin-top: 15px; padding-bottom: 30px; }
-.wh-content{ background:#F4F4F4; position: relative; padding:20px 40px 70px; margin-top: -7px; max-height:720px; overflow:auto; min-height: 400px; }
+.wh-content{ background:#F4F4F4; position: relative; padding:20px 40px 40px; margin-top: -7px; max-height:720px; overflow:auto; min-height: 400px; }
 .therapist-col ul{ display:flex; flex-wrap:wrap; }
 .therapist-col ul li{ width: 19%; margin-right:8%; margin-top:25px; text-align:center; position: relative; }
 .therapist-col ul li img{ width:100%; }
@@ -2455,3 +2455,38 @@ a.bg-orange{ background:#FF9900; padding: 2px 4px;border-radius: 4px;color: #fff
 .wrapper.booking-list {
     max-width: 1485px;
 }
+
+/* Booking overview (calendar). */
+.custom-calender table{ width:100%; border-radius: 8px; overflow: hidden; border-collapse: separate; border-spacing: 0; }
+.custom-calender thead th{ padding:15px; background:#fff; border-left: 1px solid #eee; text-align:center; position:sticky; top:0; }
+.custom-calender table thead th:first-child { width: 100px; border: none; }
+.wh-content.no-scroll{ overflow:inherit; }
+.custom-calender .table-scroll{ overflow:auto; max-height:480px; }
+.custom-calender table tbody tr{ box-shadow:none; background: #E9FDD6
+; }
+.custom-calender table th{ border-bottom:none; text-align: center; width: 205px; background: #fff; padding-top: 10px; }
+.custom-calender table th table tr td{ padding:5px; background: #fff; font-size: 13px; padding-left:20px; }
+.custom-calender table thead{ border-bottom-color:#eee; }
+.custom-calender table tbody td a{ background:#fff; display:block; padding:6px; border-radius:4px; font-size: 13px; box-shadow: 0px 15px 30px rgba(0,0,0,0.1);}
+.custom-calender table tbody td a:hover{ color:#6D6E71; }
+#eventbookmodal table{ width:100%; }
+#eventbookmodal table tbody tr{ box-shadow:none; }
+.mode-bottom table{ background:#f4f4f4; }
+#eventbookmodal .mode-bottom table tbody tr{ background:#f4f4f4; }
+.mode-bottom table th{ border-bottom:none; font-size:14px; }
+.mode-bottom table thead{ border:none; }
+.mode-left table td{ padding:6px;}
+.mode-bottom{ margin-top:10px; }
+.mode-bottom td, .mode-bottom th{ padding:5px 8px; }
+.mode-left table td:last-child{ padding-left:20px; }
+.mode-left table td:first-child:after{ content:":"; display:inline-block; float:right; }
+.btm-mode{ margin-top:15px; }
+.btm-mode .btn{ border:none; box-shadow:none; outline:none; background:#fd3a58; color:#fff; }
+.btm-mode .btn.blue{ background:#29b6f6; }
+.mode-left{ width:70%; }
+.mode-right{ width:30%; }
+.mode-right select{ width:100%;  background:#f4f4f4; border: none; -webkit-appearance: none -moz-appearance: none; appearance:none; border-radius:6px; padding:8px;}
+.overview-body { background: #E9FDD6 !important; }
+.overview-body table tbody tr td { background: #E9FDD6 !important; }
+
+/* Therapist timetable. */

@@ -37,6 +37,21 @@ document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(
 }
 setInterval(clock, 1000);
 
+function includeJs(file, callback, args)
+{
+    $.getScript(file, function(){
+        if (callback) {
+            callback(args);
+        }
+    });
+}
+
+// Helper to pad single digits
+function padSingleZero(number)
+{
+    return ('0' + number).slice(-2);
+}
+
 function currentUTCTimestamps()
 {
     return +new Date();
@@ -320,7 +335,8 @@ $(function () {
 $(document).ready(function(){
     $(document).find('.backlink').click(function(){
         parent.history.back();
-        return false;
+
+        // return false;
     });
 
     // Alerts
@@ -408,4 +424,11 @@ $(function () {
             }
         }
     });
+});
+
+/* Prototypes. */
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    return local.toJSON().slice(0,10);
 });

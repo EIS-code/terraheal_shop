@@ -24,6 +24,8 @@ export const CANCEL_BOOKING     = BASEURL+"/waiting/cancelAppointment";
 export const FUTURE_BOOKINGS    = BASEURL+"/waiting/getFutureBooking";
 export const COMPLETED_BOOKINGS = BASEURL+"/waiting/getCompletedBooking";
 export const CANCELED_BOOKINGS  = BASEURL+"/waiting/getCancelBooking";
+export const BOOKING_OVERVIEW   = BASEURL+"/waiting/bookingOverview";
+export const THERAPIST_TIMETABLE = BASEURL+"/waiting/getTimeTable";
 
 export function isLive()
 {
@@ -37,7 +39,7 @@ export function getLocalShopStorage()
     return JSON.parse(localStorage.getItem("shopData") || dummyData);
 }
 
-export function Post(url, postData, success, errorCallBack)
+export async function Post(url, postData, success, errorCallBack)
 {
     var headersData = {
         'Access-Control-Allow-Origin': "*",
@@ -60,17 +62,21 @@ export function Post(url, postData, success, errorCallBack)
         postData['shop_id'] = shopData.id;
     }
 
-    axios.post(url, postData, axiosConfig)
+    return axios.post(url, postData, axiosConfig)
         .then((res) => {
             success(res);
+
+            return res;
         })
         .catch((err) => {
             console.log("AXIOS ERROR: ", err);
             errorCallBack(err);
+
+            return err;
         });
 }
 
-export function Get(url, postData, success, errorCallBack)
+export async function Get(url, postData, success, errorCallBack)
 {
     let shopData = getLocalShopStorage();
 
@@ -84,13 +90,17 @@ export function Get(url, postData, success, errorCallBack)
 
     postData['shop_id'] = shopData.id;
 
-    axios.get(url, postData, axiosConfig)
+    return axios.get(url, postData, axiosConfig)
         .then((res) => {
             success(res);
+
+            return res;
         })
         .catch((err) => {
             console.log("AXIOS ERROR: ", err);
             errorCallBack(err);
+
+            return err;
         });
 }
 
@@ -124,6 +134,51 @@ export async function searchClients(searchValue)
             })
             .then((response) => {
                 // Response Body
+
+                return response;
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) {}
+            });
+}
+
+export async function getTherapists(clearCache)
+{
+    if (clearCache) {
+        localStorage.setItem('shopTherapist', {});
+    } else {
+        let cachedData = JSON.parse(localStorage.getItem('shopTherapist'));
+
+        if (cachedData != "" && cachedData != null && typeof cachedData == "object" && Object.keys(cachedData).length > 0) {
+            return cachedData;
+        }
+    }
+
+    let shopData = getLocalShopStorage();
+
+    // Cancel previous request
+    if (cancel !== undefined) {
+        cancel();
+    }
+
+    let postData  = {
+        "shop_id": shopData.id
+    };
+
+    return  axios.post(GET_ALL_THERAPISTS, postData, {
+                cancelToken: new CancelToken(function executor(c) {
+                    cancel = c;
+                }),
+                headers: {
+                    'Access-Control-Allow-Origin': "*",
+                    'Content-Type': 'application/json',
+                    'api-key': shopData.api_key
+                }
+            })
+            .then((response) => {
+                // Response Body
+
+                localStorage.setItem('shopTherapist', JSON.stringify(response));
 
                 return response;
             })

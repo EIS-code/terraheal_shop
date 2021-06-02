@@ -3,7 +3,6 @@ const BASEURL="http://35.180.202.175";
 export const SUCCESS_CODE     = 200;
 export const ERROR_CODE       = 401;
 export const EXCEPTION_CODE   = 401;
-export const APP_ENVIRONMENT  = 'dev';
 
 export const SIGNIN      = BASEURL+"/shops/signin";
 export const THERAPISTS  = BASEURL+"/therapist/getTherapists";
@@ -26,21 +25,13 @@ export const COMPLETED_BOOKINGS = BASEURL+"/waiting/getCompletedBooking";
 export const CANCELED_BOOKINGS  = BASEURL+"/waiting/getCancelBooking";
 export const BOOKING_OVERVIEW   = BASEURL+"/waiting/bookingOverview";
 export const THERAPIST_TIMETABLE = BASEURL+"/waiting/getTimeTable";
-
-export function isLive()
-{
-    return (APP_ENVIRONMENT === 'prod' || APP_ENVIRONMENT === 'production');
-}
-
-export function getLocalShopStorage()
-{
-    let dummyData = !isLive() ? {"id": 5, "api_key": "shop5"} : {};
-
-    return JSON.parse(localStorage.getItem("shopData") || dummyData);
-}
+export const RECOVER_BOOKING     = BASEURL+"/waiting/recoverAppointment";
+export const ROOM_OCCUPATIONS    = BASEURL+"/waiting/roomOccupation";
 
 export async function Post(url, postData, success, errorCallBack)
 {
+    loggedIn();
+
     var headersData = {
         'Access-Control-Allow-Origin': "*",
         'Content-Type': 'application/json'
@@ -78,6 +69,8 @@ export async function Post(url, postData, success, errorCallBack)
 
 export async function Get(url, postData, success, errorCallBack)
 {
+    loggedIn();
+
     let shopData = getLocalShopStorage();
 
     let axiosConfig = {
@@ -110,6 +103,8 @@ let cancel;
 
 export async function searchClients(searchValue)
 {
+    loggedIn();
+
     let shopData = getLocalShopStorage();
 
     // Cancel previous request
@@ -144,6 +139,8 @@ export async function searchClients(searchValue)
 
 export async function getTherapists(clearCache)
 {
+    loggedIn();
+
     if (clearCache) {
         localStorage.setItem('shopTherapist', {});
     } else {
@@ -179,6 +176,53 @@ export async function getTherapists(clearCache)
                 // Response Body
 
                 localStorage.setItem('shopTherapist', JSON.stringify(response));
+
+                return response;
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) {}
+            });
+}
+
+export async function getRooms(clearCache)
+{
+    loggedIn();
+
+    if (clearCache) {
+        localStorage.setItem('shopRooms', {});
+    } else {
+        let cachedData = JSON.parse(localStorage.getItem('shopRooms'));
+
+        if (cachedData != "" && cachedData != null && typeof cachedData == "object" && Object.keys(cachedData).length > 0) {
+            return cachedData;
+        }
+    }
+
+    let shopData = getLocalShopStorage();
+
+    // Cancel previous request
+    if (cancel !== undefined) {
+        cancel();
+    }
+
+    let postData  = {
+        "shop_id": shopData.id
+    };
+
+    return  axios.post(GET_ROOMS, postData, {
+                cancelToken: new CancelToken(function executor(c) {
+                    cancel = c;
+                }),
+                headers: {
+                    'Access-Control-Allow-Origin': "*",
+                    'Content-Type': 'application/json',
+                    'api-key': shopData.api_key
+                }
+            })
+            .then((response) => {
+                // Response Body
+
+                localStorage.setItem('shopRooms', JSON.stringify(response));
 
                 return response;
             })

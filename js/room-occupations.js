@@ -1,6 +1,6 @@
 
 import { Post, Get, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE } from './networkconst.js';
-import { getTherapists, BOOKING_OVERVIEW } from './networkconst.js';
+import { getRooms, ROOM_OCCUPATIONS } from './networkconst.js';
 
 window.addEventListener("load", function() {
     setDate();
@@ -12,18 +12,14 @@ function setDate()
 
     $('#booking-date').val(currentDate.toDateInputValue());
 
-    $('#booking-type').on('change', buildheader);
-
-    $('#booking-staff').on('change', buildheader);
-
     $('#booking-date').on('change', buildheader);
 
-    buildheader(true);
+    buildheader();
 }
 
-function buildheader(isFirstTime)
+function buildheader()
 {
-    getTherapists().then(
+    getRooms().then(
         function(response) {
             if (!response || !response.data || response.data.length <= 0) {
                 // showError("No records found.");
@@ -31,7 +27,7 @@ function buildheader(isFirstTime)
                 let data = response.data;
 
                 if (data.code == SUCCESS_CODE) {
-                    buildHeaderHtml(data.data, isFirstTime);
+                    buildHeaderHtml(data.data);
                 } else {
                     showError(data.msg);
                 }
@@ -43,36 +39,29 @@ function buildheader(isFirstTime)
     );
 }
 
-function buildHeaderHtml(data, isFirstTime)
+function buildHeaderHtml(data)
 {
     if (Object.keys(data).length > 0) {
         let element   = $('#current-thead'),
             thead     = "<tr>";
 
-        if (isFirstTime === true) {
-            var selectEle = $('#booking-staff'),
-                option    = '<option value="">Select Therapist</option>';
-        }
-
         thead += '<th scope="col">&nbsp;</th>';
 
-        $.each(data, function(id, therapistName) {
-            thead += '<th scope="col" data-id="' + id + '" id="thead-' + id + '">';
-                thead += therapistName;
-            thead += '</th>';
+        $.each(data, function(key, room) {
+            thead += '<th scope="col" data-id="' + room.id + '" id="thead-' + room.id + '" class="text-center">';
+                thead += '<span style="display:block">';
+                    thead += room.name;
+                thead += '</span>';
 
-            if (isFirstTime === true) {
-                option += '<option value="' + id + '">';
-                    option += therapistName;
-                option += '</option>';
-            }
+                if (room.total_beds > 0) {
+                    for (let i = 1; i <= room.total_beds; i++) {
+                        thead += '<img src="images/bed.png" alt="beds" class="disp-inline" />';
+                    }
+                }
+            thead += '</th>';
         });
 
         element.empty().html(thead);
-
-        if (isFirstTime === true) {
-            selectEle.empty().html(option);
-        }
 
         buildTableBody();
     }
@@ -101,24 +90,24 @@ function setAsId(string)
     return string.replace(':', '-').replace(':', '-');
 }
 
-function buildBodyHtml(time, slots, therapistData)
+function buildBodyHtml(time, slots, roomData)
 {
     let td = "";
 
-    if (typeof therapistData !== typeof undefined && Object.keys(therapistData).length > 0) {
-        $.each(therapistData, function(therapistId, therapistName) {
+    if (typeof roomData !== typeof undefined && Object.keys(roomData).length > 0) {
+        $.each(roomData, function(key, room) {
             td += '<th class="overview-body">';
                 td += '<table class="text-center">';
                     $.each(slots, function(key, slot) {
                         if (key == 0) {
                             td += '<tr>';
-                                td += '<td id="tbody-'+ therapistId + "-" + setAsId(time) + '">&nbsp;';
+                                td += '<td id="tbody-'+ room.id + "-" + setAsId(time) + '">&nbsp;';
                                 td += '</td>';
                             td += '</tr>';
                         }
 
                         td += '<tr>';
-                            td += '<td id="tbody-' + therapistId + "-" + setAsId(slot) + '">&nbsp;';
+                            td += '<td id="tbody-' + room.id + "-" + setAsId(slot) + '">&nbsp;';
                             td += '</td>';
                         td += '</tr>';
                     });
@@ -139,14 +128,14 @@ function buildLeftSideTimeHtml(time, slots)
             $.each(slots, function(key, slot) {
                 if (key == 0) {
                     th += '<tr class="text-center">';
-                        th += '<td>';
+                        th += '<td style="width: 10px;">';
                             th += time;
                         th += '</td>';
                     th += '</tr>';
                 }
 
                 th += '<tr class="text-right">';
-                    th += '<td>';
+                    th += '<td style="width: 10px;">';
                         th += slot;
                     th += '</td>';
                 th += '</tr>';
@@ -162,7 +151,7 @@ async function buildLeftSideTime()
     let tbody         = "",
         timeSlots     = getTimeSlots();
 
-    getTherapists().then(
+    getRooms().then(
         function(response) {
             if (!response || !response.data || response.data.length <= 0) {
                 // showError("No records found.");
@@ -219,12 +208,12 @@ function findCells(therapistId, hour, minutes)
 function buildMainBody(data)
 {
     $.each(data, function(key, row) {
-        let therapistId = row.therapist_id;
+        let roomId = row.room_id;
 
         if (row.services && Object.keys(row.services).length > 0) {
             $.each(row.services, function(index, service) {
                 let time            = new Date(service.massage_start_time),
-                    cell            = findCells(therapistId, padSingleZero(time.getUTCHours()), padSingleZero(time.getUTCMinutes())),
+                    cell            = findCells(roomId, padSingleZero(time.getUTCHours()), padSingleZero(time.getUTCMinutes())),
                     serviceName     = (service.massage_name != "" && service.massage_name != null) ? service.massage_name : service.therapy_name,
                     serviceDuration = (service.massage_duration != "" && service.massage_duration != null) ? service.massage_duration : service.therapy_duration;
 
@@ -269,15 +258,13 @@ function getFilterDate()
 
 function getFilterTherapist()
 {
-    return $('#booking-staff').val();
+    return "";
 }
 
 function filterData()
 {
     return {
-        type: getFilterType(),
-        date: getFilterDate(),
-        therapist_id: getFilterTherapist()
+        date: getFilterDate()
     }
 }
 
@@ -285,7 +272,7 @@ async function getBookingOverviews()
 {
     let postData  = filterData();
 
-    return Post(BOOKING_OVERVIEW, postData, function (res) {
+    return Post(ROOM_OCCUPATIONS, postData, function (res) {
         if (res.data.code == SUCCESS_CODE) {
             return res;
         } else {

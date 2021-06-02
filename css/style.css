@@ -2490,3 +2490,22 @@ a.bg-orange{ background:#FF9900; padding: 2px 4px;border-radius: 4px;color: #fff
 .overview-body table tbody tr td { background: #E9FDD6 !important; }
 
 /* Therapist timetable. */
+
+/* Logout.  */
+.logout a {
+    background: red !important;
+}
+
+/* Review star booking. */
+.fa-star.active {
+    color: #FF9900;
+}
+
+/* Canceled booking reason. */
+.fa-info-circle.active {
+    color: #FF9900;
+}
+
+.disp-inline {
+    display: inline;
+}

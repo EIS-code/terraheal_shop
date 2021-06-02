@@ -314,6 +314,36 @@
         </div>
     </div>
 
+    <!-- Deleted reason Modal -->
+    <div class="modal fade" id="deleted-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">Cancel Appointment
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-modal">
+                        <li><input type="radio" name="cancel_type" value="0" /><label>No Show</label></li>
+                        <li><input type="radio" name="cancel_type" value="1" /><label>No availability</label></li>
+                        <li><input type="radio" name="cancel_type" value="2" /><label>Double booking</label></li>
+                        <li><input type="radio" name="cancel_type" value="3" /><label>Wrong booking</label></li>
+                        <li><input type="radio" name="cancel_type" value="4" /><label>Canceled By Client</label></li>
+                        <li>
+                            <input class="other-reasons" type="radio" name="cancel_type" value="5" /><label>Other reason</label>
+                        </li>
+                        <li>
+                            <div class="reason-box" style="display:none;">
+                                <textarea placeholder="Please Type here..." name="cancel_reason" id="cancel_reason"></textarea>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Details Modal -->
     <div id="details-modal-static"></div>
 

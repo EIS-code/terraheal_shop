@@ -217,6 +217,59 @@ function isEmpty(variable)
     return (variable == '' || variable == null);
 }
 
+function getEnvVariable(variable)
+{
+    return localStorage.getItem("ENV_" + variable);
+}
+
+function isLive()
+{
+    let appEnv = getEnvVariable('APP_ENV');
+
+    return (appEnv === 'prod' || appEnv === 'production');
+}
+
+function getLocalShopStorage()
+{
+    let dummyData = !isLive() ? JSON.stringify({"id": 5, "api_key": "shop5"}) : {},
+        shopData  = localStorage.getItem("shopData") || dummyData;
+
+    return (shopData) ? JSON.parse(shopData) : {};
+}
+
+function clearLocalStorage(key)
+{
+    localStorage.removeItem(key);
+}
+
+function getCurrentUrlFile()
+{
+    let url = window.location.href;
+
+    return url ? url.split('/').pop().split('#').shift().split('?').shift().split('.').shift() : null;
+}
+
+function loggedIn()
+{
+    let shopData = getLocalShopStorage();
+
+    if (Object.keys(shopData).length <= 0) {
+        doLogin();
+    }
+}
+
+function doLogin()
+{
+    window.location.href = "index.html";
+}
+
+function doLogout()
+{
+    clearLocalStorage('shopData');
+
+    doLogin();
+}
+
 //booking next prev steps
 
 $(function() {
@@ -424,6 +477,14 @@ $(function () {
             }
         }
     });
+
+    $(document).find('#logout').on("click", function() {
+        doLogout();
+    });
+
+    if (getCurrentUrlFile() != 'index') {
+        $(document).find('#top-left-buttons').addClass('d-flex');
+    }
 });
 
 /* Prototypes. */

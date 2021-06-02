@@ -1,6 +1,6 @@
 
 import { Post, Get, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE } from './networkconst.js';
-import { GET_ALL_THERAPISTS, GET_ROOMS, CONFIRM_BOOKING, CANCEL_BOOKING, DOWNGRADE_BOOKING, FUTURE_BOOKINGS, COMPLETED_BOOKINGS, CANCELED_BOOKINGS } from './networkconst.js';
+import { GET_ALL_THERAPISTS, GET_ROOMS, CONFIRM_BOOKING, CANCEL_BOOKING, DOWNGRADE_BOOKING, FUTURE_BOOKINGS, COMPLETED_BOOKINGS, CANCELED_BOOKINGS, RECOVER_BOOKING } from './networkconst.js';
 
 var hash       = window.location.hash || '#future-bookings',
     centerType = 1,
@@ -136,6 +136,33 @@ function bindEvents()
         }
     });
 
+    $(document).find('.deleted-modal').unbind().on("click", function() {
+        let modal           = $('#deleted-modal'),
+            canceledType    = $(this).data('type'),
+            canceledReason  = $(this).data('reason');
+
+        modal.find('input:radio[name="cancel_type"]').each(function() {
+            if ($(this).val() == canceledType) {
+                $(this).prop('checked', true).triggerHandler('click');
+
+                // Other reasons.
+                if (canceledType == 5) {
+                    modal.find('#cancel_reason').val(canceledReason);
+                }
+
+                return true;
+            }
+        });
+
+        modal.modal("show");
+    });
+
+    $(document).find('.recover-booking').unbind().on("click", function() {
+        let bookingId = $(this).data('id');
+
+        confirm("Are you sure want to recover this booking ?", recoverBooking, [bookingId], $(this));
+    });
+
     if (hash) {
         $(document).find('#center_bookings').attr('href', hash);
         $(document).find('#home_bookings').attr('href', hash);
@@ -183,7 +210,7 @@ function getRooms()
             let liHtml = "";
 
             $.each(data.data, function(key, item) {
-                liHtml += '<li><input type="radio" name="filter_room" class="header_filter" value="' + key + '"/><label>' + item + '</label></li>';
+                liHtml += '<li><input type="radio" name="filter_room" class="header_filter" value="' + item.id + '"/><label>' + item.name + '</label></li>';
             });
 
             let dropdownElement = $('#room-future, #room-completed, #room-canceled').find('li ul');
@@ -650,7 +677,7 @@ function getCompletedBookings()
                     tbody += '</td>';
 
                     tbody += '<td class="text-center">';
-                        tbody += '<i class="fa fa-star">';
+                        tbody += '<i class="fa fa-star ' + (item.has_review ? "active" : "") + '">';
                         tbody += '</i>';
                     tbody += '</td>';
 
@@ -816,8 +843,10 @@ function getCancelledBookings()
                     tbody += '</td>';
 
                     tbody += '<td class="text-center">';
-                        tbody += '<i class="fas fa-info-circle">';
-                        tbody += '</i>';
+                        tbody += '<a href="#" class="deleted-modal" data-type="' + item.cancel_type + '" data-reason="' + escape(item.cancelled_reason) + '">';
+                            tbody += '<i class="fas fa-info-circle ' + (item.cancel_type != "" ? "active" : "") + '">';
+                            tbody += '</i>';
+                        tbody += '</a>';
                     tbody += '</td>';
 
                     tbody += '<td class="text-center">';
@@ -827,9 +856,11 @@ function getCancelledBookings()
                         tbody += '</a>';
                     tbody += '</td>';
 
-                    tbody += '<td class="text-center" id="recover-booking" data-id="' + item.booking_massage_id + '">';
-                        tbody += '<i class="fas fa-arrow-circle-up">';
-                        tbody += '</i>';
+                    tbody += '<td class="text-center" id="recover-booking">';
+                        tbody += '<a href="#" class="recover-booking" data-id="' + item.booking_id + '">';
+                            tbody += '<i class="fas fa-arrow-circle-up">';
+                            tbody += '</i>';
+                        tbody += '</a>';
                     tbody += '</td>';
 
                 tbody += '</tr>';
@@ -928,6 +959,27 @@ function getCancelledBookings()
             bindEvents();
         } else {
             showError(data.msg);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+}
+
+function recoverBooking(bookingId)
+{
+    let postData = {
+        "booking_id": bookingId
+    };
+
+    Post(RECOVER_BOOKING, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == ERROR_CODE) {
+            showError(data.msg);
+        } else {
+            // showSuccess(data.msg);
+
+            loadDatas();
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);

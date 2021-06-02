@@ -381,9 +381,9 @@ function getRooms()
                 liAssignRoomHtml  = "";
 
             $.each(data.data, function(key, item) {
-                liHtml += '<li><input type="radio" name="filter_room" class="header_filter" value="' + key + '"/><label>' + item + '</label></li>';
+                liHtml += '<li><input type="radio" name="filter_room" class="header_filter" value="' + item.id + '"/><label>' + item.name + '</label></li>';
 
-                liAssignRoomHtml += '<li><input type="radio" name="assign_room" value="' + key + '"/><label>' + item + '</label></li>';
+                liAssignRoomHtml += '<li><input type="radio" name="assign_room" value="' + item.id + '"/><label>' + item.name + '</label></li>';
             });
 
             let dropdownElement   = $('#room li ul'),

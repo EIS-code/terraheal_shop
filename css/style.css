@@ -2509,3 +2509,37 @@ a.bg-orange{ background:#FF9900; padding: 2px 4px;border-radius: 4px;color: #fff
 .disp-inline {
     display: inline;
 }
+
+/* Receptionist design. */
+.per-second .grp-field{ justify-content: space-between; margin-top:35px; }
+.up-row:after{ content:""; height:0; overflow:hidden; clear:both; display:block; }
+.up-left{ float:left; }
+.up-right{ float:right; }
+.per-second .grp-field label{ min-width:250px; }
+.up-left label, .up-right label{ min-width:250px; color:#333; }
+.up-right label{ text-align:center; min-width:140px; }
+.date-expired{ padding:2px 15px; display:inline-block; border:1px solid #eee; font-size:13px; border-radius:4px; }
+.grp-right li label{ display:block; font-size: 13px; margin-bottom: 5px; }
+.grp-right.exprncd ul li img{ max-height:55px; }
+.grp-rht div{ min-width:140px; text-align:center;}
+
+/* Receptionist document upload model. */
+#documentsadd-modal input[type="text"]{ border:1px solid #ccc; min-width:300px; border-radius:5px; padding:15px; width:100%; }
+.expdate { margin-top: 20px;}
+.expdate .expsp{ position:relative; }
+.expdate .checkbox-grp label::before{ width:22px; height:22px; background:none; border-width:1px; border-color:#ccc; border-radius:4px; margin-right:10px; }
+#documentsadd-modal .document-add{ text-align:left; }
+.checkbox-grp input:checked + label::after{ width:7px; height:13px; border-width: 0 2px 2px 0; top:2px; left:7px; border-color:#bdbdbd; }
+.exp-cal{ display:none; margin-top:20px; }
+#documentsadd-modal .cmn-btn{ background: #29B6F6
+; }
+#documentsadd-modal .cmn-btn:hover{ background: #FF9900
+; }
+
+.margin-20px {
+    margin-top: 20px;
+}
+
+.width-100-percent {
+    width: 100%;
+}

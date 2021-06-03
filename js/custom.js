@@ -37,6 +37,11 @@ document.querySelectorAll('.clock')[0].innerHTML = harold(hours) + ":" + harold(
 }
 setInterval(clock, 1000);
 
+function empty(variable)
+{
+    return !(variable != "" && variable != null);
+}
+
 function includeJs(file, callback, args)
 {
     $.getScript(file, function(){
@@ -396,6 +401,7 @@ $(document).ready(function(){
     $(document).find('#alert').on('hidden.bs.modal', function () {
         $('.alert-primary').html('').addClass('d-none');
         $('.alert-secondary').html('').addClass('d-none');
+        $('.alert-success').html('').addClass('d-none');
         $('.alert-danger').html('').addClass('d-none');
         $('.alert-warning').html('').addClass('d-none');
         $('.alert-info').html('').addClass('d-none');

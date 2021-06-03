@@ -1,0 +1,77 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+<script async>
+    $(function(){
+        $("head").load("header.html");
+        $("#heading").load("heading.html");
+        $("#footer").load("footer.html", function() {
+            showBody();
+        });
+    });
+</script>
+
+<script type="module" src="js/receptionist.js" async></script>
+
+<body style="display: none;">
+    <section class="shop-main-section">
+        <div class="main-page">
+            <div id="heading"></div>
+            <div class="waiting-booking cm-height receptionist-main">
+                <div class="wrapper">
+                    <div class="waiting-main">
+                        <div class="waiting-sec">
+                            <div class="wh-content">
+                                <div class="recept-main">
+                                    <div class="recept-top">
+                                        <div class="welcome-section massage-details">
+                                            <figure><img src="images/centertop-bg.png" alt=""></figure>
+                                            <div class="welcome-cont">
+                                                <h2>Welcome,<br><label id="receptionist-name"></label></h2>
+                                                <p>Welcome to Terra Heal Massage Center, where you can relax & enjoy life</p>
+                                                <a href="receptionist-profile.html" class="more-service">Profile</a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="recept-bottom">
+                                        <ul class="d-flex flex-wrap">
+                                            <li>
+                                                <a href="client-profile.html">Clients</a>
+                                            </li>
+                                            <li>
+                                                <a href="therapist.html">Therapist</a>
+                                            </li>
+                                            <li>
+                                                <a href="timetable.html">Time Table</a>
+                                            </li>
+                                            <li>
+                                                <a href="booking-list-waiting.html">Bookings</a>
+                                            </li>
+                                            <li>
+                                                <a href="vouchers.html">Vouchers</a>
+                                            </li>
+                                            <li>
+                                                <a href="buy-pack.html">Packs</a>
+                                            </li>
+                                            <li>
+                                                <a href="daily-till.html">Daily Till</a>
+                                            </li>
+                                            <li>
+                                                <a href="daily-earnings.html">Daily Earnings</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="norm-back">
+                                        <a href="waiting-booking.html" class="cmn-btn backlink">← Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+</body>

@@ -27,6 +27,12 @@ export const BOOKING_OVERVIEW   = BASEURL+"/waiting/bookingOverview";
 export const THERAPIST_TIMETABLE = BASEURL+"/waiting/getTimeTable";
 export const RECOVER_BOOKING     = BASEURL+"/waiting/recoverAppointment";
 export const ROOM_OCCUPATIONS    = BASEURL+"/waiting/roomOccupation";
+export const GET_RECEPTIONIST    = BASEURL+"/receptionist/getReceptionist";
+export const GET_COUNTRIES       = BASEURL+"/location/get/country";
+export const GET_CITIES          = BASEURL+"/location/get/city";
+export const UPDATE_RECEPTIONIST = BASEURL+"/receptionist/update";
+export const GET_RECEPTIONIST_STATISTICS = BASEURL+"/receptionist/getStatistics";
+export const RECEPTIONIST_ADD_DOCUMENT   = BASEURL+"/receptionist/addDocument";
 
 export async function Post(url, postData, success, errorCallBack)
 {
@@ -54,6 +60,46 @@ export async function Post(url, postData, success, errorCallBack)
     }
 
     return axios.post(url, postData, axiosConfig)
+        .then((res) => {
+            success(res);
+
+            return res;
+        })
+        .catch((err) => {
+            console.log("AXIOS ERROR: ", err);
+            errorCallBack(err);
+
+            return err;
+        });
+}
+
+export async function PostDocument(url, formData, success, errorCallBack)
+{
+    loggedIn();
+
+    var headersData = {
+        'Access-Control-Allow-Origin': "*",
+        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data'
+    };
+
+    if (SIGNIN == url) {
+        var axiosConfig = {
+            headers: headersData
+        };
+    } else {
+        let shopData = getLocalShopStorage();
+
+        // headersData['api-key'] = shopData.api_key[0].key;
+
+        var axiosConfig = {
+            headers: headersData
+        };
+
+        formData['shop_id'] = shopData.id;
+    }
+
+    return axios.post(url, formData, axiosConfig)
         .then((res) => {
             success(res);
 
@@ -223,6 +269,90 @@ export async function getRooms(clearCache)
                 // Response Body
 
                 localStorage.setItem('shopRooms', JSON.stringify(response));
+
+                return response;
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) {}
+            });
+}
+
+export async function getCountries(clearCache)
+{
+    loggedIn();
+
+    if (clearCache) {
+        localStorage.setItem('countries', {});
+    } else {
+        let cachedData = JSON.parse(localStorage.getItem('countries'));
+
+        if (cachedData != "" && cachedData != null && typeof cachedData == "object" && Object.keys(cachedData).length > 0) {
+            return cachedData;
+        }
+    }
+
+    let shopData = getLocalShopStorage();
+
+    // Cancel previous request
+    if (cancel !== undefined) {
+        cancel();
+    }
+
+    let postData  = {
+        "shop_id": shopData.id
+    };
+
+    return  axios.get(GET_COUNTRIES, postData, {
+                cancelToken: new CancelToken(function executor(c) {
+                    cancel = c;
+                }),
+                headers: {
+                    'Access-Control-Allow-Origin': "*",
+                    'Content-Type': 'application/json',
+                    'api-key': shopData.api_key
+                }
+            })
+            .then((response) => {
+                // Response Body
+
+                localStorage.setItem('countries', JSON.stringify(response));
+
+                return response;
+            })
+            .catch((error) => {
+                if (axios.isCancel(error)) {}
+            });
+}
+
+export async function getCities(countryId, provinceId)
+{
+    loggedIn();
+
+    let shopData = getLocalShopStorage();
+
+    // Cancel previous request
+    if (cancel !== undefined) {
+        cancel();
+    }
+
+    let postData  = {
+        "shop_id": shopData.id,
+        "country_id": countryId,
+        "province_id": provinceId
+    };
+
+    return  axios.post(GET_CITIES, postData, {
+                cancelToken: new CancelToken(function executor(c) {
+                    cancel = c;
+                }),
+                headers: {
+                    'Access-Control-Allow-Origin': "*",
+                    'Content-Type': 'application/json',
+                    'api-key': shopData.api_key
+                }
+            })
+            .then((response) => {
+                // Response Body
 
                 return response;
             })

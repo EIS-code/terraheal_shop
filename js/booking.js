@@ -81,7 +81,7 @@ function getServices(owlServices)
     }
 
     Post(SERVICES, postData, function (res) {
-        if (res.data.code == 200) {
+        if (res.data.code == SUCCESS_CODE) {
 
             var myArray = res.data.data.data;
 
@@ -124,7 +124,7 @@ function getServices(owlServices)
     }
 
     Post(SERVICES, postData, function (res) {
-        if (res.data.code == 200) {
+        if (res.data.code == SUCCESS_CODE) {
 
             // console.log("RESPONSE RECEIVED: ", res.data);
             // console.log("RESPONSE RECEIVED: ", res.data.code);
@@ -324,7 +324,7 @@ function getTherapists() {
     let postData = {};
 
     Post(THERAPISTS, postData, function (res) {
-        if (res.data.code == 200) {
+        if (res.data.code == SUCCESS_CODE) {
 
             var myArray = res.data.data;
 
@@ -465,7 +465,7 @@ function addClient()
     Post(ADD_CLIENT, postData, function (res) {
         let data = res.data;
 
-        if (data.code == 401) {
+        if (data.code == EXCEPTION_CODE) {
             showError(data.msg);
         } else {
             showSuccess(data.msg);
@@ -539,7 +539,7 @@ function addBooking()
     Post(ADD_NEW_BOOKING, postData, function (res) {
         let data = res.data;
 
-        if (data.code == 401) {
+        if (data.code == EXCEPTION_CODE) {
             showError(data.msg);
         } else {
             showSuccess(data.msg);

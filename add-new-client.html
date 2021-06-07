@@ -1,0 +1,89 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+<script async>
+    $(function(){
+        $("head").load("header.html");
+        $("#heading").load("heading.html");
+        $("#footer").load("footer.html", function() {
+            showBody();
+        });
+    });
+</script>
+
+<script type="module" src="js/add-new-client.js" async></script>
+
+<body style="display: none;">
+    <section class="shop-main-section">
+        <div class="main-page">
+            <div id="heading"></div>
+
+            <div class="cm-height">
+                <div class="person-inner add-ct">
+                    <h3>Add Client</h3>
+
+                    <form method="POST" id="form-add-new">
+                        <div class="d-flex flex-wrap">
+                            <div class="p-wrap">
+                                <label>Name</label>
+
+                                <input type="text" name="name" />
+                            </div>
+
+                            <div class="p-wrap">
+                                <label>Telephone Number</label>
+                                <input type="text" name="tel_number" />
+                            </div>
+
+                            <div class="p-wrap">
+                                <label>Email ID</label>
+                                <input type="email" name="email" />
+                            </div>
+
+                            <div class="p-wrap">
+                                <label>Gender</label>
+
+                                <select name="gender">
+                                    <option value="">Select</option>
+                                    <option value="m">Male</option>
+                                    <option value="f">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="p-wrap">
+                                <label>Source</label>
+
+                                <select name="source">
+                                    <option value="">Select</option>
+                                    <option value="0">Internet</option>
+                                    <option value="1">Recommendation</option>
+                                    <option value="2">Flyer</option>
+                                    <option value="3">Publicity</option>
+                                    <option value="4">Hotel</option>
+                                    <option value="5">By Chance</option>
+                                </select>
+                            </div>
+
+                            <div class="p-wrap">
+                                <label>Client Notes</label>
+                                <input type="text" name="client_note"/>
+                            </div>
+                        </div>
+
+                        <div class="person-bottom row">
+                            <div class="text-left col-md-6">
+                                <a href="javascript:void(0);" class="cmn-btn backlink">← Back</a>
+                            </div>
+
+                            <div class="text-right col-md-6">
+                                <a href="#" class="cmn-btn" id="save-client"><i class="far fa-save"></i> Save</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+</body>

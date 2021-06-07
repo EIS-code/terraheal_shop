@@ -1,0 +1,95 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+<script async>
+    $(function(){
+        $("head").load("header.html");
+        $("#heading").load("heading.html");
+        $("#footer").load("footer.html", function() {
+            showBody();
+        });
+    });
+</script>
+
+<script type="module" src="js/voucher-list.js" async></script>
+
+<body style="display: none;">
+    <section class="shop-main-section">
+        <div class="main-page">
+            <div id="heading"></div>
+
+            <div class="home-booking cm-height">
+                <div class="wrapper">
+                    <div class="book-main">
+                        <div class="voucher-main">
+                            <div class="wh-box">
+                                <div class="wh-content">
+                                    <div class="common-top">
+                                        <div class="tab-common">
+                                            <ul id="voucher-tabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+                                                <li><a class="active" href="#active" data-toggle="tab">Active</a></li>
+                                                <li><a href="#used" data-toggle="tab">Used</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="left-search">
+                                            <input type="text" placeholder="Search by coucher no., client, etc" id="input-search">
+
+                                            <button type="button" id="submit-search">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="voucher-content">
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="active">
+                                                <table class="voucher" width="100%" cellspacing="0" cellpadding="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Voucher No.</th>
+                                                            <th class="text-left">Service</th>
+                                                            <th>Total Value</th>
+                                                            <!-- <th>Used Value</th>
+                                                            <th>Available Value</th> -->
+                                                            <th>Expiry Date</th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody-active">
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="used">
+                                                <table class="voucher" width="100%" cellspacing="0" cellpadding="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Voucher No.</th>
+                                                            <th class="text-left">Service</th>
+                                                            <th>Total Value</th>
+                                                            <th>Used Value</th>
+                                                            <th>Available Value</th>
+                                                            <th>Expiry Date</th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody-used">
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="norm-back">
+                                            <a href="javascript:void(0)" class="cmn-btn backlink">← Back</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+</body>

@@ -1,6 +1,8 @@
 import { Post, Get } from './networkconst.js';
 import { ONGOING, WAITING, CONFIRM_BOOKING, GET_ALL_THERAPISTS, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE, GET_ROOMS, ASSIGN_ROOMS, DOWNGRADE_BOOKING, CANCEL_BOOKING } from './networkconst.js';
 
+var backFile = getUrl(window.location.href, 'backfile');
+
 $(document).ready(function () {
     // In massage center.
     GetOnGoing(1);

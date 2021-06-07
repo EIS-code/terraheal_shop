@@ -33,6 +33,8 @@ export const GET_CITIES          = BASEURL+"/location/get/city";
 export const UPDATE_RECEPTIONIST = BASEURL+"/receptionist/update";
 export const GET_RECEPTIONIST_STATISTICS = BASEURL+"/receptionist/getStatistics";
 export const RECEPTIONIST_ADD_DOCUMENT   = BASEURL+"/receptionist/addDocument";
+export const SEARCH_VOUCHERS             = BASEURL+"/waiting/searchVouchers";
+export const SEARCH_PACKS                = BASEURL+"/waiting/searchPacks";
 
 export async function Post(url, postData, success, errorCallBack)
 {

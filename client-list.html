@@ -11,7 +11,7 @@
     });
 </script>
 
-<script type="module" src="js/client-profile.js" async></script>
+<script type="module" src="js/client-list.js" async></script>
 
 <body style="display: none;">
     <section class="shop-main-section">
@@ -25,8 +25,9 @@
                             <div class="wh-content">
                                 <div class="prof-top d-flex justify-content-between">
                                     <div class="left-search">
-                                        <input type="text" placeholder="Search by name, id, email, etc" />
-                                        <button type="submit"><i class="fas fa-search"></i></button>
+                                        <input type="text" placeholder="Search by name, id, email, etc" id="search-input" />
+
+                                        <button type="button" id="search-client"><i class="fas fa-search"></i></button>
                                     </div>
                                     <div class="right-qr">
                                         <a href="javascript:void(0);" class="cmn-btn" data-toggle="modal" data-target="#qrmodal">Search By QR Code</a>
@@ -34,8 +35,8 @@
                                 </div>
                                 <div class="filter-top">
                                     <label>Name filter by</label>
-                                    <ul>
-                                        <li><a class="active" href="javascript:void(0);">A</a></li>
+                                    <ul id="search-alphabet">
+                                        <li><a href="javascript:void(0);">A</a></li>
                                         <li><a href="javascript:void(0);">B</a></li>
                                         <li><a href="javascript:void(0);">C</a></li>
                                         <li><a href="javascript:void(0);">D</a></li>
@@ -61,7 +62,7 @@
                                         <li><a href="javascript:void(0);">X</a></li>
                                         <li><a href="javascript:void(0);">Y</a></li>
                                         <li><a href="javascript:void(0);">Z</a></li>
-                                        <li><a href="javascript:void(0);">ALL</a></li>
+                                        <li><a class="active" href="javascript:void(0);">ALL</a></li>
                                     </ul>
                                 </div>
                                 <div class="filter-profile">
@@ -75,49 +76,15 @@
                                                 <th>&nbsp;</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><a href="client-appointment.html">Alex Alex</a></td>
-                                                <td>12345-7</td>
-                                                <td>a*********.com</td>
-                                                <td>9*********0</td>
-                                                <td><a href="#" class="cmn-btn">Details</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Alex-1</td>
-                                                <td>12345-7</td>
-                                                <td>a*********.com</td>
-                                                <td>9*********0</td>
-                                                <td><a href="#" class="cmn-btn">Details</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Alex-2</td>
-                                                <td>12345-7</td>
-                                                <td>a*********.com</td>
-                                                <td>9*********0</td>
-                                                <td><a href="#" class="cmn-btn">Details</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Alex-3</td>
-                                                <td>12345-7</td>
-                                                <td>a*********.com</td>
-                                                <td>9*********0</td>
-                                                <td><a href="#" class="cmn-btn">Details</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Alex-4</td>
-                                                <td>12345-7</td>
-                                                <td>a*********.com</td>
-                                                <td>9*********0</td>
-                                                <td><a href="#" class="cmn-btn">Details</a></td>
-                                            </tr>
+                                        <tbody id="tbody-client-list">
+                                            
                                         </tbody>
                                     </table>
                                     <div class="d-flex justify-content-between">
                                         <div class="wait-bottom">
-                                            <a href="receptionist.html" class="cmn-btn">← Back</a>
+                                            <a href="javascript:void(0);" class="cmn-btn backlink">← Back</a>
                                         </div>
-                                        <a href="javascript:void(0);" class="cmn-btn" data-toggle="modal" data-target="#new-client-modal">Register New Client</a>
+                                        <a href="add-new-client.html?backfile=client-list.html" class="cmn-btn">Register New Client</a>
                                     </div>
                                 </div>
                             </div>
@@ -127,6 +94,7 @@
             </div>
         </div>
     </section>
+
     <!-- client QR Modal -->
     <div class="modal fade" id="qrmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -144,6 +112,6 @@
             </div>
         </div>
     </div>
-    
+
     <div id="footer"></div>
 </body>

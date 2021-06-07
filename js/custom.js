@@ -275,6 +275,60 @@ function doLogout()
     doLogin();
 }
 
+function hideEmail(email)
+{
+    let returnEmail    = '',
+        hideCharacters = 1;
+
+    for (i = 0; i < email.length; i++) {
+        if (i > (hideCharacters - 1) && i < email.indexOf("@")) {
+          returnEmail += "*";
+        } else {
+          returnEmail += email[i];
+        }
+    }
+
+    return returnEmail;
+}
+
+function hideMobile(mobile)
+{
+    return mobile[0] + "*".repeat(mobile.length - 4) + mobile.slice(-1);
+}
+
+function getAvailableTime(timestamp)
+{
+    let time = moment(timestamp);
+
+    if (time.isValid()) {
+        const minutesDiff = moment().diff(time, "minutes");
+
+        if (minutesDiff > 0) {
+            return time.format('h:mm:ss a') + " | In " + minutesDiff + "Min";
+        }
+    }
+
+    return 'Now';
+}
+
+function getUrl(urlString, param)
+{
+    param = param.replace(/[\[\]]/g, '\\$&');
+
+    let regex   = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(urlString);
+
+    if (!results) {
+        return null;
+    }
+
+    if (!results[2]) {
+        return '';
+    }
+
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 //booking next prev steps
 
 $(function() {
@@ -391,8 +445,14 @@ $(function () {
 
 
 $(document).ready(function(){
-    $(document).find('.backlink').click(function(){
-        parent.history.back();
+    $(document).find('.backlink').click(function() {
+        let backFile = getUrl(window.location.href, 'backfile');
+
+        if (!empty(backFile)) {
+            window.location.href = backFile;
+        } else {
+            parent.history.back();
+        }
 
         // return false;
     });
@@ -491,6 +551,12 @@ $(function () {
     if (getCurrentUrlFile() != 'index') {
         $(document).find('#top-left-buttons').addClass('d-flex');
     }
+
+    $(document).find('ul#search-alphabet').find('li').on("click", function() {
+        $(this).parent('ul').find('li').find('a').removeClass('active');
+
+        $(this).find('a').addClass('active');
+    });
 });
 
 /* Prototypes. */

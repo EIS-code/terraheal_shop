@@ -1,0 +1,85 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+<script async>
+    $(function(){
+        $("head").load("header.html");
+        $("#heading").load("heading.html");
+        $("#footer").load("footer.html", function() {
+            showBody();
+        });
+    });
+</script>
+
+<script type="module" src="js/service-list.js" async></script>
+<script type="text/javascript" src="js/owl.carousel.min.js" async></script>
+
+<body style="display: none;">
+    <section class="shop-main-section">
+        <div class="main-page">
+            <div id="heading"></div>
+
+            <div class="home-booking cm-height service-main">
+                <div class="wrapper">
+                    <div class="book-main">
+                        <div class="book-sec">
+                            <div class="wh-box">
+                                <div class="wh-content">
+                                    <div class="row">
+                                        <div class="col-md-12 top-tab-sec">
+                                            <div class="d-flex srevice-in-top">
+                                                <ul id="service-tabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+                                                    <li><a class="active" href="#massages" data-toggle="tab">Massages</a></li>
+                                                    <li><a href="#therapies" data-toggle="tab">therapies</a></li>
+                                                </ul>
+
+                                                <span class="s-title">Services</span>
+
+                                                <ul id="service-tabs-center" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs" style="visibility: hidden;">
+                                                    <li><a class="active" href="#center" data-toggle="tab">Center</a></li>
+                                                    <li><a href="#home" data-toggle="tab">Home</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="top-tab-sec serv-sec">
+                                                <div class="tab-content">
+                                                    <div role="tabpanel" class="tab-pane fade in active" id="massages">
+                                                        <div class="cust-flex">
+                                                            <ul class="grid_service">
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div role="tabpanel" class="tab-pane fade" id="therapies">
+                                                        <div class="cust-flex">
+                                                            <ul class="grid_service">
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 service_info">
+                                            <div class="msg-right-main">
+                                                <div class="owl-carousel owl-theme" id="service-slider">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="norm-back">
+                                            <a href="javascript:void(0)" class="cmn-btn backlink">← Back</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+</body>

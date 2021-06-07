@@ -166,8 +166,8 @@ function getServices(owlServices)
     });
 }
 
-
-function setSelectService(service, type, owlServices) {
+function setSelectService(service, type, owlServices)
+{
     let selectedData = [],
         liHtml       = "";
 
@@ -303,21 +303,6 @@ function removeSelectService(service, type, owlServices)
     });
 
     owlServices.trigger('to.owl.carousel', 0);
-}
-
-function getAvailableTime(timestamp)
-{
-    let time = moment(timestamp);
-
-    if (time.isValid()) {
-        const minutesDiff = moment().diff(time, "minutes");
-
-        if (minutesDiff > 0) {
-            return time.format('h:mm:ss a') + " | In " + minutesDiff + "Min";
-        }
-    }
-
-    return 'Now';
 }
 
 function getTherapists() {

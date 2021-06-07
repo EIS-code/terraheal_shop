@@ -1,0 +1,60 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" ></script>
+<script src="https://code.jquery.com/jquery-migrate-1.0.0.js"></script>
+
+<script async>
+    $(function(){
+        $("head").load("header.html");
+        $("#heading").load("heading.html");
+        $("#footer").load("footer.html", function() {
+            showBody();
+        });
+    });
+</script>
+
+<script type="module" src="js/therapist-list.js" async></script>
+
+<body style="display: none;">
+    <section class="shop-main-section">
+        <div class="main-page">
+            <div id="heading"></div>
+
+            <div class="home-booking cm-height">
+                <div class="wrapper">
+                    <div class="book-main">
+                        <div class="book-sec therapist-main">
+                            <div class="wh-box">
+                                <div class="wh-content tab-common">
+                                    <div class="th-top d-flex justify-content-between">
+                                        <ul id="th-tabs" class="nav nav-pills nav-justified" role="tablist" data-tabs="tabs">
+                                            <li><a class="active" href="#today" data-toggle="tab">Today</a></li>
+                                            <li><a href="#all" data-toggle="tab">All</a></li>
+                                        </ul>
+                                        <div class="th-right">
+                                            <a href="javascript:void(0);" class="cmn-btn">Daily Earnings</a>
+                                        </div>
+                                    </div>
+                                    <div class="therapist-col therapist-details">
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade active" id="today">
+                                                <ul id="list-therapists">
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="norm-back">
+                                        <a href="javascript:void(0);" class="cmn-btn backlink">← Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer"></div>
+</body>
+
+

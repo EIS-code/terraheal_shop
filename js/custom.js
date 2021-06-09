@@ -217,6 +217,11 @@ function getDate(unixTimestamp)
     return moment.unix(unixTimestamp / 1000).format("DD/MM/YYYY");;
 }
 
+function getCurrentUTCTimestamps()
+{
+    return moment.utc().unix() * 1000;
+}
+
 function isEmpty(variable)
 {
     return (variable == '' || variable == null);
@@ -296,9 +301,59 @@ function hideMobile(mobile)
     return mobile[0] + "*".repeat(mobile.length - 4) + mobile.slice(-1);
 }
 
+function millisToMinutesAndSeconds(millis, onlyMinutes)
+{
+    let minutes = Math.floor(millis / 60000),
+        seconds = ((millis % 60000) / 1000).toFixed(0);
+
+  return minutes + (onlyMinutes ? "" : ":" + (seconds < 10 ? '0' : '') + seconds);
+}
+
+function getDiffInMinutes(firstTime, secondTime)
+{
+    if (empty(firstTime)) {
+        return false;
+    }
+
+    secondTime = moment(secondTime) || moment();
+
+    let duration   = moment.duration(secondTime.diff(firstTime)),
+        minutes    = padSingleZero(duration.minutes());
+
+    return minutes;
+}
+
+function getDiffInSeconds(firstTime, secondTime)
+{
+    if (empty(firstTime)) {
+        return false;
+    }
+
+    secondTime = moment(secondTime) || moment();
+
+    let duration   = moment.duration(secondTime.diff(firstTime)),
+        minutes    = padSingleZero(duration.seconds());
+
+    return minutes;
+}
+
 function getAvailableTime(timestamp)
 {
-    let time = moment(timestamp);
+    let differentMinutes = getDiffInMinutes(timestamp);
+
+    if (empty(differentMinutes)) {
+        return 'Now';
+    }
+
+    return getTime(timestamp) + " | In " + differentMinutes + " Min";
+
+    /*const date1    = new Date(timestamp);
+    const date2    = new Date();
+    const diffTime = Math.abs(date2 - date1);
+
+    return getTime(date1) + " | In " + millisToMinutesAndSeconds(diffTime, true) + " Min";*/
+
+    /*let time = moment(timestamp);
 
     if (time.isValid()) {
         const minutesDiff = moment().diff(time, "minutes");
@@ -306,7 +361,7 @@ function getAvailableTime(timestamp)
         if (minutesDiff > 0) {
             return time.format('h:mm:ss a') + " | In " + minutesDiff + "Min";
         }
-    }
+    }*/
 
     return 'Now';
 }
@@ -455,6 +510,15 @@ $(document).ready(function(){
         }
 
         // return false;
+    });
+
+    $(document).find('#history-push').click(function() {
+        let self = $(this),
+            href = self.data('href');
+
+        window.history.pushState({urlPath: '/' + href}, "", href);
+
+        window.location.reload();
     });
 
     // Alerts

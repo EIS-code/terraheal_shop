@@ -19,8 +19,6 @@ window.addEventListener("load", function() {
             getClients(alphabet);
         }
     });
-
-    // setBackLink();
 });
 
 function getClients(searchValue)
@@ -85,16 +83,4 @@ function loadCLientHtml(data)
     });
 
     element.empty().html(tbody);
-}
-
-function setBackLink()
-{
-    let backFile = getUrl(window.location.href, 'backfile'),
-        element  = $(document).find('#back-link');
-
-    if (backFile) {
-        element.prop('href', backFile);
-    } else {
-        element.addClass('backlink');
-    }
 }

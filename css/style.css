@@ -128,7 +128,7 @@ ul.prod-gram li:not(.init) { width: 100%; display: none; background: transparent
 .wh-content{ background:#F4F4F4; position: relative; padding:20px 40px 40px; margin-top: -7px; max-height:720px; overflow:auto; min-height: 400px; }
 .therapist-col ul{ display:flex; flex-wrap:wrap; }
 .therapist-col ul li{ width: 19%; margin-right:8%; margin-top:25px; text-align:center; position: relative; }
-.therapist-col ul li img{ width:100%;height: 150px; }
+.therapist-col ul li img{ width:100%; }
 .th-image img{ width:100%; height:auto; }
 .therapist-col ul li:nth-child(4n){ margin-right:0px; }
 .select-input{ width:100%; height:100%; position:absolute; left:0; top:0; z-index:1; opacity:0; }
@@ -399,8 +399,9 @@ table th{ font-weight:normal; border-bottom: 1px solid #888; }
 table thead{ border-bottom:1px solid #999; }
 table th, table td{ padding:2px 5px; }
 table td{ font-size:14px; }
-.fa-stop-circle, .fa-play-circle{ margin:0 30px; }
+.fa-stop-circle, .fa-play-circle, .fa-check-circle { margin:0 30px;cursor: pointer; }
 .fa-play-circle{ color:#91F432; }
+.fa-check-circle{ color:#91F432; }
 .pay-sp{ padding:2px 6px; border-radius:5px; color:#fff; background:#FD3A58; display:inline-block; }
 .user-icon{ display:inline-block; margin-right:10px; vertical-align:middle; margin-left: 5px; }
 .bib{ display:inline-block; vertical-align:middle; margin-left:10px;}

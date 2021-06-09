@@ -1,7 +1,12 @@
 import { Post, Get } from './networkconst.js';
-import { ONGOING, WAITING, CONFIRM_BOOKING, GET_ALL_THERAPISTS, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE, GET_ROOMS, ASSIGN_ROOMS, DOWNGRADE_BOOKING, CANCEL_BOOKING } from './networkconst.js';
+import { ONGOING, WAITING, CONFIRM_BOOKING, GET_ALL_THERAPISTS, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE, GET_ROOMS, ASSIGN_ROOMS, DOWNGRADE_BOOKING, CANCEL_BOOKING, END_SERVICE_TIME, START_SERVICE_TIME } from './networkconst.js';
 
-var backFile = getUrl(window.location.href, 'backfile');
+var backFile      = getUrl(window.location.href, 'backfile'),
+    intervalArray = {};
+
+const SERVICE_STATUS_DONE     = '2';
+const SERVICE_STATUS_STARTED  = '1';
+const SERVICE_STATUS_NOT_DONE = '0';
 
 $(document).ready(function () {
     // In massage center.
@@ -79,6 +84,95 @@ function showNote(id)
     $("#notes-modal-" + id).modal('show');
 }
 
+function getRemainingTimeFromNow(dateTime)
+{
+    if (!moment(dateTime).isValid()) {
+        return false;
+    }
+
+    let duration       = moment.duration(moment().diff(dateTime)),
+        remainingTime  = (duration.minutes() < 0) ? padSingleZero(Math.abs(duration.minutes())) + ':' + padSingleZero(Math.abs(duration.seconds())) : false;
+
+    return remainingTime;
+}
+
+function checkToStopInterval(item)
+{
+    let remainingTime = getRemainingTimeFromNow(item.actual_end_time),
+        currentTime   = getCurrentUTCTimestamps();
+
+    if (!remainingTime) {
+        clearInterval(intervalArray[item.booking_massage_id]);
+
+        endService(item.booking_massage_id, currentTime, type);
+    }
+}
+
+function runTimer(data, type)
+{
+    // Milliseconds
+    let interval = 1000;
+
+    if (!empty(data) && Object.keys(data).length > 0) {
+        $.each(data, function(i, item) {
+            let remainingTime = getRemainingTimeFromNow(item.actual_end_time);
+
+            if (remainingTime) {
+                intervalArray[item.booking_massage_id] = setInterval(function(){
+                    showServiceRemainingTime(item);
+
+                    checkToStopInterval(item, type);
+                }, interval);
+            }
+        });
+    }
+}
+
+function showServiceRemainingTime(item)
+{
+    let remainingTime = getRemainingTimeFromNow(item.actual_end_time);
+
+    if (remainingTime) {
+        let element = $(document).find('#service-remaining-time-' + item.booking_massage_id);
+
+        element.empty().html(remainingTime);
+    }
+}
+
+function checkStarted(data)
+{
+    if (!empty(data) && Object.keys(data).length > 0) {
+        $.each(data, function(i, item) {
+            let element = $(document).find('#service-start-stop-' + item.booking_massage_id);
+
+            if (!element) {
+                return false;
+            }
+
+            if (intervalArray[item.booking_massage_id]) {
+                clearInterval(intervalArray[item.booking_massage_id]);
+            }
+
+            if (item.service_status == SERVICE_STATUS_STARTED) {
+                showServiceRemainingTime(item);
+
+                element.addClass('fa-stop-circle').removeClass('fa-play-circle').removeClass('fa-check-circle');
+            } else if (item.service_status == SERVICE_STATUS_NOT_DONE) {
+                element.addClass('fa-play-circle').removeClass('fa-stop-circle').removeClass('fa-check-circle');
+            } else {
+                let elementRemeiningTime = $(document).find('#service-remaining-time-' + item.booking_massage_id),
+                    getTotalTime         = getDiffInMinutes(item.actual_start_time, item.actual_end_time) + ':' + getDiffInSeconds(item.actual_start_time, item.actual_end_time);
+
+                elementRemeiningTime.empty().html(getTotalTime);
+
+                element.addClass('fa-check-circle').removeClass('fa-stop-circle').removeClass('fa-play-circle');
+            }
+        });
+    }
+
+    return true;
+}
+
 function GetOnGoing(type)
 {
     let postData = {
@@ -105,13 +199,15 @@ function GetOnGoing(type)
                     "<td class=\"text-center\"><span class=\"th-sp orange\">" + item.therapistName + "</span></td>"+
                     "<td class=\"text-center\">"+item.roomName+"</td>"+
                     "<td class=\"text-center\">" + item.book_platform + "</td>"+
-                    "<td><span class=\"pay-sp\">&#8364; 661</span><i class=\"fas fa-stop-circle\"></i><i class=\"fas fa-arrow-alt-circle-down downgrade-booking\" data-id=\"" + item.booking_massage_id + "\" data-type=\"" + type + "\"></i></td>"+
+                    "<td><span class=\"pay-sp\">&#8364; 661</span>" + 
+                    "<i class=\"fas fa-stop-circle\" id=\"service-start-stop-" + item.booking_massage_id + "\" data-id=\"" + item.booking_massage_id + "\" data-start-time=\"" + item.actual_start_time + "\" data-end-time=\"" + item.actual_end_time + "\"></i>" + 
+                    "<i class=\"fas fa-arrow-alt-circle-down downgrade-booking\" data-id=\"" + item.booking_massage_id + "\" data-type=\"" + type + "\"></i></td>"+
                     "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#notes-modal-" + item.booking_massage_id + "\"><i class=\"fas fa-sticky-note " + (specialNotes ? 'active' : '') + "\"></i></a></td>"+
-                    "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#details-modal-" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
-                    "<td class=\"text-center\">00:00</td>"+
+                    "<td class=\"text-center\"><a href=\"#\" class=\"open-details-modal\" data-id=\"" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
+                    "<td class=\"text-center\" id=\"service-remaining-time-" + item.booking_massage_id + "\">00:00</td>"+
                 "</tr>";
 
-                $( ".ongoing-" + type ).append( newListItem );
+                $(".ongoing-" + type).append(newListItem);
 
                 if (specialNotes) {
                     var notesModel = '<div class="modal fade" id="notes-modal-' + item.booking_massage_id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">';
@@ -136,7 +232,9 @@ function GetOnGoing(type)
                     detailsModel += '</div>';
                     detailsModel += '<div class="modal-body">';
                         detailsModel += '<div class="details-inner">';
-                        detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a></div>';
+                        if (item.service_status == SERVICE_STATUS_NOT_DONE) {
+                            detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn" id="start-service" data-id="' + item.booking_massage_id + '">Start</a><a href="#" class="cmn-btn" id="end-service" data-id="' + item.booking_massage_id + '">Finished</a></div>';
+                        }
                         detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
                         detailsModel += '<tr>';
                             detailsModel += '<td>Pressure Preference</td>';
@@ -169,10 +267,57 @@ function GetOnGoing(type)
                 $('#details-modal-static').append(detailsModel);
             });
 
+            checkStarted(myArray);
+
+            runTimer(myArray);
+
             $(document).find('.downgrade-booking').on("click", function() {
                 let self = $(this);
 
                 confirm("Are you sure want to downgrade this booking ?", downgradeBooking, [self.data('id'), self.data('type')], $(this));
+            });
+
+            $(document).find('.fa-check-circle').on("click", function() {
+                showSuccess("This booking massage already completed!");
+            });
+
+            $(document).find('.open-details-modal').on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id');
+
+                $('div#details-modal-' + bookingMassageId).modal('show');
+            });
+
+            $(document).find('.fa-play-circle').on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id'),
+                    currentTime      = getCurrentUTCTimestamps();
+
+                confirm("Are you sure want to start this booking ?", startService, [bookingMassageId, currentTime, type], $(this));
+            });
+
+            $(document).find('.fa-stop-circle').on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id'),
+                    currentTime      = getCurrentUTCTimestamps();
+
+                confirm("Are you sure want to stop this booking ?", endService, [bookingMassageId, currentTime, type], $(this));
+            });
+
+            $(document).find('#start-service').on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id'),
+                    currentTime      = getCurrentUTCTimestamps();
+
+                confirm("Are you sure want to start this booking ?", startService, [bookingMassageId, currentTime, type, true], $(this));
+            });
+
+            $(document).find('#end-service').on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id'),
+                    currentTime      = getCurrentUTCTimestamps();
+
+                confirm("Are you sure want to stop this booking ?", endService, [bookingMassageId, currentTime, type, true], $(this));
             });
 
         } else {
@@ -199,7 +344,7 @@ function GetWaiting(type, filter)
             var myArray = res.data.data;
 
             $( ".waiting-" + type ).empty();
-            $('#details-modal-static').empty();
+            // $('#details-modal-static').empty();
 
             $.each( myArray, function( i, item ) {
                 
@@ -268,7 +413,7 @@ function GetWaiting(type, filter)
                     detailsModel += '</div>';
                     detailsModel += '<div class="modal-body">';
                         detailsModel += '<div class="details-inner">';
-                        detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a></div>';
+                        detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn">Finished</a></div>';
                         detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
                         detailsModel += '<tr>';
                             detailsModel += '<td>Pressure Preference</td>';
@@ -471,4 +616,58 @@ function cancelBooking(bookingId, cancelType, cancelReason, type)
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
+}
+
+function endService(bookingMassageId, endTime, type, hideModal)
+{
+    let postData = {
+        "booking_massage_id": bookingMassageId,
+        "end_time": endTime
+    }
+
+    Post(END_SERVICE_TIME, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == ERROR_CODE) {
+            showError(data.msg);
+        } else {
+            showSuccess(data.msg);
+
+            GetOnGoing(type);
+            GetWaiting(type);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+
+    if (hideModal) {
+        $(document).find('#details-modal-' + bookingMassageId).modal('hide');
+    }
+}
+
+function startService(bookingMassageId, startTime, type, hideModal)
+{
+    let postData = {
+        "booking_massage_id": bookingMassageId,
+        "start_time": startTime
+    }
+
+    Post(START_SERVICE_TIME, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == ERROR_CODE) {
+            showError(data.msg);
+        } else {
+            // showSuccess(data.msg);
+
+            GetOnGoing(type);
+            GetWaiting(type);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+
+    if (hideModal) {
+        $(document).find('#details-modal-' + bookingMassageId).modal('hide');
+    }
 }

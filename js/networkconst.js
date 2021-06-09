@@ -35,6 +35,8 @@ export const GET_RECEPTIONIST_STATISTICS = BASEURL+"/receptionist/getStatistics"
 export const RECEPTIONIST_ADD_DOCUMENT   = BASEURL+"/receptionist/addDocument";
 export const SEARCH_VOUCHERS             = BASEURL+"/waiting/searchVouchers";
 export const SEARCH_PACKS                = BASEURL+"/waiting/searchPacks";
+export const START_SERVICE_TIME          = BASEURL+"/waiting/startServiceTime";
+export const END_SERVICE_TIME            = BASEURL+"/waiting/endServiceTime";
 
 export async function Post(url, postData, success, errorCallBack)
 {

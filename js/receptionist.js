@@ -291,7 +291,7 @@ async function loadCities(countryId)
                         option  = '<option value="">Select City';
                         option += '</option>';
 
-                    $.each(data.data, function(key, item) {
+                    $.each(data.data.data, function(key, item) {
                         option += '<option value="' + item.id + '">';
                             option += item.name;
                         option += '</option>';

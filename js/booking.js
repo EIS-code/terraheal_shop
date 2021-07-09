@@ -105,9 +105,7 @@ function getServices(owlServices)
             $('#massages .grid_service .select-input_service').click(function(e) { 
                 if (this.value != null) {
                     if (this.checked) {
-                        let currentTherapist = getCurrentTherapist();
-
-                        setSelectService(this.value, 0, owlServices, currentTherapist);
+                        setSelectService(this.value, 0, owlServices);
                     } else {
                         removeSelectService(this.value, 0, owlServices);
                     }
@@ -153,9 +151,7 @@ function getServices(owlServices)
             $('#therapies .grid_service .select-input_service').click(function(e) {
                 if (this.value != null) {
                     if (this.checked) {
-                        let currentTherapist = getCurrentTherapist();
-
-                        setSelectService(this.value, 1, owlServices, currentTherapist);
+                        setSelectService(this.value, 1, owlServices);
                     } else {
                         removeSelectService(this.value, 1, owlServices);
                     }
@@ -175,16 +171,16 @@ function getCurrentTherapist()
     return $("#therapist-names").find("li.active").data("id");
 }
 
-function setSelectService(service, type, owlServices, currentTherapist)
+function setSelectService(service, type, owlServices)
 {
     let selectedData = [],
-        liHtml       = [],
+        liHtml       = "",
         serviceId    = service;
 
     var therapies = JSON.parse(window.localStorage.getItem('therapies')),
         massages  = JSON.parse(window.localStorage.getItem('massages')),
         data      = type == 1 ? therapies : massages,
-        selectedTherapists = $("#therapist-names").find("li");
+        currentTherapist = getCurrentTherapist();
 
     $.each(data, function(key, item) {
         if (item.id == service) {
@@ -192,46 +188,38 @@ function setSelectService(service, type, owlServices, currentTherapist)
         }
     });
 
-    $.each(selectedTherapists, function() {
-        let therapistId = $(this).data('id');
+    $.each(selectedData.pricing, function(i, itemPricing) {
+        var price    = itemPricing.price,
+            duration = 0;
 
-        $.each(selectedData.pricing, function(i, itemPricing) {
-            var price    = itemPricing.price,
-                duration = 0;
-
-            $.each(selectedData.timing, function(k, itemTiming) {
-                if (itemPricing.service_timing_id == itemTiming.id) {
-                    duration = itemTiming.time;
-                }
-            });
-
-            liHtml[therapistId] += "<li><input type='checkbox' name='service_prising_id[" + therapistId + "]' value='" + itemPricing.service_timing_id + "' data-service-id='" + itemPricing.service_id + "' class='select-input' data-type='" + type + "' /><input type='hidden' name='service_id[" + itemPricing.service_timing_id + "]' value='" + itemPricing.service_id + "' /><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span></li>";
+        $.each(selectedData.timing, function(k, itemTiming) {
+            if (itemPricing.service_timing_id == itemTiming.id) {
+                duration = itemTiming.time;
+            }
         });
+
+        liHtml += "<li><input type='checkbox' name='service_prising_id[]' value='" + itemPricing.service_timing_id + "' data-service-id='" + itemPricing.service_id + "' class='select-input' data-type='" + type + "' /><input type='hidden' name='service_id[" + itemPricing.service_timing_id + "]' value='" + itemPricing.service_id + "' /><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span></li>";
     });
 
-    $.each(selectedTherapists, function() {
-        let therapistId = $(this).data('id');
-
-        var newListItem = "<div class=\"item item-" + service + "-" + type + " disp-none\" id='msg-slider-" + therapistId + "'>" +
-                            "<div class=\"msg-right\">"+
-                                "<figure>"+
-                                    "<img src=\"" + selectedData.image + "\" alt=\"\"/>"+
-                                "</figure>"+
-                                "<div class=\"ms-content\">"+
-                                    "<h3>" + selectedData.name + "</h3>"+
-                                    "<div class=\"d-flex justify-content-between\">"+
-                                    "<span>Duration</span>"+
-                                    "<span>Price</span>"+
-                                    "</div>"+
-                                    "<ul>"+
-                                        liHtml[therapistId]
-                                    "</ul>"+
+    var newListItem = "<div class=\"item item-" + service + "-" + type + "\">" +
+                        "<div class=\"msg-right\">"+
+                            "<figure>"+
+                                "<img src=\"" + selectedData.image + "\" alt=\"\"/>"+
+                            "</figure>"+
+                            "<div class=\"ms-content\">"+
+                                "<h3>" + selectedData.name + "</h3>"+
+                                "<div class=\"d-flex justify-content-between\">"+
+                                "<span>Duration</span>"+
+                                "<span>Price</span>"+
                                 "</div>"+
+                                "<ul>"+
+                                    liHtml
+                                "</ul>"+
                             "</div>"+
-                        "</div>";
+                        "</div>"+
+                    "</div>";
 
-        owlServices.trigger('add.owl.carousel', [newListItem]);
-    });
+    owlServices.trigger('add.owl.carousel', [newListItem]);
 
     owlServices.trigger('refresh.owl.carousel');
 

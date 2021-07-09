@@ -98,13 +98,21 @@ function checkBookingForm(tab)
             showError("Please select therapist first.");
 
             return false;
+        } else if (value.length > 3) {
+            showError("You can not book more than three therapist.");
+
+            return false;
         }
     } else if (tab == 3) {
-        let therapy = $("input:checkbox[name='therapy_prising_id[]']:checked"),
-            massage = $("input:checkbox[name='massage_prising_id[]']:checked");
+        let service   = $("input:checkbox[name='service_prising_id[]']:checked"),
+            therapist = $("input:checkbox[name='therapist[]']:checked");
 
-        if (therapy.length <= 0 && massage.length <= 0) {
+        if (service.length <= 0) {
             showError("Please select service.");
+
+            return false;
+        } else if (service.length != therapist.length) {
+            showError("You have selected " + therapist.length + " therapist and " + service.length + " services.");
 
             return false;
         }
@@ -298,6 +306,10 @@ function hideEmail(email)
 
 function hideMobile(mobile)
 {
+    if (empty(mobile) || empty(mobile[0]) || mobile.length < 4) {
+        return mobile;
+    }
+
     return mobile[0] + "*".repeat(mobile.length - 4) + mobile.slice(-1);
 }
 

@@ -151,7 +151,7 @@ const CancelToken = axios.CancelToken;
 
 let cancel;
 
-export async function searchClients(searchValue)
+export async function searchClients(searchValue, page)
 {
     loggedIn();
 
@@ -162,9 +162,12 @@ export async function searchClients(searchValue)
         cancel();
     }
 
+    page = page || 1;
+
     let postData  = {
         "shop_id": shopData.id,
-        "search_val": searchValue
+        "search_val": searchValue,
+        "page_number": page
     };
 
     return  axios.post(SEARCH_CLIENT, postData, {

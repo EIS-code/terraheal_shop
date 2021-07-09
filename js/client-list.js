@@ -21,9 +21,11 @@ window.addEventListener("load", function() {
     });
 });
 
-function getClients(searchValue)
+function getClients(searchValue, page)
 {
-    searchClients(searchValue).then(
+    page = page || 1;
+
+    searchClients(searchValue, page).then(
         function(response) {
             if (!response || !response.data || response.data.length <= 0) {
                 showError("No records found.");
@@ -31,6 +33,8 @@ function getClients(searchValue)
                 let data = response.data;
 
                 if (data.code == SUCCESS_CODE) {
+                    paginate(data.data, $(document).find('#pagination'), getClients, [searchValue]);
+
                     loadCLientHtml(data.data.data);
                 } else {
                     showError(data.msg);

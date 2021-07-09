@@ -187,7 +187,7 @@ function GetOnGoing(type)
             $('#details-modal-static').empty();
 
             $.each( myArray, function( i, item ) {
-                let serviceName  = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name,
+                let serviceName  = item.service_name,
                     specialNotes = (item.notes != '' && item.notes != null) ? item.notes : false;
 
                 var newListItem = "<tr>"+
@@ -233,7 +233,9 @@ function GetOnGoing(type)
                     detailsModel += '<div class="modal-body">';
                         detailsModel += '<div class="details-inner">';
                         if (item.service_status == SERVICE_STATUS_NOT_DONE) {
-                            detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn" id="start-service" data-id="' + item.booking_massage_id + '">Start</a><a href="#" class="cmn-btn" id="end-service" data-id="' + item.booking_massage_id + '">Finished</a></div>';
+                            detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn start-service" data-id="' + item.booking_massage_id + '">Start</a><a href="#" class="cmn-btn end-service" data-id="' + item.booking_massage_id + '">Finished</a></div>';
+                        } else if (item.service_status == SERVICE_STATUS_STARTED) {
+                            detailsModel += '<div class="d-flex justify-content-between"><a href="#">&nbsp;</a><a href="#" class="cmn-btn end-service" data-id="' + item.booking_massage_id + '">Finished</a></div>';
                         }
                         detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
                         detailsModel += '<tr>';
@@ -304,7 +306,7 @@ function GetOnGoing(type)
                 confirm("Are you sure want to stop this booking ?", endService, [bookingMassageId, currentTime, type], $(this));
             });
 
-            $(document).find('#start-service').on("click", function() {
+            $(document).find('.start-service').on("click", function() {
                 let self             = $(this),
                     bookingMassageId = self.data('id'),
                     currentTime      = getCurrentUTCTimestamps();
@@ -312,7 +314,7 @@ function GetOnGoing(type)
                 confirm("Are you sure want to start this booking ?", startService, [bookingMassageId, currentTime, type, true], $(this));
             });
 
-            $(document).find('#end-service').on("click", function() {
+            $(document).find('.end-service').on("click", function() {
                 let self             = $(this),
                     bookingMassageId = self.data('id'),
                     currentTime      = getCurrentUTCTimestamps();
@@ -346,8 +348,8 @@ function GetWaiting(type, filter)
             $( ".waiting-" + type ).empty();
             // $('#details-modal-static').empty();
 
-            $.each( myArray, function( i, item ) {
-                
+            $.each(myArray, function( i, item) {
+
                 var therapistName="";
                 var therapistRoom="";
 
@@ -359,7 +361,7 @@ function GetWaiting(type, filter)
                     therapistName="<td class=\"text-center\"><span class=\"th-sp\">"+item.therapistName+"<span class=\"ed-icon\"></span></span></td>" 
                 }
 
-                let serviceName = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name;
+                let serviceName = item.service_name;
  
                 var newListItem = "<tr>"+
                     "<td><span class=\"user-icon\"><img src=\"images/double-user.png\" /></span>"+item.client_name+"</td>"+
@@ -372,12 +374,12 @@ function GetWaiting(type, filter)
                     "<td class=\"text-center orange\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#notes-modal-" + item.booking_massage_id + "\"><i class=\"fas fa-sticky-note " + (specialNotes ? 'active' : '') + "\"></i></a></td>"+
                     "<td class=\"text-center\"><i class=\"fas fa-edit\"></i></td>"+
                     "<td class=\"text-center\"><a href=\"#\" class=\"open-model\" data-target=\"#delete-modal\" data-id=\"" + item.booking_id + "\" data-type=\"" + type + "\"><i class=\"far fa-trash-alt\"></i></a></td>"+
-                    "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#details-modal-" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
+                    "<td class=\"text-center\"><a href=\"#\" class=\"open-details-modal\" data-id=\"" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
                     "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#print-modal\"><i class=\"fas fa-print\"></i></a></td>"+
                     "<td><span class=\"confirm\"><input type=\"checkbox\" name=\"confirm_booking\" class=\"confirm_booking\" value=\"" + item.booking_massage_id + "\" data-type=\"" + type + "\"/><label></label></span></td>"+
                 "</tr>";
              
-                $( ".waiting-" + type ).append( newListItem );
+                $(".waiting-" + type).append(newListItem);
 
                 $('.confirm_booking').unbind().change(function() {
                     if (this.checked) {
@@ -413,7 +415,6 @@ function GetWaiting(type, filter)
                     detailsModel += '</div>';
                     detailsModel += '<div class="modal-body">';
                         detailsModel += '<div class="details-inner">';
-                        detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn">Finished</a></div>';
                         detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
                         detailsModel += '<tr>';
                             detailsModel += '<td>Pressure Preference</td>';
@@ -441,7 +442,9 @@ function GetWaiting(type, filter)
                         detailsModel += '</tr>';
                     detailsModel += '</table>';
                     detailsModel += '</div>';
-                    detailsModel += '</div></div></div></div></div>';
+                    detailsModel += '<div class="float-right" style="margin-top: 15px;"><a href="#" class="cmn-btn">Edit</a></div>';
+                    detailsModel += '</div>';
+                    detailsModel += '</div></div></div></div>';
 
                 $('#details-modal-static').append(detailsModel);
              
@@ -453,6 +456,13 @@ function GetWaiting(type, filter)
                 $($(this).data('target')).attr('data-type', $(this).data('type'));
 
                 $($(this).data('target')).modal('show');
+            });
+
+            $(document).find('.open-details-modal').unbind().on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id');
+
+                $('div#details-modal-' + bookingMassageId).modal('show');
             });
 
 

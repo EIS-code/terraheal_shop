@@ -35,11 +35,14 @@ function getSearchValue()
     return $(document).find('#input-search').val() || "";
 }
 
-function getPacks(filter)
+function getPacks(filter, page)
 {
+    page = page || 1;
+
     let postData = {
         "search_val": getSearchValue(),
-        "filter": filter
+        "filter": filter,
+        "page_number": page
     }
 
     Post(SEARCH_PACKS, postData, function (res) {
@@ -53,6 +56,8 @@ function getPacks(filter)
             }
 
             if (!empty(res.data.data) && Object.keys(res.data.data).length > 0 && !empty(res.data.data.data) && Object.keys(res.data.data.data).length) {
+                paginate(res.data.data, $(document).find('#pagination'), getPacks, [filter]);
+
                 if (element) {
                     let ul = '';
 

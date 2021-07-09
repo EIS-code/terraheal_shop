@@ -83,7 +83,7 @@ function getServices(owlServices)
     Post(SERVICES, postData, function (res) {
         if (res.data.code == SUCCESS_CODE) {
 
-            var myArray = res.data.data.data;
+            var myArray = res.data.data;
 
             window.localStorage.removeItem('massages');
             window.localStorage.setItem('massages', JSON.stringify(myArray));
@@ -93,7 +93,7 @@ function getServices(owlServices)
                 var newListItem = "<li>" + "<input class=\"select-input_service\" type=\"checkbox\" name=\"massages[]\" value="+item.id+" data-type='0'>"+
                 "<div class=\"sl-cont\">"+
                 "<div class=\"th-image msg-img\">"+
-                "<img src="+item.icon+" alt=\"test\"/>"+
+                "<img src="+item.image+" alt=\"test\"/>"+
                 "</div>"+
                 "<span class=\"msg-name\">"+item.name+"</span>"+
                 "</div>"+ "</li>";
@@ -105,7 +105,9 @@ function getServices(owlServices)
             $('#massages .grid_service .select-input_service').click(function(e) { 
                 if (this.value != null) {
                     if (this.checked) {
-                        setSelectService(this.value, 0, owlServices);
+                        let currentTherapist = getCurrentTherapist();
+
+                        setSelectService(this.value, 0, owlServices, currentTherapist);
                     } else {
                         removeSelectService(this.value, 0, owlServices);
                     }
@@ -129,7 +131,7 @@ function getServices(owlServices)
             // console.log("RESPONSE RECEIVED: ", res.data);
             // console.log("RESPONSE RECEIVED: ", res.data.code);
 
-            var myArray = res.data.data.data;
+            var myArray = res.data.data;
 
             window.localStorage.removeItem('therapies');
             window.localStorage.setItem('therapies', JSON.stringify(myArray));
@@ -151,7 +153,9 @@ function getServices(owlServices)
             $('#therapies .grid_service .select-input_service').click(function(e) {
                 if (this.value != null) {
                     if (this.checked) {
-                        setSelectService(this.value, 1, owlServices);
+                        let currentTherapist = getCurrentTherapist();
+
+                        setSelectService(this.value, 1, owlServices, currentTherapist);
                     } else {
                         removeSelectService(this.value, 1, owlServices);
                     }
@@ -166,14 +170,21 @@ function getServices(owlServices)
     });
 }
 
-function setSelectService(service, type, owlServices)
+function getCurrentTherapist()
+{
+    return $("#therapist-names").find("li.active").data("id");
+}
+
+function setSelectService(service, type, owlServices, currentTherapist)
 {
     let selectedData = [],
-        liHtml       = "";
+        liHtml       = [],
+        serviceId    = service;
 
     var therapies = JSON.parse(window.localStorage.getItem('therapies')),
         massages  = JSON.parse(window.localStorage.getItem('massages')),
-        data      = type == 1 ? therapies : massages;
+        data      = type == 1 ? therapies : massages,
+        selectedTherapists = $("#therapist-names").find("li");
 
     $.each(data, function(key, item) {
         if (item.id == service) {
@@ -181,42 +192,46 @@ function setSelectService(service, type, owlServices)
         }
     });
 
-    $.each(selectedData.pricing, function(i, itemPricing) {
-        var price    = itemPricing.price,
-            duration = 0;
+    $.each(selectedTherapists, function() {
+        let therapistId = $(this).data('id');
 
-        $.each(selectedData.timing, function(k, itemTiming) {
-            if (itemPricing.massage_timing_id == itemTiming.id) {
-                duration = itemTiming.time;
-            }
+        $.each(selectedData.pricing, function(i, itemPricing) {
+            var price    = itemPricing.price,
+                duration = 0;
+
+            $.each(selectedData.timing, function(k, itemTiming) {
+                if (itemPricing.service_timing_id == itemTiming.id) {
+                    duration = itemTiming.time;
+                }
+            });
+
+            liHtml[therapistId] += "<li><input type='checkbox' name='service_prising_id[" + therapistId + "]' value='" + itemPricing.service_timing_id + "' data-service-id='" + itemPricing.service_id + "' class='select-input' data-type='" + type + "' /><input type='hidden' name='service_id[" + itemPricing.service_timing_id + "]' value='" + itemPricing.service_id + "' /><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span></li>";
         });
-
-        if (type == 1) {
-            liHtml += "<li><input type='checkbox' name='therapy_prising_id[]' value='" + itemPricing.id + "' class='select-input' data-type='" + type + "' /><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span></li>";
-        } else {
-            liHtml += "<li><input type='checkbox' name='massage_prising_id[]' value='" + itemPricing.id + "' class='select-input' data-type='" + type + "' /><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span></li>";
-        }
     });
 
-    var newListItem = "<div class=\"item item-" + service + "-" + type + "\">" +
-                        "<div class=\"msg-right\">"+
-                            "<figure>"+
-                                "<img src=\"" + selectedData.image + "\" alt=\"\"/>"+
-                            "</figure>"+
-                            "<div class=\"ms-content\">"+
-                                "<h3>" + selectedData.name + "</h3>"+
-                                "<div class=\"d-flex justify-content-between\">"+
-                                "<span>Duration</span>"+
-                                "<span>Price</span>"+
-                                "</div>"+
-                                "<ul>"+
-                                    liHtml
-                                "</ul>"+
-                            "</div>"+
-                        "</div>"+
-                    "</div>";
+    $.each(selectedTherapists, function() {
+        let therapistId = $(this).data('id');
 
-    owlServices.trigger('add.owl.carousel', [newListItem]);
+        var newListItem = "<div class=\"item item-" + service + "-" + type + " disp-none\" id='msg-slider-" + therapistId + "'>" +
+                            "<div class=\"msg-right\">"+
+                                "<figure>"+
+                                    "<img src=\"" + selectedData.image + "\" alt=\"\"/>"+
+                                "</figure>"+
+                                "<div class=\"ms-content\">"+
+                                    "<h3>" + selectedData.name + "</h3>"+
+                                    "<div class=\"d-flex justify-content-between\">"+
+                                    "<span>Duration</span>"+
+                                    "<span>Price</span>"+
+                                    "</div>"+
+                                    "<ul>"+
+                                        liHtml[therapistId]
+                                    "</ul>"+
+                                "</div>"+
+                            "</div>"+
+                        "</div>";
+
+        owlServices.trigger('add.owl.carousel', [newListItem]);
+    });
 
     owlServices.trigger('refresh.owl.carousel');
 
@@ -225,7 +240,8 @@ function setSelectService(service, type, owlServices)
     owlServices.trigger('to.owl.carousel', index);
 
     // Set subtotal.
-    let subtotal = 0;
+    let subtotal = 0,
+        serviceTimingId = 0;
 
     let getPrice = function(therapies, massages) {
         let checkedServices = $('.service_info').find(':input[type="checkbox"]:checked');
@@ -238,16 +254,20 @@ function setSelectService(service, type, owlServices)
             if (input.data('type') == 1) {
                 $.each(therapies, function(key, item) {
                     $.each(item.pricing, function(key, itemPricing) {
-                        if (itemPricing.id == input.val()) {
+                        if (itemPricing.service_timing_id == input.val()) {
                             subtotal += itemPricing.price;
+
+                            serviceTimingId = itemPricing.service_timing_id;
                         }
                     });
                 });
             } else {
                 $.each(massages, function(key, item) {
                     $.each(item.pricing, function(key, itemPricing) {
-                        if (itemPricing.id == input.val()) {
+                        if (itemPricing.service_timing_id == input.val()) {
                             subtotal += itemPricing.price;
+
+                            serviceTimingId = itemPricing.service_timing_id;
                         }
                     });
                 });
@@ -259,13 +279,19 @@ function setSelectService(service, type, owlServices)
     selectedServices.on('click', function() {
         let self = $(this);
 
+        getPrice(therapies, massages);
+
         if (self.prop('checked')) {
+            $("#therapist-names").find("li.active").data('service-id', serviceId);
+            $("#therapist-names").find("li.active").data('service-timing-id', serviceTimingId);
+
             self.parent('li').addClass('selected');
         } else {
+            $("#therapist-names").find("li.active").data('service-id', null);
+            $("#therapist-names").find("li.active").data('service-timing-id', null);
+
             self.parent('li').removeClass('selected');
         }
-
-        getPrice(therapies, massages);
 
         $('.subtotal').html('');
         $('.subtotal').html(subtotal);
@@ -314,7 +340,7 @@ function getTherapists() {
             var myArray = res.data.data;
 
             $.each( myArray, function( i, item ) {
-                var newListItem = "<li>" + "<input class=\"select-input\" type=\"checkbox\" name=\"therapist[]\" value=\"" + item.therapistId + "\" />"+
+                var newListItem = "<li>" + "<input class=\"select-input\" type=\"checkbox\" name=\"therapist[]\" value=\"" + item.therapistId + "\" data-name=\"" + item.therapistName + "\" />"+
                 "<div class=\"sl-cont\">"+
                 "<span class=\"name\">"+item.therapistName+"</span>"+
                 "<div class=\"th-image\">"+
@@ -324,6 +350,24 @@ function getTherapists() {
                 "</div>"+ "</li>";
 
                 $( ".grid" ).append( newListItem );
+            });
+
+            $("#therapist-names").empty();
+
+            $("input:checkbox[name='therapist[]']").on("click", function() {
+                let self = $(this);
+
+                if (self.prop('checked')) {
+                    $("#therapist-names").append('<li id="name-' + (self.val()) + '" data-id="' + (self.val()) + '"><a href="#">' + (self.data('name')) + ' <span class="base"></span></a></li>');
+                } else {
+                    $("#therapist-names").find('li#name-' + self.val()).remove();
+                }
+
+                $("#therapist-names").find("li:first").addClass("active").siblings().removeClass("active");
+
+                $("#therapist-names").find('li').unbind().on("click", function() {
+                    $(this).addClass("active").siblings().removeClass("active");
+                });
             });
         } else {
             showError(res.data.msg);
@@ -468,7 +512,7 @@ function addClient()
 
 function addBooking()
 {
-    let postData   = {"booking_type": 1, "special_notes": "", "user_id": "", "session_id": "", "booking_date_time": "", "pressure_preference": "", "focus_area_preference": "", "gender_preference": "", "therapist_id": "", "notes_of_injuries": "", "massages": [], "therapies": [], "book_platform": 1},
+    let postData   = {"booking_type": 1, "special_notes": "", "user_id": "", "session_id": "", "booking_date_time": "", "pressure_preference": "", "focus_area_preference": "", "gender_preference": "", "therapist_id": "", "notes_of_injuries": "", "services": [], "therapies": [], "book_platform": 1},
         formInputs = $('.booking-form').serializeArray(),
         users      = [],
         inc        = 0;
@@ -504,22 +548,29 @@ function addBooking()
             postData.notes_of_injuries = input.value;
         }
 
-        if (input.name == 'massage_prising_id[]') {
+        /*if (input.name == 'service_prising_id[]') {
             postData.massages[inc] = [];
 
             postData.massages[inc] = {'massage_timing_id': input.value};
 
             inc++;
-        }
-
-        if (input.name == 'therapy_prising_id[]') {
-            postData.therapies[inc] = [];
-
-            postData.therapies[inc] = {'therapy_timing_id': input.value};
-
-            inc++;
-        }
+        }*/
     });
+
+    let services = $("input:checkbox[name='service_prising_id[]']:checked");
+
+    $.each(services, function(key, service) {
+        let input     = $(service),
+            serviceId = input.data('service-id');
+
+        postData.services[inc] = [];
+
+        postData.services[inc] = {'service_id': serviceId, 'service_timing_id': input.val()};
+
+        inc++;
+    });
+
+    console.log(postData);
 
     Post(ADD_NEW_BOOKING, postData, function (res) {
         let data = res.data;

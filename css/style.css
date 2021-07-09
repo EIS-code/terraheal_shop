@@ -2561,3 +2561,20 @@ a.bg-orange{ background:#FF9900; padding: 2px 4px;border-radius: 4px;color: #fff
 .add-ct .p-wrap input{ border:1px solid #ccc; background:none; }
 .add-ct .person-bottom{ margin-top:0px; }
 .add-ct .p-wrap{ margin-bottom:12px; }
+
+/* For full rounded buttons. */
+.full-rounded {
+    border-radius: 50%;
+}
+
+/* Pagination styles. */
+#pagination a:not(.selected) {
+    color: unset;
+}
+
+.tab-sat-sec {  display: flex;padding-left: 20px; }
+.tab-sat-sec li { list-style: none; margin-right: 20px; }
+.tab-sat-sec li a {  display: block;  padding: 5px 15px;  background: #C7C7C7
+;  border-radius: 15px;  text-decoration: none;  color: #333; }
+.tab-sat-sec li.active a {  color: #fff;  background: #29B6F6
+; }

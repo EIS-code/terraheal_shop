@@ -1,11 +1,16 @@
 
 import { Post, Get, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE } from './networkconst.js';
-import { GET_ALL_THERAPISTS, GET_ROOMS, CONFIRM_BOOKING, CANCEL_BOOKING, DOWNGRADE_BOOKING, FUTURE_BOOKINGS, COMPLETED_BOOKINGS, CANCELED_BOOKINGS, RECOVER_BOOKING } from './networkconst.js';
+import { GET_ALL_THERAPISTS, GET_ROOMS, CONFIRM_BOOKING, CANCEL_BOOKING, DOWNGRADE_BOOKING, FUTURE_BOOKINGS, COMPLETED_BOOKINGS, CANCELED_BOOKINGS, RECOVER_BOOKING, START_SERVICE_TIME, END_SERVICE_TIME } from './networkconst.js';
 
-var hash       = window.location.hash || '#future-bookings',
-    centerType = 1,
-    homeType   = 2,
-    type       = centerType;
+var hash          = window.location.hash || '#future-bookings',
+    centerType    = 1,
+    homeType      = 2,
+    type          = centerType,
+    intervalArray = {};
+
+const SERVICE_STATUS_DONE     = '2';
+const SERVICE_STATUS_STARTED  = '1';
+const SERVICE_STATUS_NOT_DONE = '0';
 
 // 1 : In massage center. 2 : Home / Hotel visit.
 
@@ -37,6 +42,8 @@ $(document).ready(function () {
 
 function loadDatas()
 {
+    $('#details-modal-static').empty();
+
     $(document).find('#book-wait-tabs').find('a[href="' + hash + '"]').click();
 }
 
@@ -282,6 +289,95 @@ function downgradeBooking(bookingMassageId)
     });
 }
 
+function getRemainingTimeFromNow(dateTime)
+{
+    if (!moment(dateTime).isValid()) {
+        return false;
+    }
+
+    let duration       = moment.duration(moment().diff(dateTime)),
+        remainingTime  = (duration.minutes() < 0) ? padSingleZero(Math.abs(duration.minutes())) + ':' + padSingleZero(Math.abs(duration.seconds())) : false;
+
+    return remainingTime;
+}
+
+function checkToStopInterval(item)
+{
+    let remainingTime = getRemainingTimeFromNow(item.actual_end_time),
+        currentTime   = getCurrentUTCTimestamps();
+
+    if (!remainingTime) {
+        clearInterval(intervalArray[item.booking_massage_id]);
+
+        endService(item.booking_massage_id, currentTime, type);
+    }
+}
+
+function runTimer(data, type)
+{
+    // Milliseconds
+    let interval = 1000;
+
+    if (!empty(data) && Object.keys(data).length > 0) {
+        $.each(data, function(i, item) {
+            let remainingTime = getRemainingTimeFromNow(item.actual_end_time);
+
+            if (remainingTime) {
+                intervalArray[item.booking_massage_id] = setInterval(function(){
+                    showServiceRemainingTime(item);
+
+                    checkToStopInterval(item, type);
+                }, interval);
+            }
+        });
+    }
+}
+
+function showServiceRemainingTime(item)
+{
+    let remainingTime = getRemainingTimeFromNow(item.actual_end_time);
+
+    if (remainingTime) {
+        let element = $(document).find('#service-remaining-time-' + item.booking_massage_id);
+
+        element.empty().html(remainingTime);
+    }
+}
+
+function checkStarted(data)
+{
+    if (!empty(data) && Object.keys(data).length > 0) {
+        $.each(data, function(i, item) {
+            let element = $(document).find('#service-start-stop-' + item.booking_massage_id);
+
+            if (!element) {
+                return false;
+            }
+
+            if (intervalArray[item.booking_massage_id]) {
+                clearInterval(intervalArray[item.booking_massage_id]);
+            }
+
+            if (item.service_status == SERVICE_STATUS_STARTED) {
+                showServiceRemainingTime(item);
+
+                element.addClass('fa-stop-circle').removeClass('fa-play-circle').removeClass('fa-check-circle');
+            } else if (item.service_status == SERVICE_STATUS_NOT_DONE) {
+                element.addClass('fa-play-circle').removeClass('fa-stop-circle').removeClass('fa-check-circle');
+            } else {
+                let elementRemeiningTime = $(document).find('#service-remaining-time-' + item.booking_massage_id),
+                    getTotalTime         = getDiffInMinutes(item.actual_start_time, item.actual_end_time) + ':' + getDiffInSeconds(item.actual_start_time, item.actual_end_time);
+
+                elementRemeiningTime.empty().html(getTotalTime);
+
+                element.addClass('fa-check-circle').removeClass('fa-stop-circle').removeClass('fa-play-circle');
+            }
+        });
+    }
+
+    return true;
+}
+
 function clearFilters()
 {
     $(document).find('form#form-booking-list').find("input[type=text], textarea").val("");
@@ -407,7 +503,7 @@ function getFutureBookings()
             let tbody = "";
 
             $.each(data.data, function(k, item) {
-                let serviceName  = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name,
+                let serviceName  = item.service_name,
                     specialNotes = (item.notes != '' && item.notes != null) ? item.notes : false;
 
                 tbody += '<tr>';
@@ -494,6 +590,10 @@ function getFutureBookings()
                         tbody += '</span>';
                     tbody += '</td>';
 
+                    tbody += '<td class="text-center" id="service-remaining-time-' + item.booking_massage_id + '">';
+                        tbody += '00:00';
+                    tbody += '</td>';
+
                 tbody += '</tr>';
 
                 /* Special notes. */
@@ -521,7 +621,11 @@ function getFutureBookings()
                     detailsModel += '</div>';
                     detailsModel += '<div class="modal-body">';
                         detailsModel += '<div class="details-inner">';
-                        detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a></div>';
+                        if (item.service_status == SERVICE_STATUS_NOT_DONE) {
+                            detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn start-service" data-id="' + item.booking_massage_id + '">Start</a><a href="#" class="cmn-btn end-service" data-id="' + item.booking_massage_id + '">Finished</a></div>';
+                        } else if (item.service_status == SERVICE_STATUS_STARTED) {
+                            detailsModel += '<div class="d-flex justify-content-between"><a href="#">&nbsp;</a><a href="#" class="cmn-btn end-service" data-id="' + item.booking_massage_id + '">Finished</a></div>';
+                        }
                         detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
                         detailsModel += '<tr>';
                             detailsModel += '<td>Pressure Preference</td>';
@@ -567,6 +671,10 @@ function getFutureBookings()
                 $('#tbody-future').empty().html(tbody);
             }
 
+            checkStarted(data.data);
+
+            runTimer(data.data);
+
             $(document).find('.confirm_booking').unbind().change(function() {
                 if (this.checked) {
                     let bookingMassageId = $(this).val();
@@ -585,6 +693,22 @@ function getFutureBookings()
                 }
 
                 return false;
+            });
+
+            $(document).find('.start-service').on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id'),
+                    currentTime      = getCurrentUTCTimestamps();
+
+                confirm("Are you sure want to start this booking ?", startService, [bookingMassageId, currentTime, true], $(this));
+            });
+
+            $(document).find('.end-service').on("click", function() {
+                let self             = $(this),
+                    bookingMassageId = self.data('id'),
+                    currentTime      = getCurrentUTCTimestamps();
+
+                confirm("Are you sure want to stop this booking ?", endService, [bookingMassageId, currentTime, true], $(this));
             });
 
             bindEvents();
@@ -607,7 +731,7 @@ function getCompletedBookings()
             let tbody = "";
 
             $.each(data.data, function(k, item) {
-                let serviceName  = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name,
+                let serviceName  = item.service_name,
                     specialNotes = (item.notes != '' && item.notes != null) ? item.notes : false;
 
                 tbody += '<tr>';
@@ -708,7 +832,6 @@ function getCompletedBookings()
                     detailsModel += '</div>';
                     detailsModel += '<div class="modal-body">';
                         detailsModel += '<div class="details-inner">';
-                        detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a></div>';
                         detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
                         detailsModel += '<tr>';
                             detailsModel += '<td>Pressure Preference</td>';
@@ -794,7 +917,7 @@ function getCancelledBookings()
             let tbody = "";
 
             $.each(data.data, function(k, item) {
-                let serviceName  = (item.massage_name == '' || item.massage_name == null) ? item.therapy_name : item.massage_name,
+                let serviceName  = item.service_name,
                     specialNotes = (item.notes != '' && item.notes != null) ? item.notes : false;
 
                 tbody += '<tr>';
@@ -890,7 +1013,6 @@ function getCancelledBookings()
                     detailsModel += '</div>';
                     detailsModel += '<div class="modal-body">';
                         detailsModel += '<div class="details-inner">';
-                        detailsModel += '<div class="d-flex justify-content-between"><a href="#" class="cmn-btn">Start</a><a href="#" class="cmn-btn" data-toggle="modal" data-target="#rating-modal">Finished</a></div>';
                         detailsModel += '<div class="modal-details"><table width="100%" cellpadding="0" cellspacing="0">';
                         detailsModel += '<tr>';
                             detailsModel += '<td>Pressure Preference</td>';
@@ -984,4 +1106,56 @@ function recoverBooking(bookingId)
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
+}
+
+function startService(bookingMassageId, startTime, hideModal)
+{
+    let postData = {
+        "booking_massage_id": bookingMassageId,
+        "start_time": startTime
+    }
+
+    Post(START_SERVICE_TIME, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == ERROR_CODE) {
+            showError(data.msg);
+        } else {
+            // showSuccess(data.msg);
+
+            loadDatas();
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+
+    if (hideModal) {
+        $(document).find('#details-modal-' + bookingMassageId).modal('hide');
+    }
+}
+
+function endService(bookingMassageId, endTime, hideModal)
+{
+    let postData = {
+        "booking_massage_id": bookingMassageId,
+        "end_time": endTime
+    }
+
+    Post(END_SERVICE_TIME, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == ERROR_CODE) {
+            showError(data.msg);
+        } else {
+            showSuccess(data.msg);
+
+            loadDatas();
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+
+    if (hideModal) {
+        $(document).find('#details-modal-' + bookingMassageId).modal('hide');
+    }
 }

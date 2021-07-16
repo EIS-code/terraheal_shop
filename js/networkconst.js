@@ -13,6 +13,7 @@ export const PREFERENCES = BASEURL+"/shops/getPreferences";
 export const SESSIONS    = BASEURL+"/shops/sessions/get";
 export const ADD_CLIENT  = BASEURL+"/waiting/addClient";
 export const ADD_NEW_BOOKING    = BASEURL+"/waiting/addNewBooking";
+export const ADD_NEW_BOOKING_SHOP = BASEURL+"/waiting/booking/add";
 export const CONFIRM_BOOKING    = BASEURL+"/waiting/confirmBooking";
 export const GET_ALL_THERAPISTS = BASEURL+"/waiting/getAllTherapists";
 export const GET_ROOMS          = BASEURL+"/rooms/getRooms";
@@ -37,6 +38,7 @@ export const SEARCH_VOUCHERS             = BASEURL+"/waiting/searchVouchers";
 export const SEARCH_PACKS                = BASEURL+"/waiting/searchPacks";
 export const START_SERVICE_TIME          = BASEURL+"/waiting/startServiceTime";
 export const END_SERVICE_TIME            = BASEURL+"/waiting/endServiceTime";
+export const PRINT_BOOKING_DETAILS       = BASEURL+"/waiting/printBookingDetails";
 
 export async function Post(url, postData, success, errorCallBack)
 {

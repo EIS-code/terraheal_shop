@@ -1,5 +1,5 @@
 import { Post, Get } from './networkconst.js';
-import { ONGOING, WAITING, CONFIRM_BOOKING, GET_ALL_THERAPISTS, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE, GET_ROOMS, ASSIGN_ROOMS, DOWNGRADE_BOOKING, CANCEL_BOOKING, END_SERVICE_TIME, START_SERVICE_TIME } from './networkconst.js';
+import { ONGOING, WAITING, CONFIRM_BOOKING, GET_ALL_THERAPISTS, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE, GET_ROOMS, ASSIGN_ROOMS, DOWNGRADE_BOOKING, CANCEL_BOOKING, END_SERVICE_TIME, START_SERVICE_TIME, PRINT_BOOKING_DETAILS } from './networkconst.js';
 
 var backFile      = getUrl(window.location.href, 'backfile'),
     intervalArray = {};
@@ -375,7 +375,7 @@ function GetWaiting(type, filter)
                     "<td class=\"text-center\"><i class=\"fas fa-edit\"></i></td>"+
                     "<td class=\"text-center\"><a href=\"#\" class=\"open-model\" data-target=\"#delete-modal\" data-id=\"" + item.booking_id + "\" data-type=\"" + type + "\"><i class=\"far fa-trash-alt\"></i></a></td>"+
                     "<td class=\"text-center\"><a href=\"#\" class=\"open-details-modal\" data-id=\"" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
-                    "<td class=\"text-center\"><a href=\"#\" data-toggle=\"modal\" data-target=\"#print-modal\"><i class=\"fas fa-print\"></i></a></td>"+
+                    "<td class=\"text-center\"><a href=\"#\" id=\"print-modal-click\" data-booking-id=\"" + item.booking_id + "\"><i class=\"fas fa-print\"></i></a></td>"+
                     "<td><span class=\"confirm\"><input type=\"checkbox\" name=\"confirm_booking\" class=\"confirm_booking\" value=\"" + item.booking_massage_id + "\" data-type=\"" + type + "\"/><label></label></span></td>"+
                 "</tr>";
              
@@ -447,7 +447,6 @@ function GetWaiting(type, filter)
                     detailsModel += '</div></div></div></div>';
 
                 $('#details-modal-static').append(detailsModel);
-             
             });
 
             $(document).find(".open-model").on("click", function() {
@@ -465,6 +464,12 @@ function GetWaiting(type, filter)
                 $('div#details-modal-' + bookingMassageId).modal('show');
             });
 
+            $(document).find('#print-modal-click').on("click", function() {
+                let self      = $(this),
+                    bookingId = self.data('booking-id');
+
+                getBookingPrintDetails(bookingId);
+            });
 
         } else {
             showError(res.data.msg);
@@ -680,4 +685,212 @@ function startService(bookingMassageId, startTime, type, hideModal)
     if (hideModal) {
         $(document).find('#details-modal-' + bookingMassageId).modal('hide');
     }
+}
+
+function getBookingPrintDetails(bookingId)
+{
+    let postData = {
+        "booking_id": bookingId
+    }
+
+    Post(PRINT_BOOKING_DETAILS, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == ERROR_CODE) {
+            showError(data.msg);
+        } else {
+            let response = data.data;
+
+            let printModal = '';
+
+            printModal += '<div class="modal-dialog modal-dialog-centered modal-lg" role="document">';
+                printModal += '<div class="modal-content">';
+                    printModal += '<div class="modal-header cust-head">';
+                        printModal += '<span class="code-id" data-toggle="modal" data-target="#codemodel"><img src="images/qr.png" alt=""></span>';
+                        printModal += '<h5 class="modal-title">Booking ID: ' + response.booking_id + '</h5>';
+                        printModal += '<a href="#" class="cmn-btn print">Print Ticket</a>';
+                        printModal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>';
+                    printModal += '</div>';
+                    printModal += '<div class="modal-body">';
+                        printModal += '<div class="model-inner no-pad">';
+                            printModal += '<div class="booking-info">';
+                                printModal += '<div class="book-grp half with-width">';
+                                    printModal += '<div class="grp-field">';
+                                        printModal += '<label>Center:</label>';
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<input type="text" name="center" placeholder="Terra Heal Massage Center" value="' + response.shop_name + '">';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half with-width">';
+                                    printModal += '<div class="grp-field">';
+                                        printModal += '<label>Date &amp; Time:</label>';
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<input type="text" name="center" placeholder="28 Oct 2020, 3:30pm" value="' + response.date_time + '">';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half with-width">';
+                                    printModal += '<div class="grp-field">';
+                                        printModal += '<label>Delivery Types:</label>';
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<input type="text" name="center" placeholder="In massage center" value="' + response.booking_type + '">';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half with-width">';
+                                    printModal += '<div class="grp-field">';
+                                        printModal += '<label>Session Details:</label>';
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<input type="text" name="center" placeholder="Group" value="' + response.session_type + '">';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half with-width">';
+                                    printModal += '<div class="grp-field">';
+                                        printModal += '<label>Delivery Address:</label>';
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<input type="text" name="center" placeholder="Delivery Address" value="' + response.shop_address + '">';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half with-width">';
+                                    printModal += '<div class="grp-field">';
+                                        printModal += '<label>Booking Notes:</label>';
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<textarea placeholder="Booking Notes">' + response.notes + '</textarea>';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half">';
+                                    printModal += '<div class="grp-field table-cont">';
+                                        printModal += '<label>Receptionists:</label>';
+
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<table class="table" width="100%" cellspacing="0" cellpadding="0" border="0">';
+                                                printModal += '<thead>';
+                                                    printModal += '<tr>';
+                                                        printModal += '<th scope="col">';
+                                                            printModal += 'Sr.No';
+                                                        printModal += '</th>';
+
+                                                        printModal += '<th scope="col">';
+                                                            printModal += 'Name';
+                                                        printModal += '</th>';
+
+                                                        printModal += '<th scope="col">';
+                                                            printModal += 'Services';
+                                                        printModal += '</th>';
+
+                                                        printModal += '<th scope="col">';
+                                                            printModal += 'Duration';
+                                                        printModal += '</th>';
+
+                                                        printModal += '<th scope="col">';
+                                                            printModal += 'Cost';
+                                                        printModal += '</th>';
+                                                    printModal += '</tr>';
+                                                printModal += '</thead>';
+
+                                                printModal += '<tbody>';
+                                                    let totalCosts = 0;
+                                                    $.each(response.booking_services, function(key, userInfo) {
+                                                        printModal += '<tr>';
+                                                            printModal += '<td>';
+                                                                printModal += key;
+                                                            printModal += '</td>';
+
+                                                            printModal += '<td>';
+                                                                printModal += userInfo.name;
+                                                            printModal += '</td>';
+
+                                                            printModal += '<td>';
+                                                                printModal += userInfo.service_name;
+                                                            printModal += '</td>';
+
+                                                            printModal += '<td>';
+                                                                printModal += userInfo.massage_duration;
+                                                            printModal += '</td>';
+
+                                                            printModal += '<td>';
+                                                                printModal += userInfo.cost;
+                                                            printModal += '</td>';
+                                                        printModal += '</tr>';
+
+                                                        totalCosts += userInfo.cost;
+                                                    });
+                                                printModal += '</tbody>';
+
+                                                printModal += '<tfoot>';
+                                                    printModal += '<tr>';
+                                                        printModal += '<td colspan="3" class="no-border">&nbsp;</td>';
+                                                        printModal += '<td>Total</td>';
+                                                        printModal += '<td>&#8364; ' + totalCosts + '</td>';
+                                                    printModal += '</tr>';
+                                                printModal += '</tfoot>';
+                                            printModal += '</table>';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half">';
+                                    printModal += '<div class="grp-field table-cont">';
+                                        printModal += '<label>Payment Status:</label>';
+
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<div class="norm-cont"> <span class="paid">paid 50%</span><small>Paid by creditCard</small> </div>';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+
+                                printModal += '<div class="book-grp half">';
+                                    printModal += '<div class="grp-field table-cont">';
+                                        printModal += '<label>Payment Status:</label>';
+
+                                        printModal += '<div class="grp-right">';
+                                            printModal += '<table class="table payment" width="100%" cellspacing="0" cellpadding="0" border="0">';
+                                                printModal += '<tbody>';
+                                                    printModal += '<tr>';
+                                                        printModal += '<td>Paid</td>';
+                                                        printModal += '<td>&#8364; 180</td>';
+                                                    printModal += '</tr>';
+
+                                                    printModal += '<tr>';
+                                                        printModal += '<td>voucher</td>';
+                                                        printModal += '<td>&#8364; 60</td>';
+                                                    printModal += '</tr>';
+
+                                                    printModal += '<tr>';
+                                                        printModal += '<td>Pack</td>';
+                                                        printModal += '<td>&#8364; 60</td>';
+                                                    printModal += '</tr>';
+
+                                                    printModal += '<tr>';
+                                                        printModal += '<td>Pending</td>';
+                                                        printModal += '<td>&#8364; 180</td>';
+                                                    printModal += '</tr>';
+                                                printModal += '</tbody>';
+                                            printModal += '</table>';
+                                        printModal += '</div>';
+                                    printModal += '</div>';
+                                printModal += '</div>';
+                            printModal += '</div>';
+                        printModal += '</div>';
+                    printModal += '</div>';
+                printModal += '</div>';
+            printModal += '</div>';
+
+            $(document).find('#print-modal').empty();
+            $(document).find('#print-modal').html(printModal);
+            $(document).find('#print-modal').modal('show');
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
 }

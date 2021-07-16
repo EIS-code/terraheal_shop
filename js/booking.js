@@ -1,6 +1,19 @@
 
 import { Post, Get, searchClients, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE } from './networkconst.js';
-import { THERAPISTS, SERVICES, PREFERENCES, SESSIONS, ADD_CLIENT, ADD_NEW_BOOKING, SEARCH_CLIENT } from './networkconst.js';
+import { THERAPISTS, SERVICES, PREFERENCES, SESSIONS, ADD_CLIENT, ADD_NEW_BOOKING_SHOP, SEARCH_CLIENT } from './networkconst.js';
+
+var shopData          = getLocalShopStorage(),
+    selectedServices  = [],
+    clientIds         = [],
+    createBookingData = {
+        'booking_type': 1,
+        'special_notes': null,
+        'session_id': null,
+        'booking_date_time': null,
+        'users': [],
+        'book_platform': 1
+    },
+    userData          = [];
 
 $(document).ready(function () {
     getTherapists();
@@ -168,7 +181,36 @@ function getServices(owlServices)
 
 function getCurrentTherapist()
 {
-    return $("#therapist-names").find("li.active").data("id");
+    return $(".therapist-names").find("li.active").data("id");
+}
+
+function setTherapistPriceAndName()
+{
+    let therapistNames = $(".therapist-names").find('li');
+
+    $.each(therapistNames, function() {
+        let self            = $(this),
+            selfTherapistId = self.data('id'),
+            baseElement     = self.find('.base'),
+            totalPrice      = 0,
+            serviceName     = "";
+
+        $.each(selectedServices, function(therapistId, serviceInfos) {
+            $.each(serviceInfos, function(key, serviceInfo) {
+                if (typeof serviceInfo === typeof undefined) {
+                    return false;
+                }
+
+                if (therapistId == selfTherapistId) {
+                    totalPrice += serviceInfo.service_price;
+                    serviceName = serviceInfo.service_name;
+                }
+            });
+        });
+
+        baseElement.empty();
+        baseElement.html(' - ' + serviceName + ' €' + totalPrice);
+    });
 }
 
 function setSelectService(service, type, owlServices)
@@ -179,8 +221,7 @@ function setSelectService(service, type, owlServices)
 
     var therapies = JSON.parse(window.localStorage.getItem('therapies')),
         massages  = JSON.parse(window.localStorage.getItem('massages')),
-        data      = type == 1 ? therapies : massages,
-        currentTherapist = getCurrentTherapist();
+        data      = type == 1 ? therapies : massages;
 
     $.each(data, function(key, item) {
         if (item.id == service) {
@@ -198,7 +239,7 @@ function setSelectService(service, type, owlServices)
             }
         });
 
-        liHtml += "<li><input type='checkbox' name='service_prising_id[]' value='" + itemPricing.service_timing_id + "' data-service-id='" + itemPricing.service_id + "' class='select-input' data-type='" + type + "' /><input type='hidden' name='service_id[" + itemPricing.service_timing_id + "]' value='" + itemPricing.service_id + "' /><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span></li>";
+        liHtml += "<li><input type='checkbox' name='service_prising_id[]' value='" + itemPricing.service_timing_id + "' data-service-id='" + itemPricing.service_id + "' data-price='" + price + "' class='select-input' data-type='" + type + "' /><input type='hidden' name='service_id[" + itemPricing.service_timing_id + "]' value='" + itemPricing.service_id + "' /><span class=\"durtn\">" + duration + " min</span><span class=\"line-hr\"></span><span class=\"price\"><small>&#8364;</small>" + price + "</span><label></label></li>";
     });
 
     var newListItem = "<div class=\"item item-" + service + "-" + type + "\">" +
@@ -245,7 +286,7 @@ function setSelectService(service, type, owlServices)
                         if (itemPricing.service_timing_id == input.val()) {
                             subtotal += itemPricing.price;
 
-                            serviceTimingId = itemPricing.service_timing_id;
+                            // serviceTimingId = itemPricing.service_timing_id;
                         }
                     });
                 });
@@ -255,7 +296,7 @@ function setSelectService(service, type, owlServices)
                         if (itemPricing.service_timing_id == input.val()) {
                             subtotal += itemPricing.price;
 
-                            serviceTimingId = itemPricing.service_timing_id;
+                            // serviceTimingId = itemPricing.service_timing_id;
                         }
                     });
                 });
@@ -263,20 +304,43 @@ function setSelectService(service, type, owlServices)
         });
     };
 
-    let selectedServices = $('.service_info').find(':input[type="checkbox"]');
-    selectedServices.on('click', function() {
-        let self = $(this);
+    let selectedServicesInfo = $('.service_info').find(':input[type="checkbox"]');
+    selectedServicesInfo.unbind().on('click', function() {
+        let self             = $(this),
+            currentTherapist = getCurrentTherapist(),
+            serviceTimingId  = self.val(),
+            servicePrice     = self.data('price');
 
         getPrice(therapies, massages);
 
-        if (self.prop('checked')) {
-            $("#therapist-names").find("li.active").data('service-id', serviceId);
-            $("#therapist-names").find("li.active").data('service-timing-id', serviceTimingId);
+        if (this.checked) {
+            $(".therapist-names").find("li.active").data('service-id', serviceId);
+            $(".therapist-names").find("li.active").data('service-timing-id', serviceTimingId);
+
+            if (typeof selectedServices[currentTherapist] !== typeof undefined && selectedServices[currentTherapist].length > 0) {
+                showError("You can not select more than one services.");
+
+                return false;
+            }
+
+            selectedServices[currentTherapist].push({'service_id': serviceId, 'service_timing_id': serviceTimingId, 'service_price': servicePrice, 'service_name': selectedData.name});
 
             self.parent('li').addClass('selected');
         } else {
-            $("#therapist-names").find("li.active").data('service-id', null);
-            $("#therapist-names").find("li.active").data('service-timing-id', null);
+            $(".therapist-names").find("li.active").data('service-id', null);
+            $(".therapist-names").find("li.active").data('service-timing-id', null);
+
+            if (typeof selectedServices[currentTherapist] !== typeof undefined) {
+                $.each(selectedServices[currentTherapist], function(index, serviceInfo) {
+                    if (typeof serviceInfo === typeof undefined) {
+                        return false;
+                    }
+
+                    if (serviceTimingId == serviceInfo.service_timing_id && serviceId == serviceInfo.service_id) {
+                        selectedServices[currentTherapist].splice(index, 1);
+                    }
+                });
+            }
 
             self.parent('li').removeClass('selected');
         }
@@ -284,6 +348,8 @@ function setSelectService(service, type, owlServices)
         $('.subtotal').html('');
         $('.subtotal').html(subtotal);
         $('.subtotal-value').val(subtotal);
+
+        setTherapistPriceAndName();
     });
 }
 
@@ -319,6 +385,30 @@ function removeSelectService(service, type, owlServices)
     owlServices.trigger('to.owl.carousel', 0);
 }
 
+function activeServices()
+{
+    let selectedServicesInfo = $('.service_info').find(':input[type="checkbox"]'),
+        currentTherapist     = getCurrentTherapist();
+
+    $.each(selectedServicesInfo, function() {
+        let self          = $(this),
+            selfTimingId  = self.val(),
+            selfServiceId = self.data('service-id');
+
+        self.parent('li').removeClass('selected');
+        // self.prop('checked', false);
+
+        $.each(selectedServices, function(therapistId, serviceInfos) {
+            $.each(serviceInfos, function(key, serviceInfo) {
+                if (therapistId == currentTherapist && selfTimingId == serviceInfo.service_timing_id && selfServiceId == serviceInfo.service_id) {
+                    // self.prop('checked', true);
+                    self.parent('li').addClass('selected');
+                }
+            });
+        });
+    });
+}
+
 function getTherapists() {
     let postData = {};
 
@@ -340,21 +430,39 @@ function getTherapists() {
                 $( ".grid" ).append( newListItem );
             });
 
-            $("#therapist-names").empty();
+            $(".therapist-names").empty();
 
             $("input:checkbox[name='therapist[]']").on("click", function() {
                 let self = $(this);
 
                 if (self.prop('checked')) {
-                    $("#therapist-names").append('<li id="name-' + (self.val()) + '" data-id="' + (self.val()) + '"><a href="#">' + (self.data('name')) + ' <span class="base"></span></a></li>');
+                    $(".therapist-names").append('<li id="name-' + (self.val()) + '" data-id="' + (self.val()) + '"><a href="#">' + (self.data('name')) + ' <span class="base"></span></a></li>');
+
+                    if (typeof selectedServices[self.val()] === typeof undefined) {
+                        selectedServices[self.val()] = [];
+                    }
                 } else {
-                    $("#therapist-names").find('li#name-' + self.val()).remove();
+                    $(".therapist-names").find('li#name-' + self.val()).remove();
+
+                    if (typeof selectedServices[self.val()] !== typeof undefined) {
+                        selectedServices.splice(self.val(), 1);
+                    }
                 }
 
-                $("#therapist-names").find("li:first").addClass("active").siblings().removeClass("active");
+                $(".therapist-names").find("li:first").addClass("active").siblings().removeClass("active");
 
-                $("#therapist-names").find('li').unbind().on("click", function() {
-                    $(this).addClass("active").siblings().removeClass("active");
+                $(".therapist-names").find('li').unbind().on("click", function(event) {
+                    event.preventDefault();
+
+                    let therapistId = $(this).data('id');
+
+                    $(".therapist-names").find('li').removeClass("active");
+
+                    $(".therapist-names").find('li#name-' + therapistId).addClass("active");
+
+                    activeServices();
+
+                    buildClientForm();
                 });
             });
         } else {
@@ -473,10 +581,12 @@ function addClient()
     let name      = $('#guest_name'),
         telephone = $('#guest_telephone'),
         email     = $('#guest_email'),
+        gender    = $('input[name="gender"]:checked'),
         postData  = {
             "name": name.val(),
             "email": email.val(),
-            "tel_number": telephone.val()
+            "tel_number": telephone.val(),
+            "gender": gender.val()
         };
 
     Post(ADD_CLIENT, postData, function (res) {
@@ -487,80 +597,173 @@ function addClient()
         } else {
             showSuccess(data.msg);
 
+            let clientId = data.data.id;
+
             name.attr('disabled', true);
             telephone.attr('disabled', true);
             email.attr('disabled', true);
+            $('input[name="gender"]').attr('disabled', true);
 
-            $('#client_id').val(data.data.id);
+            /* name.val("");
+            telephone.val("");
+            email.val("");
+            gender.prop('checked', false); */
+
+            if (typeof userData[clientId] === typeof undefined) {
+                userData[clientId] = [];
+            }
+
+            userData[clientId] = {
+                'name': name.val(),
+                'telephone': telephone.val(),
+                'email': email.val(),
+                'gender': gender.val(),
+                'is_guest': true
+            };
+
+            clientIds.push(clientId);
+            $('#client_id').val(JSON.stringify(clientIds));
+
+            buildUserData(clientId);
         }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
 }
 
+function buildUserData(clientId)
+{
+    let currentTherapist = getCurrentTherapist();
+
+    if (typeof createBookingData['users'][clientId] === typeof undefined) {
+        createBookingData['users'][clientId] = [];
+    }
+
+    createBookingData['users'][clientId] = {
+        'user_id': clientId,
+        'pressure_preference': null,
+        'focus_area_preference': null,
+        'gender_preference': null,
+        'therapist_id': currentTherapist,
+        'notes_of_injuries': null,
+        'booking_date_time': currentUTCTimestamps()
+    };
+
+    $('.therapist-names').find('li#name-'+currentTherapist).data('client-id', clientId);
+
+    buildServices(clientId);
+}
+
+function buildServices(clientId)
+{
+    let currentTherapist = getCurrentTherapist();
+
+    $.each(selectedServices[currentTherapist], function(key, serviceInfo) {
+        if (typeof createBookingData['users'][clientId]['services'] === typeof undefined) {
+            createBookingData['users'][clientId]['services'] = [];
+        }
+
+        createBookingData['users'][clientId]['services'] = {
+            'service_id': serviceInfo.service_id,
+            'service_timing_id': serviceInfo.service_timing_id
+        };
+    });
+}
+
+function buildClientForm()
+{
+    let isGuest          = ($("ul#detail-tab li a.active").attr('href') == "#guest") ? true : false,
+        currentTherapist = $(".therapist-names").find("li.active"),
+        clientId         = currentTherapist.data('client-id'),
+        clientData       = (typeof userData[clientId] !== typeof undefined) ? userData[clientId] : [];
+
+    if (Object.keys(clientData).length > 0) {
+        isGuest = (isGuest && clientData.is_guest);
+
+        if (isGuest) {
+            $('#guest_name').val(clientData.name);
+            $('#guest_telephone').val(clientData.telephone);
+            $('#guest_email').val(clientData.email);
+            $('.guest-data').find('input[name="gender"]').val(clientData.gender);
+        } else {
+            $('#autocomplete').val("");
+            $('#user_name').val(clientData.name);
+            $('#user_phone').val(clientData.telephone);
+            $('#user_email').val(clientData.email);
+        }
+    } else {
+        $('#guest_booking_date_time').val("");
+        $('#guest_name').val("");
+        $('#guest_telephone').val("");
+        $('#guest_email').val("");
+        $('.guest-data').find('input[name="gender"]').prop('checked', false);
+
+        $('#user_booking_date_time').val("");
+        $('#autocomplete').val("");
+        $('#user_name').val("");
+        $('#user_phone').val("");
+        $('#user_email').val("");
+    }
+}
+
 function addBooking()
 {
-    let postData   = {"booking_type": 1, "special_notes": "", "user_id": "", "session_id": "", "booking_date_time": "", "pressure_preference": "", "focus_area_preference": "", "gender_preference": "", "therapist_id": "", "notes_of_injuries": "", "services": [], "therapies": [], "book_platform": 1},
-        formInputs = $('.booking-form').serializeArray(),
-        users      = [],
-        inc        = 0;
+    let formInputs      = $('.booking-form').serializeArray(),
+        users           = [],
+        inc             = 0,
+        selectedClients = $('#client_id').val() != "" ? JSON.parse($('#client_id').val()) : [];
 
     $.each(formInputs, function(key, input) {
-        if (input.name == 'therapist[]') {
-            postData.therapist_id = input.value;
-        }
-
         if (input.name == 'special_notes') {
-            postData.special_notes = input.value;
-        }
-
-        if (input.name == 'client_id') {
-            postData.user_id = input.value;
+            createBookingData.special_notes = input.value;
         }
 
         if (input.name == 'session_type') {
-            postData.session_id = input.value;
+            createBookingData.session_id = input.value;
         }
 
-        postData.booking_date_time = currentUTCTimestamps();
+        createBookingData.booking_date_time = currentUTCTimestamps();
+
+        if (input.name == 'guest_booking_date_time' && input.value != "") {
+            var bookingDateTimes = +new Date(input.value);
+
+            $.each(selectedClients, function(key, clientId) {
+                console.log(clientId, bookingDateTimes, createBookingData['users'][clientId]);
+                createBookingData['users'][clientId]['booking_date_time'] = bookingDateTimes;
+            });
+        }
+
+        if (input.name == 'user_booking_date_time' && input.value != "") {
+            var bookingDateTimes = +new Date(input.value);
+
+            $.each(selectedClients, function(key, clientId) {
+                createBookingData['users'][clientId]['booking_date_time'] = bookingDateTimes;
+            });
+        }
 
         if (input.name == 'pressure_preference') {
-            postData.pressure_preference = input.value;
+            $.each(selectedClients, function(key, clientId) {
+                createBookingData['users'][clientId]['pressure_preference'] = input.value;
+            });
         }
 
         if (input.name == 'focus_preference') {
-            postData.focus_area_preference = input.value;
+            $.each(selectedClients, function(key, clientId) {
+                createBookingData['users'][clientId]['focus_area_preference'] = input.value;
+            });
         }
 
         if (input.name == 'notes_of_injuries') {
-            postData.notes_of_injuries = input.value;
+            $.each(selectedClients, function(key, clientId) {
+                createBookingData['users'][clientId]['notes_of_injuries'] = input.value;
+            });
         }
-
-        /*if (input.name == 'service_prising_id[]') {
-            postData.massages[inc] = [];
-
-            postData.massages[inc] = {'massage_timing_id': input.value};
-
-            inc++;
-        }*/
     });
 
-    let services = $("input:checkbox[name='service_prising_id[]']:checked");
+    let postDatas = filderData(createBookingData),
+        postJson  = Object.assign({}, postDatas);
 
-    $.each(services, function(key, service) {
-        let input     = $(service),
-            serviceId = input.data('service-id');
-
-        postData.services[inc] = [];
-
-        postData.services[inc] = {'service_id': serviceId, 'service_timing_id': input.val()};
-
-        inc++;
-    });
-
-    console.log(postData);
-
-    Post(ADD_NEW_BOOKING, postData, function (res) {
+    Post(ADD_NEW_BOOKING_SHOP, postJson, function (res) {
         let data = res.data;
 
         if (data.code == EXCEPTION_CODE) {
@@ -575,6 +778,47 @@ function addBooking()
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
+}
+
+function filderData(data)
+{
+    let returnData = [];
+
+    returnData.booking_type = data.booking_type;
+    returnData.special_notes = data.special_notes;
+    returnData.session_id = data.session_id;
+    returnData.booking_date_time = data.booking_date_time;
+    returnData.book_platform = data.book_platform;
+    returnData.users = [];
+
+    let inc = 0;
+
+    $.each(data.users, function(key, userInfo) {
+        if (typeof userInfo !== typeof undefined && Object.keys(userInfo).length > 0) {
+            returnData.users[inc] = {
+                'user_id': userInfo.user_id,
+                'pressure_preference': userInfo.pressure_preference,
+                'focus_area_preference': userInfo.focus_area_preference,
+                'gender_preference': userInfo.gender_preference,
+                'therapist_id': userInfo.therapist_id,
+                'notes_of_injuries': userInfo.notes_of_injuries,
+                'booking_date_time': userInfo.booking_date_time
+            };
+
+            if (typeof userInfo.services !== typeof undefined && Object.keys(userInfo.services).length > 0) {
+                returnData.users[inc].services = [];
+
+                returnData.users[inc].services.push({
+                    'service_id': userInfo.services.service_id,
+                    'service_timing_id': userInfo.services.service_timing_id
+                });
+            }
+
+            inc++;
+        }
+    });
+
+    return returnData;
 }
 
 function getClients(searchValue)
@@ -597,7 +841,7 @@ function getClients(searchValue)
                         searchData[item.id] = item.name + (item.surname != null && item.surname != '' ? " " + item.surname : "");
                     });
 
-                    autoComplete(searchValue, searchData, setSelectedClient, data.data.data);
+                    autoComplete(searchValue, searchData, setSelectedClient, data.data.data, clientIds);
                 } else {
                     showError(data.msg);
                 }
@@ -609,9 +853,9 @@ function getClients(searchValue)
     );
 }
 
-function setSelectedClient(data)
+function setSelectedClient(data, clientId)
 {
-    let selectedClientId = $("#client_id").val();
+    let selectedClientId = clientId; // $("#client_id").val();
 
     if (selectedClientId) {
         $.each(data, function(k, item) {
@@ -619,7 +863,20 @@ function setSelectedClient(data)
                 $("#user_name").val(item.name + (item.surname != null && item.surname != '' ? " " + item.surname : ""));
                 $("#user_phone").val((item.tel_number_code != '' && item.tel_number_code != null ? " " + item.tel_number_code : "") + (item.tel_number != '' && item.tel_number != null ? item.tel_number : "-"));
                 $("#user_email").val(item.email);
+
+                if (typeof userData[selectedClientId] === typeof undefined) {
+                    userData[selectedClientId] = [];
+                }
+
+                userData[selectedClientId] = {
+                    'name': item.name + (item.surname != null && item.surname != '' ? " " + item.surname : ""),
+                    'telephone': (item.tel_number_code != '' && item.tel_number_code != null ? " " + item.tel_number_code : "") + (item.tel_number != '' && item.tel_number != null ? item.tel_number : "-"),
+                    'email': (item.tel_number_code != '' && item.tel_number_code != null ? " " + item.tel_number_code : "") + (item.tel_number != '' && item.tel_number != null ? item.tel_number : "-"),
+                    'is_guest': false
+                };
             }
         });
+
+        buildUserData(selectedClientId);
     }
 }

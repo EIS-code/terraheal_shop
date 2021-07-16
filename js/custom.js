@@ -112,11 +112,19 @@ function checkBookingForm(tab)
 
             return false;
         } else if (service.length != therapist.length) {
-            showError("You have selected " + therapist.length + " therapist and " + service.length + " services.");
+            /* showError("You have selected " + therapist.length + " therapist and " + service.length + " services.");
+
+            return false; */
+        }
+    } else if (tab == 4) {
+        let clientId = $("#client_id").val();
+
+        if (typeof clientId === typeof undefined || clientId == '' || clientId == null) {
+            showError("Please select user or add guest.");
 
             return false;
         }
-    } else if (tab == 4) {
+    } else if (tab == 5) {
         let focusArea          = $("input:radio[name='focus_preference']:checked"),
             sessionType        = $("input:radio[name='session_type']:checked"),
             pressurePreference = $("input:radio[name='pressure_preference']:checked");
@@ -135,14 +143,6 @@ function checkBookingForm(tab)
 
         if (pressurePreference.length <= 0) {
             showError("Please select pressure preference.");
-
-            return false;
-        }
-    } else if (tab == 5) {
-        let clientId = $("#client_id").val();
-
-        if (typeof clientId === typeof undefined || clientId == '' || clientId == null) {
-            showError("Please select user or add guest.");
 
             return false;
         }
@@ -169,7 +169,7 @@ function showBody()
     }, 500);
 }
 
-function autoComplete(value, data, callback, args)
+function autoComplete(value, data, callback, args, clientIds)
 {
     if (!data || data.length <= 0) { return false; }
 
@@ -186,11 +186,12 @@ function autoComplete(value, data, callback, args)
 
         $("#autocomplete").val(input.data('value'));
 
-        $('#client_id').val(input.val());
+        clientIds.push(input.val());
+        $('#client_id').val(JSON.stringify(clientIds));
 
         closeAllLists();
 
-        callback(args);
+        callback(args, input.val());
     });
 }
 

@@ -732,7 +732,8 @@ function getCompletedBookings()
 
             $.each(data.data, function(k, item) {
                 let serviceName  = item.service_name,
-                    specialNotes = (item.notes != '' && item.notes != null) ? item.notes : false;
+                    specialNotes = (item.notes != '' && item.notes != null) ? item.notes : false,
+                    observation  = (item.observation != '' && item.observation != null) ? item.observation : false;
 
                 tbody += '<tr>';
                     tbody += '<td class="text-center">' + getDate(item.massage_date) + '</td>';
@@ -782,8 +783,10 @@ function getCompletedBookings()
                     tbody += '</td>';
 
                     tbody += '<td class="text-center">';
-                        tbody += '<i class="fas fa-bookmark">';
-                        tbody += '</i>';
+                        tbody += '<a href="#" data-toggle="modal" data-target="#observations-modal-' + item.booking_massage_id + '">';
+                            tbody += '<i class="fas fa-bookmark ' + (observation ? 'active' : '') + '">';
+                            tbody += '</i>';
+                        tbody += '</a>';
                     tbody += '</td>';
 
                     tbody += '<td class="text-center">';
@@ -821,6 +824,30 @@ function getCompletedBookings()
                         notesModel += '</div></div></div></div>';
 
                     $('#notes-modal-static').append(notesModel);
+                }
+
+                /* Observations. */
+                if (observation) {
+                    let observationsModel = '<div class="modal fade" id="observations-modal-' + item.booking_massage_id + '" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">';
+                        observationsModel += '<div class="modal-dialog modal-dialog-centered modal-lg" role="document">';
+                        observationsModel += '<div class="modal-content">';
+                        observationsModel += '<div class="modal-header">Observation';
+                        observationsModel += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+                        observationsModel += '<span aria-hidden="true">&times;</span>';
+                        observationsModel += '</button>';
+                        observationsModel += '</div>';
+                        observationsModel += '<div class="modal-body">';
+                        observationsModel += '<div class="obs-inner">';
+                        observationsModel += '<p>' + observation;
+                        observationsModel += '</p>';
+                        observationsModel += '</div>';
+                        observationsModel += '</div>';
+                        observationsModel += '</div>';
+                        observationsModel += '</div>';
+                        observationsModel += '</div>';
+                        observationsModel += '</div>';
+
+                    $('#observations-modal-static').append(observationsModel);
                 }
 
                 /* Booking details. */

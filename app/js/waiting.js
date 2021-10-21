@@ -375,7 +375,7 @@ function GetWaiting(type, filter)
                     "<td class=\"text-center\"><i class=\"fas fa-edit\"></i></td>"+
                     "<td class=\"text-center\"><a href=\"#\" class=\"open-model\" data-target=\"#delete-modal\" data-id=\"" + item.booking_id + "\" data-type=\"" + type + "\"><i class=\"far fa-trash-alt\"></i></a></td>"+
                     "<td class=\"text-center\"><a href=\"#\" class=\"open-details-modal\" data-id=\"" + item.booking_massage_id + "\"><i class=\"fas fa-eye\"></i></a></td>"+
-                    "<td class=\"text-center\"><a href=\"#\" id=\"print-modal-click\" data-booking-id=\"" + item.booking_id + "\"><i class=\"fas fa-print\"></i></a></td>"+
+                    "<td class=\"text-center\"><a href=\"#\" class=\"print-modal-click\" data-booking-id=\"" + item.booking_id + "\"><i class=\"fas fa-print\"></i></a></td>"+
                     "<td><span class=\"confirm\"><input type=\"checkbox\" name=\"confirm_booking\" class=\"confirm_booking\" value=\"" + item.booking_massage_id + "\" data-type=\"" + type + "\"/><label></label></span></td>"+
                 "</tr>";
              
@@ -464,7 +464,7 @@ function GetWaiting(type, filter)
                 $('div#details-modal-' + bookingMassageId).modal('show');
             });
 
-            $(document).find('#print-modal-click').on("click", function() {
+            $(document).find('.print-modal-click').on("click", function() {
                 let self      = $(this),
                     bookingId = self.data('booking-id');
 

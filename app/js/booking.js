@@ -15,8 +15,18 @@ var shopData          = getLocalShopStorage(),
     },
     userData          = [];
 
+const PRESSURE_PREFERENCE = 1;
+const GENDER_PREFERENCE = 2;
+const AREA_PREFERENCE = 3;
+const MUSCLES_PREFERENCE = 4;
+const PAST_SURGERIES_PREFERENCE = 5;
+const SKIN_PREFERENCE = 6;
+const HEALTH_PREFERENCE = 7;
+const FOCUS_AREA_PREFERENCE = 8;
+
 $(document).ready(function () {
     getTherapists();
+    getSessionTypes();
     getPreferences();
 
     var owlServices = initOwlServices();
@@ -473,104 +483,104 @@ function getTherapists() {
     });
 }
 
+function buildFocusArea(options)
+{
+    if (Object.keys(options).length > 0) {
+        var modelBody = $('#focusmodal').find('.modal-body'),
+            modelHtml = "<div class='focus-pref'><ul class='d-flex justify-content-between flex-wrap'>";
+
+        $.each(options, function(key, row) {
+            modelHtml += "<li><input class='select-input' type='radio' name='focus_preference' value='" + row.id + "' data-name='" + row.name + "' /><div class='pf-bx'><img src='" + row.icon + "' alt='' /><span class='pf-abs'>" + row.name + "</span></div></li>";
+        });
+
+        modelHtml += "</ul></div>";
+
+        modelBody.html("");
+        modelBody.html(modelHtml);
+    }
+
+    $('input:radio[name="focus_preference"]').change(
+        function() {
+            if ($(this).is(':checked')) {
+                $('#focus_preference').html($(this).data('name'));
+            }
+
+            $('#focusmodal').modal('hide');
+        }
+    );
+}
+
+function buildPressurePreferences(options)
+{
+    if (Object.keys(options).length > 0) {
+        var elementDropdown = $('#pressure'),
+            dropdownHtml    = "";
+
+        $.each(options, function(key, row) {
+            dropdownHtml += "<li><input type='radio' name='pressure_preference' value='" + row.id + "'><label>" + row.name + "</label></li>";
+        });
+
+        elementDropdown.html("");
+        elementDropdown.html(dropdownHtml);
+    }
+
+    $('#pressure li').on('click', function() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+
+        var getValue = $(this).text();
+
+        $('#pLabel').text(getValue);
+
+        $(this).parents('.dropdown').click();
+    });
+}
+
 function getPreferences()
 {
-    let postData = {
-        "type": 8
-    };
-
-    let focusAreas = [];
+    let postData = {};
 
     Post(PREFERENCES, postData, function (res) {
-        let data = res.data.data.preference_options;
+        let data = res.data.data;
 
         if (Object.keys(data).length > 0) {
-            var modelBody = $('#focusmodal').find('.modal-body'),
-                modelHtml = "<div class='focus-pref'><ul class='d-flex justify-content-between flex-wrap'>";
-
-            $.each(data, function(key, row) {
-                modelHtml += "<li><input class='select-input' type='radio' name='focus_preference' value='" + row.id + "' data-name='" + row.name + "' /><div class='pf-bx'><img src='" + row.icon + "' alt='' /><span class='pf-abs'>" + row.name + "</span></div></li>";
-            });
-
-            modelHtml += "</ul></div>";
-
-            modelBody.html("");
-            modelBody.html(modelHtml);
-        }
-
-        $('input:radio[name="focus_preference"]').change(
-            function() {
-                if ($(this).is(':checked')) {
-                    $('#focus_preference').html($(this).data('name'));
+            $.each(data, function(index, preferences) {
+                if (preferences.id == FOCUS_AREA_PREFERENCE) {
+                    buildFocusArea(preferences.preference_options);
+                } else if (preferences.id == PRESSURE_PREFERENCE) {
+                    buildPressurePreferences(preferences.preference_options);
                 }
-
-                $('#focusmodal').modal('hide');
-            }
-        );
+            });
+        }
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });
+}
 
-    postData = {};
+function getSessionTypes()
+{
+    let postData = {};
 
     Get(SESSIONS, postData, function (res) {
         let data = res.data.data;
 
         if (Object.keys(data).length > 0) {
-            var elementDropdown = $('#session'),
-                dropdownHtml    = "";
+            var elementDropdown = $('#sessionTabs'),
+                liHtml          = "";
 
             $.each(data, function(key, row) {
-                dropdownHtml += "<li><input type='radio' name='session_type' value='" + row.id + "'><label>" + row.type + "</label></li>";
+                liHtml += "<li data-id='" + row.id + "'><a data-toggle='tab' href='#'>" + row.type + "</a><input type='radio' name='session_type' id='session_type-" + row.id + "' value='" + row.id + "'></li>";
             });
 
             elementDropdown.html("");
-            elementDropdown.html(dropdownHtml);
-        }
+            elementDropdown.html(liHtml);
 
-        $('#session li').on('click', function() {
-            $(this).addClass('selected').siblings().removeClass('selected');
+            elementDropdown.find('li').on("click", function() {
+                let self      = $(this),
+                    sessionId = self.data('id');
 
-            var getValue = $(this).text();
-
-            $('#dLabel').text(getValue);
-
-            $(this).parents('.dropdown').click();
-        });
-    }, function (err) {
-        console.log("AXIOS ERROR: ", err);
-    });
-
-    postData = {
-        "type": 1
-    };
-
-    let pressure = [];
-
-    Post(PREFERENCES, postData, function (res) {
-        let data = res.data.data.preference_options;
-
-        if (Object.keys(data).length > 0) {
-            var elementDropdown = $('#pressure'),
-                dropdownHtml    = "";
-
-            $.each(data, function(key, row) {
-                dropdownHtml += "<li><input type='radio' name='pressure_preference' value='" + row.id + "'><label>" + row.name + "</label></li>";
+                $('#session_type-' + sessionId).prop("checked", true);
             });
-
-            elementDropdown.html("");
-            elementDropdown.html(dropdownHtml);
         }
-
-        $('#pressure li').on('click', function() {
-            $(this).addClass('selected').siblings().removeClass('selected');
-
-            var getValue = $(this).text();
-
-            $('#pLabel').text(getValue);
-
-            $(this).parents('.dropdown').click();
-        });
     }, function (err) {
         console.log("AXIOS ERROR: ", err);
     });

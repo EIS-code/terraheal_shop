@@ -92,9 +92,14 @@ function showConfirm(message, element)
 function checkBookingForm(tab)
 {
     if (tab == 2) {
-        let value = $("input:checkbox[name='therapist[]']:checked");
+        let value = $("input:checkbox[name='therapist[]']:checked"),
+            sessionTypeValue = $("input:radio[name='session_type']:checked");
 
-        if (value.length <= 0) {
+        if (sessionTypeValue.length <= 0) {
+            showError("Please select session type first.");
+
+            return false;
+        } else if (value.length <= 0) {
             showError("Please select therapist first.");
 
             return false;

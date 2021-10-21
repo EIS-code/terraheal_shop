@@ -196,7 +196,7 @@ function getServices(owlServices)
     Post(SERVICES, postData, function (res) {
         if (res.data.code == SUCCESS_CODE) {
 
-            let myArray = res.data.data.data,
+            let myArray = res.data.data,
                 li      = '';
 
             window.localStorage.removeItem('massages');
@@ -208,7 +208,7 @@ function getServices(owlServices)
 
                     li += '<div class="sl-cont">';
                         li += '<div class="th-image msg-img">';
-                            li += '<img src="' + item.icon + '" alt="' + item.icon + '"/>';
+                            li += '<img src="' + item.image + '" alt="' + item.image + '"/>';
                         li += '</div>';
 
                         li += '<span class="msg-name">';
@@ -244,7 +244,7 @@ function getServices(owlServices)
     Post(SERVICES, postData, function (res) {
         if (res.data.code == SUCCESS_CODE) {
 
-            var myArray = res.data.data.data,
+            var myArray = res.data.data,
                 li      = '';
 
             window.localStorage.removeItem('therapies');

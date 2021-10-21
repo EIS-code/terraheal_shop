@@ -39,6 +39,7 @@ export const SEARCH_PACKS                = BASEURL+"/waiting/searchPacks";
 export const START_SERVICE_TIME          = BASEURL+"/waiting/startServiceTime";
 export const END_SERVICE_TIME            = BASEURL+"/waiting/endServiceTime";
 export const PRINT_BOOKING_DETAILS       = BASEURL+"/waiting/printBookingDetails";
+export const ASSIGN_THERAPIST            = BASEURL+"/waiting/assignTherapist";
 
 export async function Post(url, postData, success, errorCallBack)
 {

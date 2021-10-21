@@ -1,5 +1,5 @@
 import { Post, Get } from './networkconst.js';
-import { ONGOING, WAITING, CONFIRM_BOOKING, GET_ALL_THERAPISTS, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE, GET_ROOMS, ASSIGN_ROOMS, DOWNGRADE_BOOKING, CANCEL_BOOKING, END_SERVICE_TIME, START_SERVICE_TIME, PRINT_BOOKING_DETAILS } from './networkconst.js';
+import { ONGOING, WAITING, CONFIRM_BOOKING, GET_ALL_THERAPISTS, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE, GET_ROOMS, ASSIGN_ROOMS, DOWNGRADE_BOOKING, CANCEL_BOOKING, END_SERVICE_TIME, START_SERVICE_TIME, PRINT_BOOKING_DETAILS, ASSIGN_THERAPIST } from './networkconst.js';
 
 var backFile      = getUrl(window.location.href, 'backfile'),
     intervalArray = {};
@@ -67,7 +67,7 @@ function bindHeaderFilterClickEvents()
         }
     });
 
-    $(document).find('.room-center ul li').find('input:radio[name="assign_room"]').on("click", function() {
+    $(document).find('.all-rooms ul li').find('input:radio[name="assign_room"]').unbind().on("click", function() {
         let self  = $(this),
             modal = $('#assign-rooms-modal');
 
@@ -75,6 +75,17 @@ function bindHeaderFilterClickEvents()
 
         if (self.is(':checked')) {
             assignRoom(modal.data('id'), self.val(), modal.data('type'));
+        }
+    });
+
+    $(document).find('.all-therapist ul li').find('input:radio[name="assign_therapist"]').unbind().on("click", function() {
+        let self  = $(this),
+            modal = $('#assign-therapist-modal');
+
+        modal.modal('hide');
+
+        if (self.is(':checked')) {
+            assignTherapist(modal.data('id'), self.val(), modal.data('type'));
         }
     });
 }
@@ -356,7 +367,7 @@ function GetWaiting(type, filter)
                 let specialNotes = (item.notes != '' && item.notes != null) ? item.notes : false;
 
                 if (item.therapistName == null || item.therapistName == '') {
-                    therapistName="<td class=\"text-center\"><span class=\"th-sp\"><span class=\"ed-icon\"><a href=\"therapist-all.html\"><img src=\"images/girl.png\" alt=\"\"/></a></span></span></td>" 
+                    therapistName="<td class=\"text-center\"><span class=\"th-sp\"><span class=\"ed-icon\"><a href=\"#\" class=\"open-model\" data-target=\"#assign-therapist-modal\" data-id=" + item.booking_info_id + " data-type=" + type + "><img src=\"images/girl.png\" alt=\"\"/></a></span></span></td>" 
                 } else {
                     therapistName="<td class=\"text-center\"><span class=\"th-sp\">"+item.therapistName+"<span class=\"ed-icon\"></span></span></td>" 
                 }
@@ -511,16 +522,23 @@ function getTherapists()
         if (data.code == ERROR_CODE) {
             showError(data.msg);
         } else {
-            let liHtml = "";
+            let liHtml       = "",
+                liAssignHtml = "";
 
             $.each(data.data, function(key, item) {
                 liHtml += '<li><input type="radio" name="filter_therapist" class="header_filter" value="' + key + '"/><label>' + item + '</label></li>';
+
+                liAssignHtml += '<li><input type="radio" name="assign_therapist" value="' + key + '"/>&nbsp;<label>' + item + '</label></li>';
             });
 
-            let dropdownElement = $('#therapist li ul');
+            let dropdownElement        = $('#therapist li ul'),
+                therapistAssignElement = $('.all-therapist ul');
 
             dropdownElement.empty();
             dropdownElement.html(liHtml);
+
+            therapistAssignElement.empty();
+            therapistAssignElement.html(liAssignHtml);
 
             bindHeaderFilterClickEvents();
         }
@@ -549,7 +567,7 @@ function getRooms()
             });
 
             let dropdownElement   = $('#room li ul'),
-                roomAssignElement = $('.room-center ul');
+                roomAssignElement = $('.all-rooms ul');
 
             dropdownElement.empty();
             dropdownElement.html(liHtml);
@@ -572,6 +590,29 @@ function assignRoom(bookingMassageId, roomId, type)
     };
 
     Post(ASSIGN_ROOMS, postData, function (res) {
+        let data = res.data;
+
+        if (data.code == ERROR_CODE) {
+            showError(data.msg);
+        } else {
+            // showSuccess(data.msg);
+
+            GetOnGoing(type);
+            GetWaiting(type);
+        }
+    }, function (err) {
+        console.log("AXIOS ERROR: ", err);
+    });
+}
+
+function assignTherapist(bookingInfoId, therapistId, type)
+{
+    let postData = {
+        "booking_info_id": bookingInfoId,
+        "therapist_id": therapistId
+    };
+
+    Post(ASSIGN_THERAPIST, postData, function (res) {
         let data = res.data;
 
         if (data.code == ERROR_CODE) {

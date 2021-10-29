@@ -2589,3 +2589,46 @@ a.bg-orange{ background:#FF9900; padding: 2px 4px;border-radius: 4px;color: #fff
 
 #sessionTabs li a {  position: relative;}
 #sessionTabs li input {  opacity: 0; left: 0;  top: 0;  width: 100%;  height: 100%; }
+
+/* Responsive start */
+@media (min-width:768px) and (max-width:1300px){
+.shop-main-section { padding: 0 15px; }
+.top-main .main-logo img{ max-width:120px; }
+.top-main{ padding:10px; }
+.clock{ margin-left:10px;}
+.main-left, .main-logo, .top-right{ flex:1;}
+.top-right{ justify-content: flex-end; }
+}@media (max-width:767px){
+body{ background-size:180%; background-repeat:repeat; height:auto; }
+body.hm-screen{ background-size:cover;}
+.login-logo img{ max-height:120px; width:auto; }
+.shop-main-section{ padding:0 15px; }
+.login-logo{ margin-bottom:15px; }
+.top-main{ padding:10px 2px; }
+.login-box{ padding:20px;}
+.clock{ margin-left:8px; font-size:28px; }
+.prod-gram img{ max-height:20px; }
+ul.prod-gram{ min-width:70px; float:right; padding-top:0px; padding-bottom:0px; }
+.main-log input{ margin-top:15px; }
+.main-log button{ margin-top:20px; }
+.home-screen ul li a{ min-width:138px; padding:15px 10px; font-size:16px;}
+.main-left, .main-logo, .top-right{ flex:1;}
+.hm-screen .top-right{ flex:inherit; }
+.main-logo{ margin-top:20px; }
+.bl-title{ padding:15px 20px; font-size:20px; box-shadow: 0px 12px 8px rgba(0,0,0,0.08); }
+.bl-title .count{ margin-right:15px; }
+.wh-content{ padding:20px 15px 40px;}
+.therapist-col ul li{ margin-top:15px; }
+.th-image{ min-width:inherit; height:auto; }
+.therapist-col ul li{ width:46%; margin-left:5px; margin-right:5px; }
+.avail{ padding-top:5px; font-size:14px; }
+.top-tab-sec{ padding-top:25px; }
+a.mover{ position:static; display:inline-block; margin-right:10px; margin-bottom:20px; }
+a.prev-tab.mover { float: left;}
+input:checked + .sl-cont .th-image{ box-shadow: 0px 10px 10px rgb(0 0 0 / 10%); }
+.cust-flex ul li{ width:48%; }
+.top-tab-sec .nav{ margin-bottom:15px; }
+.wh-box{ padding-bottom:25px; }
+.top-right{ flex-direction:column; text-align:right; }
+}
+/* Responsive complete */

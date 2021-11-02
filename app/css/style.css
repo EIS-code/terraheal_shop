@@ -2598,6 +2598,7 @@ a.bg-orange{ background:#FF9900; padding: 2px 4px;border-radius: 4px;color: #fff
 .clock{ margin-left:10px;}
 .main-left, .main-logo, .top-right{ flex:1;}
 .top-right{ justify-content: flex-end; }
+.preferance{ padding-top:40px; }
 }@media (max-width:767px){
 body{ background-size:180%; background-repeat:repeat; height:auto; }
 body.hm-screen{ background-size:cover;}
@@ -2605,6 +2606,7 @@ body.hm-screen{ background-size:cover;}
 .shop-main-section{ padding:0 15px; }
 .login-logo{ margin-bottom:15px; }
 .top-main{ padding:10px 2px; }
+.top-main .main-logo img{ max-width:115px; }
 .login-box{ padding:20px;}
 .clock{ margin-left:8px; font-size:28px; }
 .prod-gram img{ max-height:20px; }
@@ -2613,13 +2615,13 @@ ul.prod-gram{ min-width:70px; float:right; padding-top:0px; padding-bottom:0px; 
 .main-log button{ margin-top:20px; }
 .home-screen ul li a{ min-width:138px; padding:15px 10px; font-size:16px;}
 .main-left, .main-logo, .top-right{ flex:1;}
-.hm-screen .top-right{ flex:inherit; }
-.main-logo{ margin-top:20px; }
-.bl-title{ padding:15px 20px; font-size:20px; box-shadow: 0px 12px 8px rgba(0,0,0,0.08); }
+.hm-screen .top-right{ flex:1; }
+.main-logo{ margin-top:10px; }
+.bl-title{ padding:12px 20px; font-size:20px; box-shadow: 0px 12px 8px rgba(0,0,0,0.08); }
 .bl-title .count{ margin-right:15px; }
 .wh-content{ padding:20px 15px 40px;}
 .therapist-col ul li{ margin-top:15px; }
-.th-image{ min-width:inherit; height:auto; }
+.th-image{ min-width:inherit; height:38vw; }
 .therapist-col ul li{ width:46%; margin-left:5px; margin-right:5px; }
 .avail{ padding-top:5px; font-size:14px; }
 .top-tab-sec{ padding-top:25px; }
@@ -2629,6 +2631,38 @@ input:checked + .sl-cont .th-image{ box-shadow: 0px 10px 10px rgb(0 0 0 / 10%); 
 .cust-flex ul li{ width:48%; }
 .top-tab-sec .nav{ margin-bottom:15px; }
 .wh-box{ padding-bottom:25px; }
+.preferance{ padding-top:40px; }
 .top-right{ flex-direction:column; text-align:right; }
+.home-screen ul{ justify-content: space-around; }
+.pref-top{ flex-direction:column; }
+.pref-type{ min-width:inherit; margin-bottom: 10px; }
+#focusmodal .modal-body{ padding-left:25px; padding-right:25px; }
+.focus-pref ul li{ width:47%; }
+.focus-pref ul li .pf-bx::after{ top:7px; right:7px; }
+.focus-pref ul li .pf-bx::before{ top:11px; right:14px; }
+.ph-radio{ margin-left:10px; }
+.pref-middle{ padding:30px 0;}
+.ph-box{ margin-bottom:15px; }
+.ph-total{ top:0px; }
+.details-sec .cmn-cont .tab-pane{ padding:20px 0;}
+.details-sec{ padding:20px 0;}
+.cmn-btn.register{ margin-bottom:10px; }
+.norm-pad{ padding:20px 0;}
+.form-list label{ margin-bottom:10px; }
+.form-list{ margin-bottom:10px; margin-right:0px; width:100%; }
+.p-wrap{ width:100%; margin-right:0px; margin-bottom:10px; }
+.p-wrap select{ width:100%;}
+.p-wrap:last-child{ width:100%; }
+.person-bottom{ margin-top:10px; }
+.ph-text textarea{ min-height:140px; }
+.client-id{ margin-bottom:10px; }
+.client-id label{ display:block; margin-bottom:6px; width:100%; text-align:center; margin-right:0px; }
+.client-id a{ margin-left:10px; }
+.client-id{ flex-wrap:wrap; }
+.pay-list label{ min-width:160px; }
+.pt-btm{ margin-bottom:10px; }
+.pay-buttons{ padding-top:15px; }
+.cmn-btn.reset{ margin-right:10px; }
+.payment-sec{ padding:20px 0;}
 }
 /* Responsive complete */

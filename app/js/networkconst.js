@@ -40,6 +40,10 @@ export const START_SERVICE_TIME          = BASEURL+"/waiting/startServiceTime";
 export const END_SERVICE_TIME            = BASEURL+"/waiting/endServiceTime";
 export const PRINT_BOOKING_DETAILS       = BASEURL+"/waiting/printBookingDetails";
 export const ASSIGN_THERAPIST            = BASEURL+"/waiting/assignTherapist";
+export const GET_USER_CARD_DETAILS       = BASEURL + "/shops/user/card/details/get";
+export const ADD_USER_CARD_DETAILS       = BASEURL + "/shops/user/card/details/save";
+export const ADD_USER_DEFAULT_CARD       = BASEURL + "/shops/user/default/card/save";
+export const ADD_SERVICE_TIME            = BASEURL + "/waiting/service-time/add";
 
 export async function Post(url, postData, success, errorCallBack)
 {
@@ -57,7 +61,7 @@ export async function Post(url, postData, success, errorCallBack)
     } else {
         let shopData = getLocalShopStorage();
 
-        // headersData['api-key'] = shopData.api_key[0].key;
+        headersData['api-key'] = shopData.api_key;
 
         var axiosConfig = {
             headers: headersData
@@ -97,7 +101,7 @@ export async function PostDocument(url, formData, success, errorCallBack)
     } else {
         let shopData = getLocalShopStorage();
 
-        // headersData['api-key'] = shopData.api_key[0].key;
+        headersData['api-key'] = shopData.api_key;
 
         var axiosConfig = {
             headers: headersData

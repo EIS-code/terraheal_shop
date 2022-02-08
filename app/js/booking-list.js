@@ -542,7 +542,7 @@ function getFutureBookings()
                     tbody += '<td class="text-center">' + item.book_platform + '</td>';
 
                     tbody += '<td class="text-center">';
-                        tbody += '<span class="pay-sp">&#8364; 661';
+                        tbody += '<span class="pay-sp bg-green">&#8364; ' + item.paid_amounts;
                         tbody += '</span>';
                     tbody += '</td>';
 
@@ -771,7 +771,7 @@ function getCompletedBookings()
                     tbody += '<td class="text-center">' + item.book_platform + '</td>';
 
                     tbody += '<td class="text-center">';
-                        tbody += '<span class="pay-sp">&#8364; 661';
+                        tbody += '<span class="pay-sp bg-green">&#8364; ' + item.paid_amounts;
                         tbody += '</span>';
                     tbody += '</td>';
 
@@ -981,7 +981,7 @@ function getCancelledBookings()
                     tbody += '<td class="text-center">' + item.book_platform + '</td>';
 
                     tbody += '<td class="text-center">';
-                        tbody += '<span class="pay-sp">&#8364; 661';
+                        tbody += '<span class="pay-sp bg-green">&#8364; ' + item.paid_amounts;
                         tbody += '</span>';
                     tbody += '</td>';
 

@@ -1,6 +1,6 @@
 
 import { Post, Get, searchClients, SUCCESS_CODE, ERROR_CODE, EXCEPTION_CODE } from './networkconst.js';
-import { THERAPISTS, SERVICES, PREFERENCES, SESSIONS, ADD_CLIENT, ADD_NEW_BOOKING_SHOP, SEARCH_CLIENT } from './networkconst.js';
+import { THERAPISTS, SERVICES, PREFERENCES, SESSIONS, ADD_CLIENT, ADD_NEW_BOOKING_SHOP, SEARCH_CLIENT, GET_USER_CARD_DETAILS, ADD_USER_CARD_DETAILS, ADD_USER_DEFAULT_CARD } from './networkconst.js';
 
 var shopData          = getLocalShopStorage(),
     selectedServices  = [],
@@ -13,7 +13,8 @@ var shopData          = getLocalShopStorage(),
         'users': [],
         'book_platform': 1
     },
-    userData          = [];
+    userData          = [],
+    paymentCard;
 
 const PRESSURE_PREFERENCE = 1;
 const GENDER_PREFERENCE = 2;
@@ -38,6 +39,10 @@ $(document).ready(function () {
     });
 
     $(".checkout").on("click", function() {
+        selectCard();
+    });
+
+    $("#create-booking").on("click", function() {
         addBooking();
     });
 
@@ -718,6 +723,145 @@ function buildClientForm()
     }
 }
 
+function selectCard()
+{
+    let selectedClients = $('#client_id').val() != "" ? JSON.parse($('#client_id').val()) : [];
+
+    Post(GET_USER_CARD_DETAILS, {"user_id": selectedClients}, function (res) {
+        let data = res.data;
+
+        let tbody   = '',
+            element = $("#client-cards-modal").find("#card-list");
+
+        if (data.code == EXCEPTION_CODE) {
+            // showError(data.msg);
+            tbody += '<tr>';
+                tbody += '<td colspan="4" class="text-center">';
+                    tbody += data.msg;
+                tbody += '</td>';
+            tbody += '</tr>';
+
+            element.empty();
+            element.html(tbody);
+
+            $("#client-cards-modal").modal("show");
+
+            $("#client-cards-modal").find("#add-new-card").unbind().on("click", function() {
+                showClientCardModal();
+            });
+        } else {
+            $.each(data.data, function(index, card) {
+                tbody += '<tr>';
+                    tbody += '<td class="text-left">';
+                        tbody += card.holder_name;
+                    tbody += '</td>';
+
+                    tbody += '<td class="text-left">';
+                        tbody += card.card_number;
+                    tbody += '</td>';
+
+                    tbody += '<td class="text-left">';
+                        tbody += card.exp_month + "/" + card.exp_year;
+                    tbody += '</td>';
+
+                    let checked = card.is_default == "1" ? "checked" : "";
+                    tbody += '<td>';
+                        tbody += '<input type="radio" name="is_default" ' + checked + ' data-card-id="' + card.id + '" />';
+                    tbody += '</td>';
+                tbody += '</tr>';
+            });
+
+            element.empty();
+            element.html(tbody);
+
+            $("#client-cards-modal").modal("show");
+
+            $("#client-cards-modal").find("#add-new-card").unbind().on("click", function() {
+                showClientCardModal();
+            });
+
+            $("#client-cards-modal").find("input:radio[name='is_default']").unbind().on("click", function() {
+                let self   = $(this),
+                    cardId = self.data("card-id");
+
+                setDefaultCard(selectedClients[0], cardId);
+            });
+        }
+    }, function (err) {
+        showError("AXIOS ERROR: " + err);
+    });
+}
+
+function setDefaultCard(clientId, cardId) {
+    Post(ADD_USER_DEFAULT_CARD, {"user_id": clientId, "card_id": cardId, "is_default": "1"}, function (res) {
+        let data = res.data;
+
+        if (data.code == EXCEPTION_CODE) {
+            showError(data.msg);
+        } else {
+            showSuccess(data.msg);
+        }
+    }, function (err) {
+        showError("AXIOS ERROR: " + err);
+    });
+}
+
+function addNewCard()
+{
+    $("#card-errors").empty();
+
+    stripePayment.createToken(paymentCard).then(function(result) {
+        if (result.error) {
+            // Inform the customer that there was an error.
+            $("#card-errors").empty().html(result.error.message);
+        } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+        }
+    });
+}
+
+function stripeTokenHandler(token)
+{
+    let selectedClients = $('#client_id').val() != "" ? JSON.parse($('#client_id').val()) : [],
+        holderName      = $("#client-cards-add").find("form[id='client-new-card-form']").find("input[name='card_holder_name']").val();
+
+     Post(ADD_USER_CARD_DETAILS, {"user_id": selectedClients[0], "holder_name" : holderName, "is_default" : "1", "stripe_token" : token.id}, function (res) {
+        let data = res.data;
+
+        if (data.code == EXCEPTION_CODE) {
+            showError(data.msg);
+        } else {
+            showSuccess(data.msg);
+
+            $("#client-cards-add").find("form[id='client-new-card-form']").find("input[name='card_holder_name']").val("");
+
+            $("#client-cards-add").modal("hide");
+
+            selectCard();
+        }
+    }, function (err) {
+        showError("AXIOS ERROR: " + err);
+    }); 
+}
+
+function showClientCardModal()
+{
+    var elements = stripePayment.elements();
+
+    // Create an instance of the card Element.
+    paymentCard = elements.create('card', {style: {}});
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    paymentCard.mount('#card-elements');
+
+    $("#client-cards-add").modal("show");
+
+    $("#client-cards-add").find("#client-cards-save").unbind().on("click", function() {
+        addNewCard();
+    });
+}
+
 function addBooking()
 {
     let formInputs      = $('.booking-form').serializeArray(),
@@ -772,6 +916,8 @@ function addBooking()
         }
     });
 
+    createBookingData.user_id = selectedClients[0];
+
     let postDatas = filderData(createBookingData),
         postJson  = Object.assign({}, postDatas);
 
@@ -801,6 +947,7 @@ function filderData(data)
     returnData.session_id = data.session_id;
     returnData.booking_date_time = data.booking_date_time;
     returnData.book_platform = data.book_platform;
+    returnData.user_id = data.user_id;
     returnData.users = [];
 
     let inc = 0;

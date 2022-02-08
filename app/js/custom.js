@@ -10,6 +10,18 @@ $(document).ready(function() {
     $(this).parent().children('.init').html($(this).html());
     $(this).parent().find('li:not(.init)').toggle();
   });
+    $('.myMenu .d-flex').slicknav(
+        defaults ={
+            label: '',
+            duplicate: true,
+            duration: 200,
+            easingOpen: 'swing',
+            easingClose: 'swing',
+            closedSymbol: '&#9658;',
+            openedSymbol: '&#9660;',
+            prependTo: '.myMenu',
+        }
+    );
 });
 
 
@@ -122,10 +134,16 @@ function checkBookingForm(tab)
             return false; */
         }
     } else if (tab == 4) {
-        let clientId = $("#client_id").val();
+        let clientId  = $("#client_id").val(),
+            clientIds = JSON.parse(clientId);
 
         if (typeof clientId === typeof undefined || clientId == '' || clientId == null) {
             showError("Please select user or add guest.");
+
+            return false;
+        } else if (Object.values(clientIds).length > 1) {
+            // Have to set only one user as conflict in payment user cards.
+            showError("Please select only one user.");
 
             return false;
         }
@@ -236,6 +254,29 @@ function getCurrentUTCTimestamps()
     return moment.utc().unix() * 1000;
 }
 
+function convertDateInputToUTCTimestamps(date)
+{
+    if (!empty(date)) {
+        let localDate = moment(date),
+            toUTCDate = moment.utc(date).unix();
+
+        return toUTCDate * 1000;
+    }
+
+    return 0;
+}
+
+function convertTimeInputToUTCTimestamps(time)
+{
+    if (!empty(time)) {
+        let toUTCTime = moment.utc(moment(moment().format('DD/MM/YYYY') + " " + time)).unix();
+
+        return toUTCTime * 1000;
+    }
+
+    return 0;
+}
+
 function isEmpty(variable)
 {
     return (variable == '' || variable == null);
@@ -259,6 +300,10 @@ function getLocalShopStorage()
         shopData  = localStorage.getItem("shopData") || dummyData;
 
     return (shopData) ? JSON.parse(shopData) : {};
+}
+
+function isLoggedIn() {
+    return (!empty(getLocalShopStorage()) && Object.keys(getLocalShopStorage()).length > 0);
 }
 
 function clearLocalStorage(key)
